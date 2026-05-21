@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚡ Tools — SquishIt + Amine Loading</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0f0a;
+    --surface: #111811;
+    --surface2: #162016;
+    --border: #1e2e1e;
+    --border2: #2a402a;
+    --gold: #d4a017;
+    --gold2: #f0c040;
+    --green: #22c55e;
+    --green2: #16a34a;
+    --text: #e8f0e8;
+    --muted: #6b856b;
+    --danger: #ef4444;
+    --tiktok-red: #EE1D52;
+    --tiktok-cyan: #69C9D0;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(34,197,94,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(34,197,94,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,15,10,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+  }
+  .nav-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold2) 50%, var(--green) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .nav-links { display: flex; gap: 4px; }
+  .nav-link {
+    font-size: 13px;
+    color: var(--muted);
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .nav-link:hover { color: var(--text); border-color: var(--border2); }
+  .nav-link.active { color: var(--green); border-color: var(--green2); background: rgba(34,197,94,0.07); }
+
+  /* ── TOOL PICKER BOXES ── */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding: 40px 0 20px;
+  }
+  @media (max-width: 600px) { .tools-grid { grid-template-columns: 1fr; } }
+
+  .tool-box {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    padding: 28px 24px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    user-select: none;
+  }
+  .tool-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.25s;
+    pointer-events: none;
+  }
+  .tool-box.squish-box::before {
+    background: radial-gradient(ellipse at 30% 0%, rgba(212,160,23,0.12) 0%, transparent 65%);
+  }
+  .tool-box.tiktok-box::before {
+    background: radial-gradient(ellipse at 70% 0%, rgba(238,29,82,0.1) 0%, transparent 65%);
+  }
+  .tool-box:hover::before { opacity: 1; }
+  .tool-box:hover { border-color: var(--border2); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+  .tool-box.active { border-color: var(--green2); background: var(--surface2); }
+  .tool-box.active.tiktok-active { border-color: var(--tiktok-red); }
+
+  .tool-box-icon { font-size: 36px; line-height: 1; }
+  .tool-box-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold2) 50%, var(--green) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .tool-box.tiktok-box .tool-box-name {
+    background: linear-gradient(135deg, var(--tiktok-red) 0%, var(--tiktok-cyan) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  .tool-box-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
+  .tool-box-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+  .tool-tag {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 3px 9px;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .tool-box-arrow {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%) rotate(0deg);
+    font-size: 18px;
+    color: var(--border2);
+    transition: all 0.25s;
+  }
+  .tool-box:hover .tool-box-arrow,
+  .tool-box.active .tool-box-arrow { color: var(--green); transform: translateY(-50%) rotate(90deg); }
+  .tool-box.tiktok-active .tool-box-arrow { color: var(--tiktok-cyan); }
+
+  /* ── TOOL PANEL (collapsible) ── */
+  .tool-panel {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    opacity: 0;
+  }
+  .tool-panel.open {
+    max-height: 9000px;
+    opacity: 1;
+  }
+  .tool-panel-inner {
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px 28px;
+    margin-bottom: 24px;
+    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+  }
+  .panel-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--muted);
+    transition: all 0.15s;
+    z-index: 2;
+  }
+  .panel-close-btn:hover { color: var(--danger); border-color: var(--danger); }
+
+  .section-sep {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 8px 0 24px;
+  }
+
+  /* ── HEADER inside panel ── */
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 36px;
+    letter-spacing: -2px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold2) 50%, var(--green) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .tagline { color: var(--muted); font-size: 14px; font-weight: 300; letter-spacing: 0.5px; margin-bottom: 24px; }
+  .tagline span { color: var(--green); font-weight: 500; }
+
+  /* ── STATS BAR ── */
+  .stats-bar { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+  .stat {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 100px;
+    transition: border-color 0.3s;
+  }
+  .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .stat-value { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: var(--gold2); }
+  .stat-value.green { color: var(--green); }
+
+  /* ── DROP ZONE ── */
+  .drop-zone {
+    border: 2px dashed var(--border2);
+    border-radius: 20px;
+    padding: 48px 32px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    background: var(--surface2);
+    position: relative;
+    overflow: hidden;
+  }
+  .drop-zone::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(34,197,94,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .drop-zone:hover, .drop-zone.drag-over { border-color: var(--green); background: var(--surface); }
+  .drop-zone.drag-over { border-color: var(--gold); }
+  .drop-icon {
+    width: 56px; height: 56px;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+    font-size: 24px;
+    transition: transform 0.2s;
+  }
+  .drop-zone:hover .drop-icon { transform: translateY(-3px); }
+  .drop-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .drop-sub { color: var(--muted); font-size: 13px; line-height: 1.6; }
+  .drop-sub strong { color: var(--gold2); font-weight: 500; }
+  .browse-btn {
+    display: inline-block;
+    margin-top: 16px;
+    background: var(--green2);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 22px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .browse-btn:hover { background: var(--green); transform: translateY(-1px); }
+  #fileInput { display: none; }
+  .formats { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+  .fmt-tag {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 9px;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── SETTINGS ── */
+  .settings {
+    margin-top: 24px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 22px;
+  }
+  .settings-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .settings-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 10px; }
+  .settings-row:last-child { margin-bottom: 0; }
+  .settings-label { font-size: 13px; color: var(--text); min-width: 110px; }
+  .quality-slider { flex: 1; min-width: 140px; accent-color: var(--green); cursor: pointer; height: 4px; }
+  .quality-val { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--gold2); min-width: 52px; }
+  .mode-btn { background: var(--surface); border: 1px solid var(--border2); color: var(--muted); border-radius: 8px; padding: 7px 14px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; transition: all .2s; }
+  .mode-btn:hover { border-color: var(--green); color: var(--text); }
+  .mode-btn.active { background: rgba(34,197,94,.12); border-color: var(--green); color: var(--green); }
+
+  /* ── RESULTS ── */
+  .results { margin-top: 28px; }
+  .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+  .results-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; }
+  .action-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn {
+    border: 1px solid var(--border2);
+    background: var(--surface);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 7px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn:hover { background: var(--surface2); border-color: var(--green); color: var(--green); }
+  .btn.primary { background: var(--green2); color: #fff; border-color: var(--green2); }
+  .btn.primary:hover { background: var(--green); border-color: var(--green); color: #fff; }
+  .btn.danger-btn:hover { border-color: #ef444444; color: var(--danger); background: #ef44440a; }
+  .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  /* ── IMAGE CARDS ── */
+  .img-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .img-card:hover { border-color: var(--border2); }
+  .img-card.processing { border-color: var(--gold); animation: pulse 1.5s infinite; }
+  .img-card.done { border-color: var(--green2); }
+  @keyframes pulse { 0%, 100% { border-color: var(--gold); } 50% { border-color: transparent; } }
+  .card-inner { display: grid; grid-template-columns: 64px 1fr auto; gap: 14px; padding: 12px 16px; align-items: center; }
+  .thumb-wrap-sq { width: 64px; height: 64px; border-radius: 8px; overflow: hidden; background: var(--surface); flex-shrink: 0; }
+  .thumb-wrap-sq img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card-info { min-width: 0; }
+  .card-name { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 5px; }
+  .size-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .size-orig { font-size: 12px; color: var(--muted); }
+  .size-new { font-size: 12px; color: var(--green); font-weight: 500; }
+  .saving-badge { background: rgba(34,197,94,0.12); color: var(--green); border: 1px solid rgba(34,197,94,0.2); border-radius: 5px; padding: 2px 7px; font-size: 11px; font-weight: 700; }
+  .saving-badge.worse { background: rgba(239,68,68,0.1); color: var(--danger); border-color: rgba(239,68,68,0.2); }
+  .progress-bar-wrap { margin-top: 6px; height: 3px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .progress-bar { height: 100%; background: linear-gradient(90deg, var(--green2), var(--gold)); border-radius: 3px; width: 0%; transition: width 0.4s ease; }
+  .card-actions { display: flex; gap: 6px; }
+  .icon-btn { width: 30px; height: 30px; border: 1px solid var(--border2); background: transparent; border-radius: 7px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--muted); transition: all 0.15s; text-decoration: none; }
+  .icon-btn:hover { border-color: var(--green); color: var(--green); background: rgba(34,197,94,0.05); }
+  .icon-btn.del:hover { border-color: var(--danger); color: var(--danger); background: rgba(239,68,68,0.05); }
+  .icon-btn.disabled { opacity: 0.3; pointer-events: none; }
+  .card-status { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border2); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; }
+
+  /* ─────────────────────────────────────────
+     AMINE LOADING SECTION
+  ───────────────────────────────────────── */
+  .al-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 36px;
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .al-logo .al-tk { color: var(--tiktok-red); }
+  .al-logo .al-cy { color: var(--tiktok-cyan); }
+  .al-logo .al-wh { color: var(--text); }
+  .al-tagline { color: var(--muted); font-size: 14px; font-weight: 300; letter-spacing: 0.5px; margin-bottom: 24px; }
+  .al-tagline span { color: var(--tiktok-cyan); font-weight: 500; }
+
+  /* input card */
+  .al-input-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .al-input-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 100% 0%, rgba(238,29,82,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .al-input-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .al-textarea {
+    width: 100%;
+    min-height: 100px;
+    font-size: 12px;
+    font-family: 'DM Sans', monospace;
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 10px 12px;
+    background: var(--surface);
+    color: var(--text);
+    resize: vertical;
+    line-height: 1.8;
+    transition: border-color 0.2s;
+    position: relative;
+    z-index: 1;
+  }
+  .al-textarea:focus { outline: none; border-color: var(--tiktok-red); }
+  .al-textarea::placeholder { color: var(--muted); }
+  .al-btn-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; position: relative; z-index: 1; }
+
+  .al-btn {
+    border: 1px solid var(--border2);
+    background: var(--surface);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    transition: all 0.2s;
+  }
+  .al-btn:hover:not(:disabled) { background: var(--surface2); border-color: var(--green); color: var(--green); }
+  .al-btn:active:not(:disabled) { transform: scale(0.97); }
+  .al-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .al-btn.red { background: var(--tiktok-red); color: #fff; border-color: var(--tiktok-red); }
+  .al-btn.red:hover:not(:disabled) { background: #c9153f; border-color: #c9153f; color: #fff; }
+  .al-btn.cyan { background: var(--tiktok-cyan); color: #010101; border-color: var(--tiktok-cyan); }
+  .al-btn.cyan:hover:not(:disabled) { opacity: 0.85; color: #010101; border-color: var(--tiktok-cyan); }
+
+  /* stats */
+  .al-stats { display: flex; gap: 14px; margin-bottom: 18px; flex-wrap: wrap; }
+  .al-stat {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 18px;
+    flex: 1;
+    min-width: 90px;
+    text-align: center;
+  }
+  .al-stat .n { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: var(--gold2); }
+  .al-stat .n.green { color: var(--green); }
+  .al-stat .n.red { color: var(--tiktok-red); }
+  .al-stat .l { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+  /* progress */
+  .al-prog-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 14px;
+  }
+  .al-prog-top { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+  .al-prog-track { height: 5px; background: var(--border2); border-radius: 99px; overflow: hidden; }
+  .al-prog-fill { height: 100%; background: linear-gradient(90deg, var(--tiktok-red), var(--tiktok-cyan)); border-radius: 99px; transition: width 0.35s ease; width: 0%; }
+  .al-prog-fill.done { background: linear-gradient(90deg, var(--green2), var(--green)); }
+
+  /* download all bar */
+  .al-dl-bar {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .al-dl-bar p { font-size: 13px; color: var(--muted); }
+  .al-dl-bar p strong { color: var(--text); }
+
+  /* video grid */
+  .al-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+  .al-vcard {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .al-vcard:hover { border-color: var(--border2); transform: translateY(-2px); }
+  .al-vcard.done { border-color: var(--green2); }
+  .al-vcard.error { border-color: #ef444433; }
+  .al-thumb { position: relative; width: 100%; aspect-ratio: 9/14; background: #0d160d; overflow: hidden; flex-shrink: 0; }
+  .al-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s; }
+  .al-vcard:hover .al-thumb img { transform: scale(1.03); }
+  .al-thumb-ph { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 28px; color: rgba(255,255,255,0.15); background: #0d160d; }
+  .al-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 6px 8px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); }
+  .al-author { font-size: 11px; color: rgba(255,255,255,0.75); }
+  .al-badge {
+    position: absolute;
+    top: 7px; right: 7px;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 99px;
+  }
+  .al-badge.loading { background: rgba(0,0,0,0.6); color: rgba(255,255,255,0.7); }
+  .al-badge.ready { background: var(--green2); color: #fff; }
+  .al-badge.error { background: var(--danger); color: #fff; }
+  .al-spin { display: inline-block; animation: spin 0.7s linear infinite; }
+  .al-vbody { padding: 9px 10px; flex: 1; display: flex; flex-direction: column; gap: 5px; }
+  .al-vtitle { font-size: 11px; color: var(--text); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.5; flex: 1; }
+  .al-actions { display: flex; gap: 5px; margin-top: 4px; }
+  .al-verr { font-size: 10px; color: var(--danger); margin-top: 2px; }
+  .al-empty {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+    font-size: 14px;
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+  }
+  .al-empty-icon { font-size: 40px; display: block; margin-bottom: 10px; opacity: 0.5; }
+  .al-actions button {
+    flex: 1;
+    background: var(--surface);
+    color: var(--muted);
+    border: 1px solid var(--border2);
+    border-radius: 7px;
+    padding: 7px 4px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-family: 'DM Sans', sans-serif;
+    transition: all .15s;
+  }
+  .al-actions button:hover { border-color: var(--green); color: var(--green); }
+  .al-actions button.hd { background: var(--tiktok-red); color: #fff; border-color: transparent; }
+  .al-actions button.hd:hover { background: #c9153f; color: #fff; border-color: transparent; }
+  .al-actions button.sd { background: rgba(105,201,208,.15); color: var(--tiktok-cyan); border-color: rgba(105,201,208,.25); }
+  .al-actions button.sd:hover { background: rgba(105,201,208,.3); }
+  .al-actions button:disabled { opacity:.5; cursor:wait; }
+
+  /* ── ZIP download button special style ── */
+  .al-btn.zip {
+    background: linear-gradient(135deg, #1a2a1a, #1e3a1e);
+    border-color: var(--green2);
+    color: var(--green);
+  }
+  .al-btn.zip:hover:not(:disabled) {
+    background: rgba(34,197,94,0.15);
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    margin-top: 48px;
+    padding: 24px 0 36px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-left { font-size: 13px; color: var(--muted); }
+  .footer-left span { color: var(--gold2); }
+  .footer-right { display: flex; gap: 8px; align-items: center; font-size: 12px; color: var(--muted); }
+  .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); display: inline-block; }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    background: var(--surface2);
+    border: 1px solid var(--green);
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 14px;
+    color: var(--green);
+    z-index: 999;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+  @media (max-width: 600px) {
+    .logo, .al-logo { font-size: 26px; }
+    .card-inner { grid-template-columns: 52px 1fr auto; gap: 10px; }
+    .thumb-wrap-sq { width: 52px; height: 52px; }
+    .al-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+    .tool-panel-inner { padding: 20px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <span class="nav-logo">⚡ Tools</span>
+    <div class="nav-links">
+      <button class="nav-link active" onclick="scrollToTools()">Home</button>
+      <button class="nav-link" onclick="openTool('squishit-panel')">SquishIt</button>
+      <button class="nav-link" onclick="openTool('amine-panel')">Amine Loading</button>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- ══════════════════════════════
+       TOOL PICKER
+  ══════════════════════════════ -->
+  <div id="tools-top">
+    <div class="tools-grid" id="tools-grid">
+
+      <!-- SquishIt Box -->
+      <div class="tool-box squish-box" id="squishit-box" onclick="toggleTool('squishit-panel','squishit-box','tiktok-box')">
+        <div class="tool-box-icon">🗜️</div>
+        <div class="tool-box-name">SquishIt ⚡</div>
+        <div class="tool-box-desc">Auto-compress images to WebP — smallest size, best quality, 100% private.</div>
+        <div class="tool-box-tags">
+          <span class="tool-tag">JPG → WebP</span>
+          <span class="tool-tag">PNG → WebP</span>
+          <span class="tool-tag">Drag & Drop</span>
+        </div>
+        <span class="tool-box-arrow">›</span>
+      </div>
+
+      <!-- Amine Loading Box -->
+      <div class="tool-box tiktok-box" id="tiktok-box" onclick="toggleTool('amine-panel','tiktok-box','squishit-box')">
+        <div class="tool-box-icon">📥</div>
+        <div class="tool-box-name">Amine Loading</div>
+        <div class="tool-box-desc">Bulk TikTok downloader — HD, no watermark, download all as ZIP at once.</div>
+        <div class="tool-box-tags">
+          <span class="tool-tag">HD Video</span>
+          <span class="tool-tag">No Watermark</span>
+          <span class="tool-tag">ZIP Bundle</span>
+        </div>
+        <span class="tool-box-arrow">›</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       SQUISHIT PANEL
+  ══════════════════════════════ -->
+  <div class="tool-panel" id="squishit-panel">
+    <div class="tool-panel-inner">
+      <button class="panel-close-btn" onclick="closePanel('squishit-panel','squishit-box')" title="Close">✕</button>
+
+      <div class="logo">SquishIt ⚡</div>
+      <p class="tagline">Auto-compress to <span>WebP</span> — smallest size, best quality, free &amp; private.</p>
+
+      <div class="stats-bar">
+        <div class="stat"><span class="stat-label">Files</span><span class="stat-value" id="s-files">0</span></div>
+        <div class="stat"><span class="stat-label">Before</span><span class="stat-value" id="s-before">0 KB</span></div>
+        <div class="stat"><span class="stat-label">After</span><span class="stat-value green" id="s-after">0 KB</span></div>
+        <div class="stat"><span class="stat-label">Saved</span><span class="stat-value green" id="s-saved">0%</span></div>
+      </div>
+
+      <div class="drop-zone" id="dropZone">
+        <div class="drop-icon">🗜️</div>
+        <p class="drop-title">Drop your images here</p>
+        <p class="drop-sub">Drag &amp; drop or <strong>browse files</strong> — all compression<br>happens in your browser. Zero uploads, 100% private.</p>
+        <button class="browse-btn" onclick="document.getElementById('fileInput').click()">Browse Files</button>
+        <input type="file" id="fileInput" multiple accept="image/jpeg,image/png,image/webp">
+        <div class="formats">
+          <span class="fmt-tag">JPG → WebP</span>
+          <span class="fmt-tag">PNG → WebP</span>
+          <span class="fmt-tag">WEBP → WebP</span>
+          <span class="fmt-tag" style="color:var(--gold2);border-color:var(--gold)">Always WebP Out</span>
+        </div>
+      </div>
+
+      <div class="settings">
+        <p class="settings-title">⚙ WebP Compression Mode</p>
+        <div class="settings-row">
+          <span class="settings-label">Mode</span>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="mode-btn active" data-mode="auto" onclick="setMode(this)">⚡ Auto (Best)</button>
+            <button class="mode-btn" data-mode="lossless" onclick="setMode(this)">💎 Lossless</button>
+            <button class="mode-btn" data-mode="custom" onclick="setMode(this)">🎛 Custom</button>
+          </div>
+        </div>
+        <div class="settings-row" id="qualityRow" style="display:none">
+          <span class="settings-label">WebP Quality</span>
+          <input type="range" min="50" max="95" value="82" id="qualitySlider" class="quality-slider">
+          <span class="quality-val" id="qualityVal">82</span>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">Mode info</span>
+          <span id="modeDesc" style="font-size:13px;color:var(--muted)">Binary-search finds the <span style="color:var(--gold2)">lowest quality where savings plateau</span> — best size/quality ratio</span>
+        </div>
+      </div>
+
+      <div class="results" id="resultsSection" style="display:none">
+        <div class="results-header">
+          <span class="results-title">Results</span>
+          <div class="action-btns">
+            <button class="btn" id="addMoreBtn">＋ Add More</button>
+            <button class="btn primary" id="downloadAllBtn">↓ Download All (ZIP)</button>
+            <button class="btn danger-btn" id="clearAllBtn">✕ Clear All</button>
+          </div>
+        </div>
+        <div id="cardList"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       AMINE LOADING PANEL
+  ══════════════════════════════ -->
+  <div class="tool-panel" id="amine-panel">
+    <div class="tool-panel-inner">
+      <button class="panel-close-btn" onclick="closePanel('amine-panel','tiktok-box')" title="Close">✕</button>
+
+      <div class="al-logo">
+        <span class="al-tk">Amine</span>
+        <span class="al-cy">Loading</span>
+        <span class="al-wh" style="font-size:26px">📥</span>
+      </div>
+      <p class="al-tagline">Bulk TikTok downloader — <span>HD · No watermark</span> · ZIP bundle · Free</p>
+
+      <!-- Input -->
+      <div class="al-input-card">
+        <label class="al-input-label">TikTok URLs — one per line</label>
+        <textarea class="al-textarea" id="alUrls" placeholder="https://www.tiktok.com/@user/video/123456789&#10;https://www.tiktok.com/@user/video/987654321&#10;https://www.tiktok.com/@user/video/..."></textarea>
+        <div class="al-btn-row">
+          <button class="al-btn red" id="alFetchBtn" onclick="alFetchAll()">⚡ Fetch all videos</button>
+          <button class="al-btn cyan" id="alRetryBtn" onclick="alRetryFailed()" style="display:none">↺ Retry failed</button>
+          <button class="al-btn" onclick="alPaste()">📋 Paste</button>
+          <button class="al-btn" onclick="alClear()">✕ Clear</button>
+        </div>
+      </div>
+
+      <!-- Stats + progress (hidden until first fetch) -->
+      <div id="alStatsSection" style="display:none">
+        <div class="al-stats">
+          <div class="al-stat"><div class="n" id="alTotal">0</div><div class="l">Total</div></div>
+          <div class="al-stat"><div class="n green" id="alReady">0</div><div class="l">Ready</div></div>
+          <div class="al-stat"><div class="n red" id="alErr">0</div><div class="l">Failed</div></div>
+        </div>
+        <div class="al-prog-card">
+          <div class="al-prog-top"><span id="alProgText">Fetching…</span><span id="alProgPct">0%</span></div>
+          <div class="al-prog-track"><div class="al-prog-fill" id="alProgFill"></div></div>
+        </div>
+        <div class="al-dl-bar">
+          <p id="alDlMsg">Waiting for results…</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="al-btn zip" id="alDlZipBtn" onclick="alDownloadZip()" disabled>📦 Download all as ZIP</button>
+            <button class="al-btn red" id="alDlAllBtn" onclick="alDownloadAll()" disabled>↓ Download all HD</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid -->
+      <div class="al-grid" id="alGrid">
+        <div class="al-empty">
+          <span class="al-empty-icon">🎵</span>
+          Paste your TikTok links above and hit <strong style="color:var(--tiktok-red)">Fetch all videos</strong>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-left">Made with <span>♥</span> — 100% client-side, files never leave your device</div>
+    <div class="footer-right">
+      <span class="dot"></span> No upload limit &nbsp;·&nbsp;
+      <span class="dot"></span> No sign-up &nbsp;·&nbsp;
+      <span class="dot"></span> Forever free
+    </div>
+  </footer>
+
+</div><!-- /wrap -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ─── TOOL PANEL TOGGLE ─── */
+function scrollToTools() {
+  document.getElementById('tools-top').scrollIntoView({ behavior: 'smooth' });
+}
+
+function toggleTool(panelId, boxId, otherBoxId) {
+  const panel = document.getElementById(panelId);
+  const box = document.getElementById(boxId);
+  const otherBox = document.getElementById(otherBoxId);
+  const isOpen = panel.classList.contains('open');
+
+  // close both panels first
+  document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('open'));
+  document.querySelectorAll('.tool-box').forEach(b => {
+    b.classList.remove('active');
+    b.classList.remove('tiktok-active');
+  });
+
+  if (!isOpen) {
+    panel.classList.add('open');
+    box.classList.add('active');
+    if (panelId === 'amine-panel') box.classList.add('tiktok-active');
+    // scroll the panel into view smoothly after transition starts
+    setTimeout(() => {
+      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
+  }
+}
+
+function openTool(panelId) {
+  const boxId = panelId === 'squishit-panel' ? 'squishit-box' : 'tiktok-box';
+  const otherId = panelId === 'squishit-panel' ? 'tiktok-box' : 'squishit-box';
+  toggleTool(panelId, boxId, otherId);
+}
+
+function closePanel(panelId, boxId) {
+  document.getElementById(panelId).classList.remove('open');
+  const box = document.getElementById(boxId);
+  box.classList.remove('active');
+  box.classList.remove('tiktok-active');
+  document.getElementById('tools-top').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+<!-- ── SQUISHIT JS ── -->
+<script>
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const cardList = document.getElementById('cardList');
+const resultsSection = document.getElementById('resultsSection');
+const qualitySlider = document.getElementById('qualitySlider');
+const qualityVal = document.getElementById('qualityVal');
+let images = [];
+let currentMode = 'auto';
+const modeDescriptions = {
+  auto: 'Binary-search finds the <span style="color:var(--gold2)">lowest quality where savings plateau</span> — best size/quality ratio',
+  lossless: '<span style="color:var(--gold2)">Perfect pixel-for-pixel copy</span> in WebP — larger file, zero loss, great for logos/screenshots',
+  custom: 'Set your own WebP quality manually'
+};
+function setMode(btn) {
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentMode = btn.dataset.mode;
+  document.getElementById('qualityRow').style.display = currentMode === 'custom' ? 'flex' : 'none';
+  document.getElementById('modeDesc').innerHTML = modeDescriptions[currentMode];
+}
+qualitySlider.addEventListener('input', () => { qualityVal.textContent = qualitySlider.value; });
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('drag-over'); handleFiles([...e.dataTransfer.files]); });
+dropZone.addEventListener('click', e => { if (e.target.classList.contains('browse-btn') || e.target === fileInput) return; fileInput.click(); });
+fileInput.addEventListener('change', () => handleFiles([...fileInput.files]));
+document.getElementById('addMoreBtn').addEventListener('click', () => fileInput.click());
+document.getElementById('clearAllBtn').addEventListener('click', () => { images = []; cardList.innerHTML = ''; resultsSection.style.display = 'none'; updateStats(); fileInput.value = ''; });
+document.getElementById('downloadAllBtn').addEventListener('click', downloadAllZip);
+function handleFiles(files) {
+  const valid = files.filter(f => f.type.match(/^image\/(jpeg|png|webp)/));
+  if (!valid.length) { showToast('⚠ Please drop JPEG, PNG or WebP images'); return; }
+  resultsSection.style.display = 'block';
+  valid.forEach(addImage);
+}
+function formatSize(bytes) { if (bytes >= 1048576) return (bytes / 1048576).toFixed(2) + ' MB'; return Math.round(bytes / 1024) + ' KB'; }
+function addImage(file) {
+  const id = Date.now() + Math.random();
+  const obj = { id, file, origSize: file.size, compressedBlob: null, compressedName: null, status: 'pending', usedQuality: null };
+  images.push(obj);
+  const card = document.createElement('div');
+  card.className = 'img-card processing'; card.id = `card-${id}`;
+  card.innerHTML = `<div class="card-inner"><div class="thumb-wrap-sq"><img id="thumb-${id}" src=""></div><div class="card-info"><div class="card-name">${escHtml(file.name)}</div><div class="size-row"><span class="size-orig">${formatSize(file.size)}</span><span style="color:var(--muted);font-size:12px">→</span><span id="size-new-${id}"><span class="spinner"></span></span></div><div class="progress-bar-wrap"><div class="progress-bar" id="bar-${id}"></div></div><div class="card-status" id="status-${id}">Analyzing…</div></div><div class="card-actions"><a class="icon-btn disabled" id="dl-${id}" title="Download">⬇</a><button class="icon-btn del" onclick="removeImage(${id})" title="Remove">✕</button></div></div>`;
+  cardList.appendChild(card);
+  const reader = new FileReader();
+  reader.onload = e => { document.getElementById(`thumb-${id}`).src = e.target.result; };
+  reader.readAsDataURL(file);
+  document.getElementById(`bar-${id}`).style.width = '15%';
+  compress(file, id, obj);
+  updateStats();
+}
+function imageToCanvas(file) {
+  return new Promise((resolve, reject) => {
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => { URL.revokeObjectURL(url); const c = document.createElement('canvas'); c.width = img.naturalWidth; c.height = img.naturalHeight; c.getContext('2d').drawImage(img,0,0); resolve(c); };
+    img.onerror = reject; img.src = url;
+  });
+}
+function canvasToWebP(canvas, quality) {
+  return new Promise(resolve => { canvas.toBlob(resolve, 'image/webp', quality === 'lossless' ? 1.0 : quality); });
+}
+async function findOptimalQuality(canvas, origSize, onProgress) {
+  const MIN_Q=0.65, MAX_Q=0.93, STEPS=7, THRESH=0.03;
+  let lo=MIN_Q, hi=MAX_Q, bestBlob=null, bestQ=MAX_Q, prevSize=Infinity;
+  const highBlob = await canvasToWebP(canvas, MAX_Q);
+  if (highBlob && highBlob.size >= origSize * 0.98) return { blob: highBlob, quality: MAX_Q };
+  onProgress(0.3);
+  for (let i=0; i<STEPS; i++) {
+    const mid=(lo+hi)/2, blob=await canvasToWebP(canvas, mid);
+    if (!blob) break;
+    onProgress(0.3+(i/STEPS)*0.6);
+    const gain=(prevSize-blob.size)/origSize;
+    bestBlob=blob; bestQ=mid; prevSize=blob.size;
+    if (gain<THRESH) hi=mid; else lo=mid;
+  }
+  return { blob: await canvasToWebP(canvas, bestQ) || bestBlob, quality: bestQ };
+}
+async function compress(file, id, obj) {
+  const bar=document.getElementById(`bar-${id}`), statusEl=document.getElementById(`status-${id}`);
+  try {
+    const canvas=await imageToCanvas(file); bar.style.width='25%';
+    let resultBlob, usedQuality;
+    if (currentMode==='lossless') { statusEl.textContent='Encoding lossless WebP…'; resultBlob=await canvasToWebP(canvas,'lossless'); usedQuality='lossless'; bar.style.width='90%'; }
+    else if (currentMode==='custom') { const q=parseInt(qualitySlider.value)/100; statusEl.textContent=`Encoding WebP at quality ${qualitySlider.value}…`; resultBlob=await canvasToWebP(canvas,q); usedQuality=q; bar.style.width='90%'; }
+    else { statusEl.textContent='Finding optimal quality…'; const r=await findOptimalQuality(canvas,file.size,p=>{bar.style.width=(p*100)+'%'; statusEl.textContent='Optimizing…';}); resultBlob=r.blob; usedQuality=r.quality; }
+    if (!resultBlob) throw new Error('failed');
+    if (resultBlob.size>=file.size && currentMode==='auto') { const fb=await canvasToWebP(canvas,0.82); if (fb&&fb.size<resultBlob.size){resultBlob=fb;usedQuality=0.82;} }
+    obj.usedQuality=usedQuality; finalize(resultBlob,id,obj);
+  } catch(e) { markError(id,obj); }
+}
+function finalize(blob,id,obj) {
+  obj.compressedBlob=blob; obj.compressedName=obj.file.name.replace(/\.[^.]+$/,'')+'_squished.webp'; obj.status='done';
+  const card=document.getElementById(`card-${id}`); card.classList.remove('processing'); card.classList.add('done');
+  document.getElementById(`bar-${id}`).style.width='100%';
+  const saving=(obj.origSize-blob.size)/obj.origSize*100, pos=saving>0;
+  let ql=obj.usedQuality==='lossless'?' · lossless':typeof obj.usedQuality==='number'?` · q${Math.round(obj.usedQuality*100)}`:'';
+  document.getElementById(`size-new-${id}`).innerHTML=`<span class="size-new">${formatSize(blob.size)}</span><span class="saving-badge ${!pos?'worse':''}">${pos?'-':'+'}${Math.abs(saving).toFixed(1)}%</span><span style="font-size:11px;color:var(--muted)">WebP${ql}</span>`;
+  document.getElementById(`status-${id}`).innerHTML=pos?`<span style="color:var(--green)">✓ Saved ${formatSize(obj.origSize-blob.size)} — output is WebP</span>`:`<span style="color:var(--muted)">Already at minimum — WebP saved</span>`;
+  const dlBtn=document.getElementById(`dl-${id}`); dlBtn.classList.remove('disabled'); dlBtn.href=URL.createObjectURL(blob); dlBtn.download=obj.compressedName;
+  updateStats();
+}
+function markError(id,obj) {
+  obj.status='error';
+  document.getElementById(`card-${id}`).classList.remove('processing');
+  document.getElementById(`status-${id}`).innerHTML='<span style="color:var(--danger)">✗ Failed — try a different image</span>';
+  document.getElementById(`size-new-${id}`).textContent='Error';
+  const b=document.getElementById(`bar-${id}`); b.style.background='var(--danger)'; b.style.width='100%';
+}
+function removeImage(id) {
+  images=images.filter(i=>i.id!==id);
+  const el=document.getElementById(`card-${id}`);
+  if (el){el.style.opacity='0';el.style.transform='translateX(20px)';el.style.transition='all .2s';setTimeout(()=>el.remove(),200);}
+  if (!images.length) resultsSection.style.display='none';
+  setTimeout(updateStats,210);
+}
+function updateStats() {
+  const done=images.filter(i=>i.status==='done');
+  const totalOrig=images.reduce((a,i)=>a+i.origSize,0);
+  const totalComp=done.reduce((a,i)=>a+i.compressedBlob.size,0);
+  const pendOrig=images.filter(i=>i.status!=='done').reduce((a,i)=>a+i.origSize,0);
+  const pct=totalOrig>0&&done.length===images.length&&images.length>0?((totalOrig-totalComp)/totalOrig*100):0;
+  document.getElementById('s-files').textContent=images.length;
+  document.getElementById('s-before').textContent=formatSize(totalOrig);
+  document.getElementById('s-after').textContent=done.length>0?formatSize(totalComp+pendOrig):'—';
+  document.getElementById('s-saved').textContent=done.length===images.length&&images.length>0?pct.toFixed(1)+'%':'—';
+}
+async function downloadAllZip() {
+  const done=images.filter(i=>i.status==='done'&&i.compressedBlob);
+  if (!done.length){showToast('⚠ No compressed images ready yet');return;}
+  showToast('⏳ Creating ZIP…');
+  const zip=new JSZip();
+  done.forEach(i=>zip.file(i.compressedName,i.compressedBlob));
+  const content=await zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:6}});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(content); a.download='squishit_webp.zip'; a.click();
+  showToast('✓ ZIP downloaded!');
+}
+function showToast(msg) {
+  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._timer); t._timer=setTimeout(()=>t.classList.remove('show'),3200);
+}
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+</script>
+
+<!-- ── AMINE LOADING JS ── -->
+<script>
+let alStore = [];
+
+function alCleanUrl(raw) {
+  try {
+    const u = new URL(raw.trim());
+    return u.origin + u.pathname.replace(/\/$/, '');
+  } catch(e) { return raw.trim(); }
+}
+
+function alGetLinks() {
+  return [...new Set(
+    document.getElementById('alUrls').value
+      .split('\n').map(l => l.trim())
+      .filter(l => l.includes('tiktok.com'))
+      .map(alCleanUrl)
+  )];
+}
+
+function alPaste() {
+  navigator.clipboard.readText()
+    .then(t => { document.getElementById('alUrls').value = t; })
+    .catch(() => showToast('⚠ Paste manually with Ctrl+V'));
+}
+
+function alClear() {
+  document.getElementById('alUrls').value = '';
+  document.getElementById('alGrid').innerHTML = `<div class="al-empty"><span class="al-empty-icon">🎵</span>Paste your TikTok links above and hit <strong style="color:var(--tiktok-red)">Fetch all videos</strong></div>`;
+  document.getElementById('alStatsSection').style.display = 'none';
+  document.getElementById('alRetryBtn').style.display = 'none';
+  alStore = [];
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function alUpdateStats() {
+  const total = alStore.length;
+  const ready = alStore.filter(v => v && v.ok).length;
+  const err   = alStore.filter(v => v && v.ok === false).length;
+  const done  = ready + err;
+  document.getElementById('alTotal').textContent = total;
+  document.getElementById('alReady').textContent = ready;
+  document.getElementById('alErr').textContent   = err;
+  const pct  = total ? Math.round(done / total * 100) : 0;
+  const fill = document.getElementById('alProgFill');
+  fill.style.width = pct + '%';
+  document.getElementById('alProgPct').textContent = pct + '%';
+  if (done >= total && total > 0) {
+    fill.classList.add('done');
+    document.getElementById('alProgText').textContent = `✓ Done — ${ready} ready${err > 0 ? `, ${err} failed` : ''}`;
+  } else {
+    fill.classList.remove('done');
+    document.getElementById('alProgText').textContent = `Fetching… ${done}/${total}`;
+  }
+  document.getElementById('alDlAllBtn').disabled = ready === 0;
+  document.getElementById('alDlZipBtn').disabled = ready === 0;
+  document.getElementById('alRetryBtn').style.display = (err > 0 && done >= total) ? 'inline-flex' : 'none';
+  document.getElementById('alDlMsg').innerHTML = ready > 0
+    ? `<strong>${ready} video${ready > 1 ? 's' : ''}</strong> ready to download${err > 0 ? ` — <span style="color:var(--danger)">${err} failed</span>` : ''}`
+    : done < total ? 'Fetching, please wait…' : 'No videos could be fetched.';
+}
+
+function alSetCard(idx, v) {
+  const el = document.getElementById('al-vc-' + idx);
+  if (!el) return;
+  if (v.ok) {
+    const d      = v.data;
+    const title  = d.title || 'TikTok video';
+    const author = d.author?.nickname || '';
+    const hdUrl  = d.hdplay || d.play || '';
+    const sdUrl  = d.play   || '';
+    el.className = 'al-vcard done';
+    el.innerHTML = `
+      <div class="al-thumb">
+        <img src="${d.cover||''}" alt="" loading="lazy">
+        <span class="al-badge ready">✓ HD</span>
+        <div class="al-overlay"><div class="al-author">@${author}</div></div>
+      </div>
+      <div class="al-vbody">
+        <div class="al-vtitle">${title}</div>
+        <div class="al-actions">
+          ${hdUrl ? `<button class="hd" onclick="alSaveBlob('${hdUrl}','tiktok_hd_${d.id||idx}.mp4',this)">↓ HD</button>` : ''}
+          ${sdUrl && sdUrl !== hdUrl ? `<button class="sd" onclick="alSaveBlob('${sdUrl}','tiktok_sd_${d.id||idx}.mp4',this)">↓ SD</button>` : ''}
+        </div>
+      </div>`;
+  } else {
+    el.className = 'al-vcard error';
+    el.innerHTML = `
+      <div class="al-thumb">
+        <div class="al-thumb-ph">⚠</div>
+        <span class="al-badge error">✕ Failed</span>
+      </div>
+      <div class="al-vbody">
+        <div class="al-vtitle" style="color:var(--muted)">${v.url.replace('https://www.tiktok.com/','tiktok.com/')}</div>
+        <div class="al-verr">${v.msg || 'Could not fetch'}</div>
+      </div>`;
+  }
+}
+
+async function alSaveBlob(url, filename, btn) {
+  if (btn) { btn.textContent = '…'; btn.disabled = true; }
+  try {
+    const res  = await fetch(url, { mode: 'cors' });
+    if (!res.ok) throw new Error('fetch failed');
+    const blob = await res.blob();
+    const bUrl = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = bUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(bUrl), 10000);
+    if (btn) { btn.textContent = '✓'; }
+  } catch(e) {
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    if (btn) { btn.textContent = '↓ HD'; btn.disabled = false; }
+  }
+}
+
+async function alCallApi(cleanUrl) {
+  try {
+    const r = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(cleanUrl)}&hd=1`, { signal: AbortSignal.timeout(12000) });
+    const j = await r.json();
+    if (j.code === 0 && j.data && (j.data.play || j.data.hdplay)) return j.data;
+  } catch(e) {}
+  try {
+    const r2 = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(cleanUrl)}`, { signal: AbortSignal.timeout(12000) });
+    const j2 = await r2.json();
+    if (j2.code === 0 && j2.data && (j2.data.play || j2.data.hdplay)) return j2.data;
+    throw new Error(j2.msg || 'No data');
+  } catch(e) {
+    throw e;
+  }
+}
+
+async function alFetchOne(url, idx) {
+  const clean = alCleanUrl(url);
+  try {
+    const data = await alCallApi(clean);
+    return { ok: true, url: clean, idx, data };
+  } catch(e) {
+    await sleep(1000);
+    try {
+      const data = await alCallApi(clean);
+      return { ok: true, url: clean, idx, data };
+    } catch(e2) {
+      return { ok: false, url: clean, idx, msg: e2.message || 'Failed' };
+    }
+  }
+}
+
+async function alFetchAll() {
+  const links = alGetLinks();
+  if (!links.length) { showToast('⚠ Paste at least one TikTok URL'); return; }
+
+  alStore = new Array(links.length).fill(null);
+  document.getElementById('alStatsSection').style.display = 'block';
+  document.getElementById('alFetchBtn').disabled = true;
+  document.getElementById('alDlAllBtn').disabled = true;
+  document.getElementById('alDlZipBtn').disabled = true;
+  document.getElementById('alRetryBtn').style.display = 'none';
+
+  const grid = document.getElementById('alGrid');
+  grid.innerHTML = links.map((url, i) => `
+    <div class="al-vcard" id="al-vc-${i}">
+      <div class="al-thumb">
+        <div class="al-thumb-ph"><span class="al-spin" style="font-size:24px;color:rgba(255,255,255,0.35)">↻</span></div>
+        <span class="al-badge loading"><span class="al-spin">↻</span> Loading</span>
+      </div>
+      <div class="al-vbody">
+        <div class="al-vtitle" style="color:var(--muted);font-size:11px">${alCleanUrl(url).replace('https://www.tiktok.com/','')}</div>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('alTotal').textContent = links.length;
+  document.getElementById('alReady').textContent  = '0';
+  document.getElementById('alErr').textContent    = '0';
+  document.getElementById('alProgFill').style.width = '0%';
+  document.getElementById('alProgPct').textContent  = '0%';
+  document.getElementById('alProgText').textContent = `Fetching ${links.length} videos (staggered to avoid limits)…`;
+  document.getElementById('alDlMsg').textContent    = 'Fetching, please wait…';
+
+  const promises = links.map((url, idx) =>
+    sleep(idx * 200).then(() =>
+      alFetchOne(url, idx).then(v => {
+        alStore[idx] = v;
+        alSetCard(idx, v);
+        alUpdateStats();
+      })
+    )
+  );
+
+  await Promise.all(promises);
+  document.getElementById('alFetchBtn').disabled = false;
+}
+
+async function alRetryFailed() {
+  const failed = alStore.map((v, i) => ({ v, i })).filter(({ v }) => v && !v.ok);
+  if (!failed.length) return;
+  document.getElementById('alRetryBtn').disabled = true;
+  failed.forEach(({ v, i }) => {
+    alStore[i] = null;
+    const el = document.getElementById('al-vc-' + i);
+    if (el) el.innerHTML = `<div class="al-thumb"><div class="al-thumb-ph"><span class="al-spin" style="font-size:24px;color:rgba(255,255,255,0.35)">↻</span></div><span class="al-badge loading"><span class="al-spin">↻</span> Retrying</span></div><div class="al-vbody"><div class="al-vtitle" style="color:var(--muted);font-size:11px">Retrying…</div></div>`;
+  });
+  alUpdateStats();
+  const promises = failed.map(({ v, i }, qi) =>
+    sleep(qi * 300).then(() =>
+      alFetchOne(v.url, i).then(result => {
+        alStore[i] = result;
+        alSetCard(i, result);
+        alUpdateStats();
+      })
+    )
+  );
+  await Promise.all(promises);
+  document.getElementById('alRetryBtn').disabled = false;
+}
+
+/* ── Download all one-by-one (original) ── */
+async function alDownloadAll() {
+  const ready = alStore.filter(v => v && v.ok);
+  if (!ready.length) return;
+  const btn = document.getElementById('alDlAllBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Downloading…';
+  showToast(`↓ Saving ${ready.length} videos…`);
+
+  for (let i = 0; i < ready.length; i++) {
+    const v   = ready[i];
+    const url = v.data.hdplay || v.data.play;
+    if (!url) continue;
+    await alSaveBlob(url, `tiktok_${v.data.id || i}.mp4`, null);
+    if (i < ready.length - 1) await sleep(600);
+  }
+
+  btn.disabled = false;
+  btn.textContent = '↓ Download all HD';
+  showToast(`✓ ${ready.length} videos saved!`);
+}
+
+/* ── Download all as ZIP (new) ── */
+async function alDownloadZip() {
+  const ready = alStore.filter(v => v && v.ok);
+  if (!ready.length) return;
+
+  const btn = document.getElementById('alDlZipBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Building ZIP…';
+  showToast(`📦 Fetching ${ready.length} videos for ZIP…`);
+
+  const zip = new JSZip();
+  const folder = zip.folder('tiktok_videos');
+
+  let fetched = 0;
+  for (let i = 0; i < ready.length; i++) {
+    const v   = ready[i];
+    const url = v.data.hdplay || v.data.play;
+    if (!url) continue;
+    const filename = `tiktok_${v.data.id || i}.mp4`;
+
+    try {
+      btn.textContent = `⏳ ${fetched + 1}/${ready.length} fetching…`;
+      showToast(`📦 Fetching video ${fetched + 1} of ${ready.length}…`);
+
+      const res = await fetch(url, { mode: 'cors' });
+      if (!res.ok) throw new Error('fetch failed');
+      const blob = await res.blob();
+      const arrayBuf = await blob.arrayBuffer();
+      folder.file(filename, arrayBuf);
+      fetched++;
+    } catch(e) {
+      // CORS or network error — skip this video
+      showToast(`⚠ Video ${i+1} could not be fetched for ZIP`);
+    }
+
+    if (i < ready.length - 1) await sleep(300);
+  }
+
+  if (fetched === 0) {
+    showToast('⚠ Could not fetch videos for ZIP — try individual downloads');
+    btn.disabled = false;
+    btn.textContent = '📦 Download all as ZIP';
+    return;
+  }
+
+  btn.textContent = '⏳ Compressing…';
+  showToast('📦 Compressing ZIP file…');
+
+  const content = await zip.generateAsync({
+    type: 'blob',
+    compression: 'STORE', // MP4s are already compressed; STORE is faster
+    comment: 'TikTok videos — Amine Loading'
+  });
+
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(content);
+  a.download = `tiktok_videos_${new Date().toISOString().slice(0,10)}.zip`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(a.href), 15000);
+
+  btn.disabled = false;
+  btn.textContent = '📦 Download all as ZIP';
+  showToast(`✓ ZIP with ${fetched} video${fetched > 1 ? 's' : ''} downloaded!`);
+}
+</script>
+
+</body>
+</html>
