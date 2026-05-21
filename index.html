@@ -3,9 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>⚡ Tools — SquishIt + Amine Loading</title>
+<title>⚡ Tools — SquishIt, Amine Loading &amp; MP4 Converter</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- LAME MP3 encoder for client-side MP4->MP3 conversion -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.0/lame.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.0/lame.min.js"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -623,6 +626,95 @@
     color: var(--green);
   }
 
+  /* ── MP4 to MP3 CONVERTER STYLES ── */
+  :root {
+    --conv-primary: #06b6d4;
+    --conv-secondary: #8b5cf6;
+    --conv-glow: rgba(6, 182, 212, 0.15);
+  }
+  .tool-box.mp4box::before {
+    background: radial-gradient(ellipse at 50% 0%, var(--conv-glow) 0%, transparent 65%);
+  }
+  .trim-icon {
+    position: absolute;
+    top: 8px;
+    right: 36px;
+    background: rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.06);
+    padding: 6px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size:14px;
+  }
+  .trim-icon:hover { background: rgba(0,0,0,0.09); }
+  .tool-box.active.converter-active {
+    border-color: var(--conv-primary);
+    background: var(--surface2);
+  }
+  .tool-box.converter-active .tool-box-arrow {
+    color: var(--conv-primary);
+  }
+  .conv-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 36px;
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .conv-logo .conv-text {
+    background: linear-gradient(135deg, var(--conv-primary) 0%, var(--conv-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .conv-tagline { color: var(--muted); font-size: 14px; font-weight: 300; letter-spacing: 0.5px; margin-bottom: 24px; }
+  .conv-tagline span { color: var(--conv-primary); font-weight: 500; }
+
+  /* Audio player styling */
+  .conv-audio-player {
+    width: 100%;
+    margin-top: 8px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--surface);
+    outline: none;
+  }
+  
+  /* Custom modern select controls */
+  .conv-bitrate-select {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    color: var(--text);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s;
+  }
+  .conv-bitrate-select:focus, .conv-bitrate-select:hover {
+    border-color: var(--conv-primary);
+  }
+
+  .stat-value.cyan { color: var(--conv-primary); }
+
+  .al-btn.conv {
+    background: var(--conv-primary);
+    color: #000;
+    font-weight: 700;
+    border-color: var(--conv-primary);
+  }
+  .al-btn.conv:hover:not(:disabled) {
+    background: #0891b2;
+    border-color: #0891b2;
+    color: #fff;
+  }
+
   /* ── FOOTER ── */
   footer {
     margin-top: 48px;
@@ -680,6 +772,7 @@
       <button class="nav-link active" onclick="scrollToTools()">Home</button>
       <button class="nav-link" onclick="openTool('squishit-panel')">SquishIt</button>
       <button class="nav-link" onclick="openTool('amine-panel')">Amine Loading</button>
+      <button class="nav-link" onclick="openTool('mp4-panel')">MP4 → MP3</button>
     </div>
   </div>
 </nav>
@@ -717,6 +810,22 @@
         </div>
         <span class="tool-box-arrow">›</span>
       </div>
+
+      <!-- MP4 -> MP3 Converter Box -->
+      <div class="tool-box" id="mp4box" onclick="toggleTool('mp4-panel','mp4box','squishit-box')">
+        <div class="tool-box-icon">🎧</div>
+        <div class="tool-box-name">MP4 → MP3</div>
+        <button class="trim-icon" onclick="openTrimPreview(event)" title="Open trim preview">✂️</button>
+        <div class="tool-box-desc">Extract audio from MP4 and download as MP3; trim by start/end times (seconds).</div>
+        <div class="tool-box-tags">
+          <span class="tool-tag">MP3 Export</span>
+          <span class="tool-tag">Trim</span>
+          <span class="tool-tag">Client-side</span>
+        </div>
+        <span class="tool-box-arrow">›</span>
+      </div>
+
+      
 
     </div>
   </div>
@@ -845,6 +954,44 @@
     </div>
   </div>
 
+  <!-- MP4 -> MP3 Converter Panel -->
+  <div class="tool-panel" id="mp4-panel">
+    <div class="tool-panel-inner">
+      <button class="panel-close-btn" onclick="closePanel('mp4-panel','mp4box')" title="Close">✕</button>
+
+      <div class="logo">MP4 → MP3</div>
+      <p class="tagline">Upload an MP4 file, extract the audio as MP3 and optionally trim by start/end time (seconds).</p>
+
+      <div class="al-input-card">
+        <label class="al-input-label">Select MP4 file</label>
+        <input type="file" id="mp4FileInput" accept="video/mp4" style="display:block;margin-bottom:10px">
+        <div id="mp4PreviewContainer" style="display:none;margin-bottom:10px">
+          <audio id="mp4PreviewAudio" controls style="width:100%;border-radius:8px;background:#000"></audio>
+          <div style="display:flex;gap:8px;margin-top:6px;align-items:center">
+            <button class="al-btn" id="mp4SetStartBtn" onclick="mp4SetStartFromPreview()">Set start</button>
+            <button class="al-btn" id="mp4SetEndBtn" onclick="mp4SetEndFromPreview()">Set end</button>
+            <div style="margin-left:auto;font-size:13px;color:var(--muted)" id="mp4PreviewTime">00:00 / 00:00</div>
+          </div>
+        </div>
+        <label class="al-input-label">Trim (start / end in seconds)</label>
+        <div style="display:flex;gap:8px;margin-bottom:8px">
+          <input id="mp4Start" type="number" min="0" placeholder="start (s)" style="flex:1;padding:8px;border-radius:8px;border:1px solid var(--border2);background:var(--surface);color:var(--text)">
+          <input id="mp4End" type="number" min="0" placeholder="end (s)" style="flex:1;padding:8px;border-radius:8px;border:1px solid var(--border2);background:var(--surface);color:var(--text)">
+        </div>
+        <div class="al-btn-row">
+          <button class="al-btn red" id="mp4ExtractBtn" onclick="mp4ExtractHandler()">⚡ Extract MP3</button>
+          <button class="al-btn cyan" id="mp4DownloadBtn" onclick="mp4Download()" style="display:none">↓ Download MP3</button>
+          <button class="al-btn" onclick="mp4Clear()">✕ Clear</button>
+        </div>
+      </div>
+
+      <div id="mp4Status" style="margin-top:12px;color:var(--muted);font-size:13px;display:none"></div>
+
+    </div>
+  </div>
+
+  
+
   <!-- ── FOOTER ── -->
   <footer>
     <div class="footer-left">Made with <span>♥</span> — 100% client-side, files never leave your device</div>
@@ -860,6 +1007,71 @@
 <div class="toast" id="toast"></div>
 
 <script>
+/* ── MP4 preview / trim helpers ── */
+let _mp4PreviewUrl = null;
+function openTrimPreview(evt) {
+  evt.stopPropagation();
+  const inp = document.getElementById('mp4FileInput');
+  if (inp.files && inp.files[0]) {
+    setupMp4Preview(inp.files[0]);
+    document.getElementById('mp4PreviewContainer').style.display = 'block';
+    // open the panel if not already
+    openTool('mp4-panel');
+  } else {
+    showToast('⚠ Select an MP4 file first to preview');
+  }
+}
+
+function setupMp4Preview(file) {
+  cleanupMp4Preview();
+  const url = URL.createObjectURL(file);
+  _mp4PreviewUrl = url;
+  const a = document.getElementById('mp4PreviewAudio');
+  a.src = url;
+  a.currentTime = 0;
+  a.onloadedmetadata = () => updatePreviewTime();
+  a.ontimeupdate = () => updatePreviewTime();
+}
+
+function updatePreviewTime() {
+  const a = document.getElementById('mp4PreviewAudio');
+  const cur = formatTime(a.currentTime || 0);
+  const dur = isFinite(a.duration) ? formatTime(a.duration) : '00:00';
+  document.getElementById('mp4PreviewTime').textContent = `${cur} / ${dur}`;
+}
+
+function mp4SetStartFromPreview() {
+  const a = document.getElementById('mp4PreviewAudio');
+  if (!a || !isFinite(a.duration)) return showToast('⚠ Preview not ready');
+  document.getElementById('mp4Start').value = Math.max(0, Math.floor(a.currentTime));
+  _mp3Blob = null; document.getElementById('mp4DownloadBtn').style.display = 'none';
+  document.getElementById('mp4Status').style.display = 'none';
+  showToast('✓ Start set');
+}
+
+function mp4SetEndFromPreview() {
+  const a = document.getElementById('mp4PreviewAudio');
+  if (!a || !isFinite(a.duration)) return showToast('⚠ Preview not ready');
+  document.getElementById('mp4End').value = Math.max(0, Math.ceil(a.currentTime));
+  _mp3Blob = null; document.getElementById('mp4DownloadBtn').style.display = 'none';
+  document.getElementById('mp4Status').style.display = 'none';
+  showToast('✓ End set');
+}
+
+function cleanupMp4Preview() {
+  const v = document.getElementById('mp4PreviewVideo');
+  if (v) { v.pause(); v.removeAttribute('src'); v.load(); }
+  if (_mp4PreviewUrl) { URL.revokeObjectURL(_mp4PreviewUrl); _mp4PreviewUrl = null; }
+  document.getElementById('mp4PreviewContainer').style.display = 'none';
+}
+
+function formatTime(s) {
+  if (!isFinite(s)) return '00:00';
+  const mm = Math.floor(s/60).toString().padStart(2,'0');
+  const ss = Math.floor(s%60).toString().padStart(2,'0');
+  return `${mm}:${ss}`;
+}
+
 /* ─── TOOL PANEL TOGGLE ─── */
 function scrollToTools() {
   document.getElementById('tools-top').scrollIntoView({ behavior: 'smooth' });
@@ -868,7 +1080,6 @@ function scrollToTools() {
 function toggleTool(panelId, boxId, otherBoxId) {
   const panel = document.getElementById(panelId);
   const box = document.getElementById(boxId);
-  const otherBox = document.getElementById(otherBoxId);
   const isOpen = panel.classList.contains('open');
 
   // close both panels first
@@ -876,12 +1087,16 @@ function toggleTool(panelId, boxId, otherBoxId) {
   document.querySelectorAll('.tool-box').forEach(b => {
     b.classList.remove('active');
     b.classList.remove('tiktok-active');
+    b.classList.remove('converter-active');
   });
 
   if (!isOpen) {
     panel.classList.add('open');
-    box.classList.add('active');
-    if (panelId === 'amine-panel') box.classList.add('tiktok-active');
+    if (box) {
+      box.classList.add('active');
+      if (panelId === 'amine-panel') box.classList.add('tiktok-active');
+      if (panelId === 'mp4-panel') box.classList.add('converter-active');
+    }
     // scroll the panel into view smoothly after transition starts
     setTimeout(() => {
       panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -890,16 +1105,21 @@ function toggleTool(panelId, boxId, otherBoxId) {
 }
 
 function openTool(panelId) {
-  const boxId = panelId === 'squishit-panel' ? 'squishit-box' : 'tiktok-box';
-  const otherId = panelId === 'squishit-panel' ? 'tiktok-box' : 'squishit-box';
-  toggleTool(panelId, boxId, otherId);
+  let boxId = 'squishit-box';
+  if (panelId === 'squishit-panel') boxId = 'squishit-box';
+  else if (panelId === 'amine-panel') boxId = 'tiktok-box';
+  else if (panelId === 'mp4-panel') boxId = 'mp4box';
+  toggleTool(panelId, boxId);
 }
 
 function closePanel(panelId, boxId) {
   document.getElementById(panelId).classList.remove('open');
   const box = document.getElementById(boxId);
-  box.classList.remove('active');
-  box.classList.remove('tiktok-active');
+  if (box) {
+    box.classList.remove('active');
+    box.classList.remove('tiktok-active');
+    box.classList.remove('converter-active');
+  }
   document.getElementById('tools-top').scrollIntoView({ behavior: 'smooth' });
 }
 </script>
@@ -1084,6 +1304,104 @@ function alClear() {
 }
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+/* ── MP4 -> MP3 Conversion (client-side with lamejs) ── */
+let _mp3Blob = null;
+let _selectedFile = null;
+
+function mp4Clear() {
+  document.getElementById('mp4FileInput').value = '';
+  document.getElementById('mp4Start').value = '';
+  document.getElementById('mp4End').value = '';
+  document.getElementById('mp4DownloadBtn').style.display = 'none';
+  document.getElementById('mp4Status').style.display = 'none';
+  _mp3Blob = null; _selectedFile = null;
+  cleanupMp4Preview();
+}
+
+function mp4ExtractHandler() {
+  const inp = document.getElementById('mp4FileInput');
+  if (inp.files && inp.files[0]) {
+    _selectedFile = inp.files[0];
+    const start = parseFloat(document.getElementById('mp4Start').value) || 0;
+    const end = parseFloat(document.getElementById('mp4End').value) || null;
+    // ensure preview is available for quick trim setting
+    try { setupMp4Preview(_selectedFile); document.getElementById('mp4PreviewContainer').style.display = 'block'; } catch(e) {}
+    _mp3Blob = null; document.getElementById('mp4DownloadBtn').style.display = 'none';
+    mp4ToMp3(_selectedFile, start, end);
+  } else {
+    showToast('⚠ Select an MP4 file first');
+  }
+}
+
+async function mp4ToMp3(file, startSec = 0, endSec = null) {
+  const status = document.getElementById('mp4Status');
+  status.style.display = 'block'; status.textContent = '⏳ Decoding audio from MP4...';
+  try {
+    const arrayBuffer = await file.arrayBuffer();
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer.slice(0));
+    const sr = audioBuffer.sampleRate;
+    const channels = audioBuffer.numberOfChannels;
+    const totalLen = audioBuffer.length;
+    const s = Math.max(0, Math.floor(startSec * sr));
+    const e = endSec ? Math.min(Math.floor(endSec * sr), totalLen) : totalLen;
+    const left = audioBuffer.getChannelData(0).subarray(s, e);
+    const right = channels > 1 ? audioBuffer.getChannelData(1).subarray(s, e) : null;
+
+    status.textContent = '⏳ Encoding MP3 (this may take a few seconds)...';
+    // convert Float32 to Int16
+    function floatTo16BitPCM(float32Array) {
+      const l = float32Array.length;
+      const buf = new Int16Array(l);
+      for (let i = 0; i < l; i++) {
+        let s = Math.max(-1, Math.min(1, float32Array[i]));
+        buf[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+      }
+      return buf;
+    }
+
+    const left16 = floatTo16BitPCM(left);
+    const right16 = right ? floatTo16BitPCM(right) : null;
+
+    const mp3enc = new lamejs.Mp3Encoder(right16 ? 2 : 1, sr, 128);
+    const blockSize = 1152;
+    const mp3Data = [];
+    for (let i = 0; i < left16.length; i += blockSize) {
+      const leftChunk = left16.subarray(i, i + blockSize);
+      const rightChunk = right16 ? right16.subarray(i, i + blockSize) : null;
+      let mp3buf;
+      if (rightChunk) mp3buf = mp3enc.encodeBuffer(leftChunk, rightChunk);
+      else mp3buf = mp3enc.encodeBuffer(leftChunk);
+      if (mp3buf.length) mp3Data.push(new Uint8Array(mp3buf));
+    }
+    const tail = mp3enc.flush();
+    if (tail.length) mp3Data.push(new Uint8Array(tail));
+
+    // concat
+    let size = 0; for (const d of mp3Data) size += d.length;
+    const result = new Uint8Array(size);
+    let offset = 0; for (const d of mp3Data) { result.set(d, offset); offset += d.length; }
+
+    const blob = new Blob([result], { type: 'audio/mpeg' });
+    _mp3Blob = blob;
+    document.getElementById('mp4DownloadBtn').style.display = 'inline-flex';
+    status.textContent = `✓ MP3 ready — ${Math.round(blob.size/1024)} KB`;
+    showToast('✓ MP3 ready to download');
+  } catch (e) {
+    status.textContent = '✕ Error: ' + (e.message || e);
+    showToast('⚠ Failed to extract audio');
+  }
+}
+
+function mp4Download() {
+  if (!_mp3Blob) { showToast('⚠ No MP3 available'); return; }
+  const a = document.createElement('a');
+  const url = URL.createObjectURL(_mp3Blob);
+  a.href = url; a.download = `audio_${new Date().toISOString().slice(0,10)}.mp3`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 15000);
+}
 
 function alUpdateStats() {
   const total = alStore.length;
@@ -1362,6 +1680,313 @@ async function alDownloadZip() {
   btn.disabled = false;
   btn.textContent = '📦 Download all as ZIP';
   showToast(`✓ ZIP with ${fetched} video${fetched > 1 ? 's' : ''} downloaded!`);
+}
+</script>
+
+<!-- ── MP4 to MP3 CONVERTER JS ── -->
+<script>
+const convDropZone = document.getElementById('convDropZone');
+const convFileInput = document.getElementById('convFileInput');
+const convCardList = document.getElementById('convCardList');
+const convResultsSection = document.getElementById('convResultsSection');
+const convBitrateSelect = document.getElementById('convBitrateSelect');
+
+let convFiles = [];
+
+convDropZone.addEventListener('dragover', e => { e.preventDefault(); convDropZone.classList.add('drag-over'); });
+convDropZone.addEventListener('dragleave', () => convDropZone.classList.remove('drag-over'));
+convDropZone.addEventListener('drop', e => { e.preventDefault(); convDropZone.classList.remove('drag-over'); handleConvFiles([...e.dataTransfer.files]); });
+convDropZone.addEventListener('click', e => { if (e.target.classList.contains('browse-btn') || e.target === convFileInput) return; convFileInput.click(); });
+convFileInput.addEventListener('change', () => handleConvFiles([...convFileInput.files]));
+document.getElementById('convAddMoreBtn').addEventListener('click', () => convFileInput.click());
+document.getElementById('convClearAllBtn').addEventListener('click', () => {
+  convFiles = [];
+  convCardList.innerHTML = '';
+  convResultsSection.style.display = 'none';
+  updateConvStats();
+  convFileInput.value = '';
+});
+document.getElementById('convDownloadAllBtn').addEventListener('click', downloadAllConvZip);
+
+function handleConvFiles(files) {
+  const valid = files.filter(f => f.type.startsWith('video/') || f.name.match(/\.(mp4|mov|webm|avi|mkv|3gp)$/i));
+  if (!valid.length) { showToast('⚠ Please select valid video files (MP4, MOV, WEBM, etc.)'); return; }
+  convResultsSection.style.display = 'block';
+  valid.forEach(addVideoFile);
+}
+
+function updateConvStats() {
+  const done = convFiles.filter(f => f.status === 'done');
+  const totalDuration = done.reduce((a, f) => a + (f.duration || 0), 0);
+  const totalCompSize = done.reduce((a, f) => a + (f.mp3Blob ? f.mp3Blob.size : 0), 0);
+  
+  document.getElementById('c-files').textContent = convFiles.length;
+  
+  // Format total duration
+  let durStr = '—';
+  if (totalDuration > 0) {
+    const mins = Math.floor(totalDuration / 60);
+    const secs = Math.round(totalDuration % 60);
+    durStr = mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+  }
+  document.getElementById('c-duration').textContent = durStr;
+  document.getElementById('c-size').textContent = done.length > 0 ? formatSize(totalCompSize) : '—';
+}
+
+function formatDuration(sec) {
+  if (isNaN(sec)) return '0:00';
+  const mins = Math.floor(sec / 60);
+  const secs = Math.floor(sec % 60);
+  return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+}
+
+function addVideoFile(file) {
+  const id = Date.now() + Math.random();
+  const bitrate = parseInt(convBitrateSelect.value);
+  const obj = {
+    id,
+    file,
+    origSize: file.size,
+    mp3Blob: null,
+    mp3Name: file.name.replace(/\.[^.]+$/, '') + '.mp3',
+    status: 'pending',
+    duration: 0
+  };
+  convFiles.push(obj);
+  
+  const card = document.createElement('div');
+  card.className = 'img-card processing';
+  card.id = `conv-card-${id}`;
+  card.innerHTML = `
+    <div class="card-inner">
+      <div class="thumb-wrap-sq" style="display:flex; align-items:center; justify-content:center; background:var(--surface); font-size:24px; color:var(--conv-primary)">
+        🎵
+      </div>
+      <div class="card-info">
+        <div class="card-name">${escHtml(file.name)}</div>
+        <div class="size-row">
+          <span class="size-orig">${formatSize(file.size)}</span>
+          <span style="color:var(--muted);font-size:12px">→</span>
+          <span id="conv-size-new-${id}"><span class="spinner"></span></span>
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar" id="conv-bar-${id}" style="background: linear-gradient(90deg, var(--conv-primary), var(--conv-secondary))"></div>
+        </div>
+        <div class="card-status" id="conv-status-${id}">Loading file...</div>
+      </div>
+      <div class="card-actions" id="conv-actions-${id}">
+        <a class="icon-btn disabled" id="conv-dl-${id}" title="Download MP3">⬇</a>
+        <button class="icon-btn del" onclick="removeConvFile(${id})" title="Remove">✕</button>
+      </div>
+    </div>
+  `;
+  convCardList.appendChild(card);
+  
+  // Update stats
+  updateConvStats();
+  
+  // Run conversion
+  processVideoFile(file, id, obj, bitrate);
+}
+
+function removeConvFile(id) {
+  convFiles = convFiles.filter(f => f.id !== id);
+  const el = document.getElementById(`conv-card-${id}`);
+  if (el) {
+    el.style.opacity = '0';
+    el.style.transform = 'translateX(20px)';
+    el.style.transition = 'all .2s';
+    setTimeout(() => el.remove(), 200);
+  }
+  if (!convFiles.length) convResultsSection.style.display = 'none';
+  setTimeout(updateConvStats, 210);
+}
+
+async function processVideoFile(file, id, obj, bitrate) {
+  const bar = document.getElementById(`conv-bar-${id}`);
+  const statusEl = document.getElementById(`conv-status-${id}`);
+  const sizeNewEl = document.getElementById(`conv-size-new-${id}`);
+  
+  try {
+    bar.style.width = '10%';
+    statusEl.textContent = 'Extracting audio stream...';
+    
+    // Read file as ArrayBuffer
+    const arrayBuffer = await file.arrayBuffer();
+    bar.style.width = '20%';
+    statusEl.textContent = 'Decoding audio data (browser hardware)...';
+    
+    // Decode Audio using browser Web Audio API
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    let audioBuffer;
+    try {
+      audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+    } catch (err) {
+      throw new Error('This video file has an unsupported audio codec or no audio track.');
+    }
+    
+    obj.duration = audioBuffer.duration;
+    statusEl.textContent = `Decoded audio track — ${formatDuration(audioBuffer.duration)} (${audioBuffer.sampleRate}Hz)...`;
+    bar.style.width = '35%';
+    
+    // Start MP3 encoding
+    statusEl.textContent = `Encoding to MP3 (${bitrate}kbps)...`;
+    
+    const mp3Blob = await encodeAudioBufferToMp3(audioBuffer, bitrate, pct => {
+      bar.style.width = (35 + pct * 0.6) + '%';
+      statusEl.textContent = `Encoding to MP3 (${pct}% done)...`;
+    });
+    
+    // Finalize card
+    obj.mp3Blob = mp3Blob;
+    obj.status = 'done';
+    
+    const card = document.getElementById(`conv-card-${id}`);
+    if (card) {
+      card.classList.remove('processing');
+      card.classList.add('done');
+    }
+    bar.style.width = '100%';
+    
+    sizeNewEl.innerHTML = `<span class="size-new" style="color:var(--conv-primary)">${formatSize(mp3Blob.size)}</span> <span class="saving-badge" style="background:rgba(6,182,212,0.12); color:var(--conv-primary); border-color:rgba(6,182,212,0.2)">MP3</span>`;
+    
+    // Inject custom inline audio previewer
+    statusEl.innerHTML = `
+      <div style="color:var(--green)">✓ Extraction complete — ${formatDuration(obj.duration)} duration</div>
+      <audio controls class="conv-audio-player" id="conv-player-${id}"></audio>
+    `;
+    
+    // Create blob URL for playing & downloading
+    const mp3Url = URL.createObjectURL(mp3Blob);
+    document.getElementById(`conv-player-${id}`).src = mp3Url;
+    
+    const dlBtn = document.getElementById(`conv-dl-${id}`);
+    dlBtn.classList.remove('disabled');
+    dlBtn.href = mp3Url;
+    dlBtn.download = obj.mp3Name;
+    
+    updateConvStats();
+    showToast(`✓ Completed extraction: ${file.name}`);
+  } catch (err) {
+    console.error(err);
+    obj.status = 'error';
+    const card = document.getElementById(`conv-card-${id}`);
+    if (card) card.classList.remove('processing');
+    statusEl.innerHTML = `<span style="color:var(--danger)">✕ Error: ${err.message || 'Decoding failed'}</span>`;
+    sizeNewEl.textContent = 'Error';
+    bar.style.background = 'var(--danger)';
+    bar.style.width = '100%';
+  }
+}
+
+async function encodeAudioBufferToMp3(audioBuffer, bitrate, onProgress) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const channels = audioBuffer.numberOfChannels;
+      const sampleRate = audioBuffer.sampleRate;
+      const mp3Encoder = new lamejs.Mp3Encoder(channels, sampleRate, bitrate);
+      
+      const left = audioBuffer.getChannelData(0);
+      const right = channels > 1 ? audioBuffer.getChannelData(1) : null;
+      
+      const leftInt16 = new Int16Array(left.length);
+      const rightInt16 = right ? new Int16Array(right.length) : null;
+      
+      // Convert Float32 data to Int16 PCM data
+      // Yield every 500k samples to keep page perfectly smooth
+      const yieldInterval = 500000;
+      for (let i = 0; i < left.length; i++) {
+        let l = left[i];
+        if (l > 1) l = 1; else if (l < -1) l = -1;
+        leftInt16[i] = l * 32767;
+        
+        if (right) {
+          let r = right[i];
+          if (r > 1) r = 1; else if (r < -1) r = -1;
+          rightInt16[i] = r * 32767;
+        }
+        
+        if (i > 0 && i % yieldInterval === 0) {
+          await sleep(5);
+        }
+      }
+      
+      const sampleBlockSize = 1152;
+      const mp3Data = [];
+      
+      // Encode block-by-block
+      const totalBlocks = Math.ceil(leftInt16.length / sampleBlockSize);
+      for (let i = 0, blockIdx = 0; i < leftInt16.length; i += sampleBlockSize, blockIdx++) {
+        const leftChunk = leftInt16.subarray(i, i + sampleBlockSize);
+        let mp3buf;
+        if (rightInt16) {
+          const rightChunk = rightInt16.subarray(i, i + sampleBlockSize);
+          mp3buf = mp3Encoder.encodeBuffer(leftChunk, rightChunk);
+        } else {
+          mp3buf = mp3Encoder.encodeBuffer(leftChunk);
+        }
+        
+        if (mp3buf.length > 0) {
+          mp3Data.push(mp3buf);
+        }
+        
+        // Yield to browser and report progress every 150 blocks
+        if (blockIdx > 0 && blockIdx % 150 === 0) {
+          const pct = Math.round((blockIdx / totalBlocks) * 100);
+          onProgress(pct);
+          await sleep(3);
+        }
+      }
+      
+      const mp3buf = mp3Encoder.flush();
+      if (mp3buf.length > 0) {
+        mp3Data.push(mp3buf);
+      }
+      
+      onProgress(100);
+      const blob = new Blob(mp3Data, { type: 'audio/mp3' });
+      resolve(blob);
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+async function downloadAllConvZip() {
+  const done = convFiles.filter(f => f.status === 'done' && f.mp3Blob);
+  if (!done.length) { showToast('⚠ No converted MP3 tracks ready yet'); return; }
+  
+  const btn = document.getElementById('convDownloadAllBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Building ZIP…';
+  showToast(`📦 Packaging ${done.length} audio tracks into ZIP…`);
+  
+  try {
+    const zip = new JSZip();
+    done.forEach(f => {
+      zip.file(f.mp3Name, f.mp3Blob);
+    });
+    
+    const content = await zip.generateAsync({
+      type: 'blob',
+      compression: 'STORE' // MP3s are already compressed
+    });
+    
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(content);
+    a.download = `extracted_audio_tracks_${new Date().toISOString().slice(0,10)}.zip`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(a.href), 15000);
+    
+    showToast('✓ ZIP downloaded!');
+  } catch(e) {
+    showToast('⚠ Failed to build ZIP package.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '↓ Download All (ZIP)';
+  }
 }
 </script>
 
