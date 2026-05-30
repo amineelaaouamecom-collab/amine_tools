@@ -39,7 +39,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(10,15,10,.88);backdrop-fil
 .nav-link.active{color:var(--green);border-color:var(--green2);background:rgba(34,197,94,.07)}
 
 /* TOOL GRID */
-.tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:36px 0 20px}
+.tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:16px 0 20px}
 @media(max-width:700px){.tools-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:480px){.tools-grid{grid-template-columns:1fr}}
 
@@ -332,6 +332,40 @@ nav{position:sticky;top:0;z-index:100;background:rgba(10,15,10,.88);backdrop-fil
 .btn.emerald{background:var(--cod-primary);color:#000;border-color:var(--cod-primary);font-weight:700}
 .btn.emerald:hover{background:#059669;border-color:#059669;color:#fff}
 
+/* HERO */
+.hero{padding:32px 0 24px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% -20%,rgba(212,160,23,.12)0%,transparent 65%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(212,160,23,.1);border:1px solid rgba(212,160,23,.3);border-radius:99px;padding:5px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold2);margin-bottom:14px}
+.hero-badge .flash{color:var(--gold2)}
+.hero-title{font-family:'Syne',sans-serif;font-size:clamp(28px,5.5vw,58px);font-weight:800;line-height:1.1;letter-spacing:-2px;color:#fff;margin-bottom:10px}
+.hero-title .accent{background:linear-gradient(135deg,var(--gold),var(--gold2) 40%,var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{color:var(--muted);font-size:13px;line-height:1.6;max-width:480px;margin:0 auto 18px}
+.hero-pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:0}
+.hero-pill{display:flex;align-items:center;gap:5px;background:var(--surface2);border:1px solid var(--border2);border-radius:99px;padding:5px 12px;font-size:11px;font-weight:500;color:var(--muted)}
+.hero-pill .dot-pill{width:4px;height:4px;border-radius:50%;background:var(--green);display:inline-block;flex-shrink:0}
+
+/* SECTION LABEL */
+.section-label{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* DRAG OVERLAY */
+.drag-overlay{position:fixed;inset:0;z-index:9999;background:rgba(10,15,10,.85);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.drag-overlay.visible{opacity:1;pointer-events:auto}
+.drag-overlay-box{border:3px dashed var(--gold);border-radius:24px;padding:48px 72px;text-align:center;background:rgba(212,160,23,.05)}
+.drag-overlay-icon{font-size:52px;margin-bottom:12px}
+.drag-overlay-text{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--gold2)}
+.drag-overlay-sub{color:var(--muted);font-size:13px;margin-top:6px}
+
+/* MP4 drop zone */
+.mp4-drop-zone{border:2px dashed var(--border2);border-radius:14px;padding:32px 20px;text-align:center;cursor:pointer;background:var(--surface2);transition:all .25s;position:relative}
+.mp4-drop-zone:hover,.mp4-drop-zone.drag-over{border-color:var(--conv-primary);background:rgba(6,182,212,.05)}
+.mp4-drop-zone .drop-icon{font-size:32px;margin-bottom:8px}
+.mp4-drop-zone p{font-size:14px;color:var(--text);margin-bottom:4px}
+.mp4-drop-zone .drop-sub{font-size:12px;color:var(--muted)}
+
+/* QR read drop zone */
+.qr-reader-area.drag-over{border-color:var(--qr-primary);background:rgba(245,158,11,.07)}
+
 /* FOOTER */
 footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
 .footer-left{font-size:12px;color:var(--muted)}
@@ -371,6 +405,20 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
 
 <div class="wrap">
 <div id="tools-top">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge"><span class="flash">⚡</span> FREE TOOLS SUITE</div>
+  <h1 class="hero-title">Everything you need,<br><span class="accent">right in your browser</span></h1>
+  <div class="hero-pills">
+    <span class="hero-pill"><span class="dot-pill"></span> No uploads · Client-side only</span>
+    <span class="hero-pill"><span class="dot-pill"></span> No account needed</span>
+    <span class="hero-pill"><span class="dot-pill"></span> Forever free</span>
+  </div>
+</section>
+
+<div class="section-label">Choose a tool</div>
+
   <div class="tools-grid" id="tools-grid">
 
     <!-- SquishIt -->
@@ -446,6 +494,7 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
     <div class="drop-icon">🗜️</div>
     <p class="drop-title">Drop your images here</p>
     <p class="drop-sub">All compression happens in your browser. <strong>Zero uploads, 100% private.</strong></p>
+    <p class="drop-sub" style="margin-top:5px;color:var(--border2)">or <strong style="color:var(--gold2)">Ctrl+V</strong> to paste</p>
     <button class="browse-btn" onclick="document.getElementById('fileInput').click()">Browse Files</button>
     <input type="file" id="fileInput" multiple accept="image/jpeg,image/png,image/webp" style="display:none">
     <div class="formats"><span class="fmt-tag">JPG→WebP</span><span class="fmt-tag">PNG→WebP</span><span class="fmt-tag">WEBP→WebP</span><span class="fmt-tag" style="color:var(--gold2);border-color:var(--gold)">Always WebP Out</span></div>
@@ -534,9 +583,14 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
   <div class="conv-logo">MP4 → MP3</div>
   <p class="conv-tagline">Upload MP4, extract audio as MP3 and optionally trim by <span>start/end time</span>.</p>
   <div class="al-input-card">
-    <label class="al-input-label">Select MP4 file</label>
-    <input type="file" id="mp4FileInput" accept="video/mp4,video/webm,video/ogg,video/avi,video/mov" style="display:block;margin-bottom:10px;color:var(--text)">
-    <div id="mp4PreviewContainer" style="display:none;margin-bottom:10px">
+    <div class="mp4-drop-zone" id="mp4DropZone">
+      <div class="drop-icon">🎧</div>
+      <p>Drop your MP4 file here</p>
+      <p class="drop-sub">MP4, WebM, MOV, AVI supported</p>
+      <button class="browse-btn" style="margin-top:12px" onclick="event.stopPropagation();document.getElementById('mp4FileInput').click()">Browse File</button>
+    </div>
+    <input type="file" id="mp4FileInput" accept="video/mp4,video/webm,video/ogg,video/avi,video/mov" style="display:none">
+    <div id="mp4PreviewContainer" style="display:none;margin-top:14px">
       <audio id="mp4PreviewAudio" controls style="width:100%;border-radius:8px;background:#000"></audio>
       <div style="display:flex;gap:7px;margin-top:5px;align-items:center">
         <button class="al-btn" onclick="mp4SetStartFromPreview()">Set start</button>
@@ -544,7 +598,7 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
         <div style="margin-left:auto;font-size:12px;color:var(--muted)" id="mp4PreviewTime">00:00 / 00:00</div>
       </div>
     </div>
-    <label class="al-input-label">Trim (start / end in seconds — leave blank for full)</label>
+    <label class="al-input-label" style="margin-top:14px;display:block">Trim (start / end in seconds — leave blank for full)</label>
     <div style="display:flex;gap:7px;margin-bottom:8px">
       <input id="mp4Start" type="number" min="0" placeholder="start (s)" style="flex:1;padding:8px;border-radius:8px;border:1px solid var(--border2);background:var(--surface);color:var(--text);font-family:'DM Sans',sans-serif">
       <input id="mp4End" type="number" min="0" placeholder="end (s)" style="flex:1;padding:8px;border-radius:8px;border:1px solid var(--border2);background:var(--surface);color:var(--text);font-family:'DM Sans',sans-serif">
@@ -565,19 +619,11 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
   <button class="panel-close-btn" onclick="closePanel('bg-panel','bgbox')">✕</button>
   <div class="bg-logo">BG Remover ✂️</div>
   <p class="bg-tagline">Remove backgrounds with high quality — output always <span>WebP transparent</span></p>
-  <div class="bg-notice">
-    🔑 This tool uses <strong>remove.bg API</strong> for professional-quality results. Get a <strong>free API key</strong> at <a href="https://www.remove.bg/api" target="_blank">remove.bg/api</a> (50 free credits/month). Your key is stored only in your browser.
-    <br><br>
-    💡 <strong>Tip:</strong> After removing the background with remove.bg, the result is converted to transparent WebP automatically.
-  </div>
-  <div class="bg-apikey-row">
-    <input type="password" class="bg-apikey-input" id="bgApiKey" placeholder="Paste your remove.bg API key here…" oninput="bgSaveKey()">
-    <button class="btn purple" onclick="bgTestKey()">🔍 Test Key</button>
-  </div>
   <div class="drop-zone" id="bgDropZone" style="--green:var(--bg-primary);--green2:#9333ea">
     <div class="drop-icon" style="font-size:24px">✂️</div>
     <p class="drop-title">Drop images to remove background</p>
     <p class="drop-sub">JPG, PNG, WebP — up to 5MB per image.<br><strong>Output is always transparent WebP.</strong></p>
+    <p class="drop-sub" style="margin-top:5px;color:var(--border2)">or <strong style="color:var(--gold2)">Ctrl+V</strong> to paste</p>
     <button class="browse-btn" style="background:var(--bg-primary)" onclick="document.getElementById('bgFileInput').click()">Browse Files</button>
     <input type="file" id="bgFileInput" multiple accept="image/jpeg,image/png,image/webp" style="display:none">
     <div class="formats"><span class="fmt-tag">JPG→WebP</span><span class="fmt-tag">PNG→WebP</span><span class="fmt-tag" style="color:var(--bg-primary);border-color:var(--bg-primary)">Transparent WebP Out</span></div>
@@ -651,8 +697,8 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
   <div class="qr-section" id="qr-read-section">
     <div class="qr-reader-area" id="qrReaderArea" onclick="document.getElementById('qrReadInput').click()">
       <div style="font-size:36px;margin-bottom:10px">📷</div>
-      <p style="font-size:14px;color:var(--text);margin-bottom:5px">Click to select image with QR code</p>
-      <p style="font-size:12px;color:var(--muted)">Supports JPG, PNG, WebP, GIF, BMP — scans for QR codes automatically</p>
+      <p style="font-size:14px;color:var(--text);margin-bottom:5px">Drop or click to select image with QR code</p>
+      <p style="font-size:12px;color:var(--muted)">Supports JPG, PNG, WebP, GIF · or <strong style="color:var(--gold2)">Ctrl+V</strong> to paste</p>
     </div>
     <input type="file" id="qrReadInput" accept="image/*" style="display:none" onchange="qrReadFile(this)">
     <canvas id="qrReaderCanvas"></canvas>
@@ -933,6 +979,47 @@ function showToast(msg,color){
 function formatSize(b){return b>=1048576?(b/1048576).toFixed(2)+' MB':Math.round(b/1024)+' KB'}
 function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
+
+/* ── GLOBAL CTRL+V PASTE ── */
+document.addEventListener('paste',function(e){
+  // Don't intercept paste in text inputs/textareas
+  const tag=document.activeElement&&document.activeElement.tagName;
+  if(tag==='INPUT'||tag==='TEXTAREA')return;
+
+  const items=[...(e.clipboardData||e.originalEvent.clipboardData).items];
+  const imageItem=items.find(i=>i.type.startsWith('image/'));
+  if(!imageItem)return;
+
+  e.preventDefault();
+  const file=imageItem.getAsFile();
+  if(!file)return;
+
+  // Detect which panel is open and route accordingly
+  const openPanel=document.querySelector('.tool-panel.open');
+  if(!openPanel){showToast('⚠ Open a tool first to paste an image','var(--gold2)');return}
+
+  const pid=openPanel.id;
+  if(pid==='squishit-panel'){
+    processFiles([file]);
+    showToast('📋 Image pasted into SquishIt!');
+  } else if(pid==='bg-panel'){
+    handleBgFiles([file]);
+    showToast('📋 Image pasted into BG Remover!');
+  } else if(pid==='qr-panel'){
+    // Route to read tab
+    const readTab=document.querySelector('.qr-tab:not(.active)');
+    if(document.getElementById('qr-read-section')&&!document.getElementById('qr-read-section').classList.contains('active')){
+      document.querySelectorAll('.qr-tab').forEach(t=>t.classList.remove('active'));
+      document.querySelectorAll('.qr-section').forEach(s=>s.classList.remove('active'));
+      document.querySelector('.qr-tab:last-child').classList.add('active');
+      document.getElementById('qr-read-section').classList.add('active');
+    }
+    qrProcessImageFile(file);
+    showToast('📋 Image pasted into QR Reader!');
+  } else {
+    showToast('⚠ This tool doesn\'t accept image paste','var(--gold2)');
+  }
+});
 </script>
 
 <!-- ══════════════ SQUISHIT JS ══════════════ -->
@@ -1136,15 +1223,22 @@ async function alDownloadAllMp3Zip(){
 <!-- ══════════════ MP4→MP3 JS ══════════════ -->
 <script>
 let _mp3Blob=null,_mp4PreviewUrl=null;
-document.getElementById('mp4FileInput').addEventListener('change',function(){if(this.files&&this.files[0]){setupMp4Preview(this.files[0]);document.getElementById('mp4PreviewContainer').style.display='block'}});
+// Drag-drop for MP4
+const mp4DZ=document.getElementById('mp4DropZone');
+mp4DZ.addEventListener('dragover',e=>{e.preventDefault();mp4DZ.classList.add('drag-over')});
+mp4DZ.addEventListener('dragleave',()=>mp4DZ.classList.remove('drag-over'));
+mp4DZ.addEventListener('drop',e=>{e.preventDefault();mp4DZ.classList.remove('drag-over');const f=e.dataTransfer.files[0];if(f){_mp4DroppedFile=f;setupMp4Preview(f);document.getElementById('mp4PreviewContainer').style.display='block';mp4DZ.querySelector('p').textContent='✓ '+f.name;mp4DZ.style.borderColor='var(--conv-primary)'}});
+mp4DZ.addEventListener('click',e=>{if(e.target.tagName==='BUTTON')return;document.getElementById('mp4FileInput').click()});
+document.getElementById('mp4FileInput').addEventListener('change',function(){if(this.files&&this.files[0]){setupMp4Preview(this.files[0]);document.getElementById('mp4PreviewContainer').style.display='block';mp4DZ.querySelector('p').textContent='✓ '+this.files[0].name;mp4DZ.style.borderColor='var(--conv-primary)'}});
 function setupMp4Preview(file){cleanupMp4Preview();const url=URL.createObjectURL(file);_mp4PreviewUrl=url;const a=document.getElementById('mp4PreviewAudio');a.src=url;a.currentTime=0;a.onloadedmetadata=()=>updatePreviewTime();a.ontimeupdate=()=>updatePreviewTime()}
 function updatePreviewTime(){const a=document.getElementById('mp4PreviewAudio');const cur=formatTime(a.currentTime||0),dur=isFinite(a.duration)?formatTime(a.duration):'00:00';document.getElementById('mp4PreviewTime').textContent=`${cur} / ${dur}`}
 function formatTime(s){if(!isFinite(s))return'00:00';const mm=Math.floor(s/60).toString().padStart(2,'0'),ss=Math.floor(s%60).toString().padStart(2,'0');return`${mm}:${ss}`}
 function mp4SetStartFromPreview(){const a=document.getElementById('mp4PreviewAudio');if(!a||!isFinite(a.duration))return showToast('⚠ Preview not ready');document.getElementById('mp4Start').value=Math.max(0,Math.floor(a.currentTime));_mp3Blob=null;document.getElementById('mp4DownloadBtn').style.display='none';showToast('✓ Start set')}
 function mp4SetEndFromPreview(){const a=document.getElementById('mp4PreviewAudio');if(!a||!isFinite(a.duration))return showToast('⚠ Preview not ready');document.getElementById('mp4End').value=Math.max(0,Math.ceil(a.currentTime));_mp3Blob=null;document.getElementById('mp4DownloadBtn').style.display='none';showToast('✓ End set')}
 function cleanupMp4Preview(){const a=document.getElementById('mp4PreviewAudio');if(a){a.pause();a.removeAttribute('src');a.load()}if(_mp4PreviewUrl){URL.revokeObjectURL(_mp4PreviewUrl);_mp4PreviewUrl=null}document.getElementById('mp4PreviewContainer').style.display='none'}
-function mp4Clear(){document.getElementById('mp4FileInput').value='';document.getElementById('mp4Start').value='';document.getElementById('mp4End').value='';document.getElementById('mp4DownloadBtn').style.display='none';document.getElementById('mp4Status').style.display='none';_mp3Blob=null;cleanupMp4Preview()}
-function mp4ExtractHandler(){const inp=document.getElementById('mp4FileInput');if(inp.files&&inp.files[0]){const start=parseFloat(document.getElementById('mp4Start').value)||0,end=parseFloat(document.getElementById('mp4End').value)||null;_mp3Blob=null;document.getElementById('mp4DownloadBtn').style.display='none';mp4ToMp3(inp.files[0],start,end)}else showToast('⚠ Select an MP4 file first')}
+function mp4Clear(){document.getElementById('mp4FileInput').value='';document.getElementById('mp4Start').value='';document.getElementById('mp4End').value='';document.getElementById('mp4DownloadBtn').style.display='none';document.getElementById('mp4Status').style.display='none';_mp3Blob=null;cleanupMp4Preview();const dz=document.getElementById('mp4DropZone');dz.querySelector('p').textContent='Drop your MP4 file here';dz.style.borderColor=''}
+let _mp4DroppedFile=null;
+function mp4ExtractHandler(){const inp=document.getElementById('mp4FileInput');const file=_mp4DroppedFile||(inp.files&&inp.files[0]);if(file){const start=parseFloat(document.getElementById('mp4Start').value)||0,end=parseFloat(document.getElementById('mp4End').value)||null;_mp3Blob=null;document.getElementById('mp4DownloadBtn').style.display='none';mp4ToMp3(file,start,end)}else showToast('⚠ Select or drop an MP4 file first')}
 async function mp4ToMp3(file,startSec=0,endSec=null){
   const status=document.getElementById('mp4Status');status.style.display='block';status.textContent='⏳ Decoding audio…';
   try{
@@ -1172,6 +1266,7 @@ function mp4Download(){if(!_mp3Blob){showToast('⚠ No MP3 available');return}co
 
 <!-- ══════════════ BG REMOVER JS ══════════════ -->
 <script>
+const BG_API_KEY = 'aTHJEGLPi7GjRGoKygEsg2xn';
 let bgFiles=[];
 const bgDropZone=document.getElementById('bgDropZone'),bgFileInput=document.getElementById('bgFileInput');
 bgDropZone.addEventListener('dragover',e=>{e.preventDefault();bgDropZone.classList.add('drag-over')});
@@ -1181,27 +1276,12 @@ bgDropZone.addEventListener('click',e=>{if(e.target.classList.contains('browse-b
 bgFileInput.addEventListener('change',()=>handleBgFiles([...bgFileInput.files]));
 document.getElementById('bgAddMoreBtn').addEventListener('click',()=>bgFileInput.click());
 
-function bgSaveKey(){localStorage.setItem('removebg_key',document.getElementById('bgApiKey').value)}
-// Load saved key on init
-window.addEventListener('load',()=>{const k=localStorage.getItem('removebg_key');if(k)document.getElementById('bgApiKey').value=k;codCalc();qrGenerate()});
-async function bgTestKey(){
-  const key=document.getElementById('bgApiKey').value.trim();
-  if(!key){showToast('⚠ Enter your API key first');return}
-  showToast('🔍 Testing key…');
-  try{
-    const res=await fetch('https://api.remove.bg/v1.0/account',{headers:{'X-Api-Key':key}});
-    const j=await res.json();
-    if(res.ok&&j.data)showToast(`✓ Key valid — ${j.data.attributes?.credits?.total||'?'} credits remaining`);
-    else showToast('✕ Invalid key: '+(j.errors?.[0]?.title||'Unknown error'),'var(--danger)');
-  }catch(e){showToast('⚠ Could not test key (network error)','var(--danger)')}
-}
+window.addEventListener('load',()=>{codCalc();qrGenerate()});
 function handleBgFiles(files){
   const valid=files.filter(f=>f.type.match(/^image\/(jpeg|png|webp)/));
   if(!valid.length){showToast('⚠ Please select JPEG, PNG, or WebP images');return}
-  const key=document.getElementById('bgApiKey').value.trim();
-  if(!key){showToast('⚠ Enter your remove.bg API key first');return}
   document.getElementById('bgResultsSection').style.display='block';
-  valid.forEach(f=>addBgFile(f,key));
+  valid.forEach(f=>addBgFile(f,BG_API_KEY));
 }
 function addBgFile(file,apiKey){
   const id=Date.now()+Math.random();
@@ -1319,6 +1399,10 @@ function qrCopyToClipboard(){
 
 function qrReadFile(input){
   const file=input.files[0];if(!file)return;
+  qrProcessImageFile(file);
+}
+
+function qrProcessImageFile(file){
   const errBox=document.getElementById('qrReadError'),resultBox=document.getElementById('qrResultBox');
   errBox.style.display='none';resultBox.style.display='none';
   const reader=new FileReader();
@@ -1333,7 +1417,6 @@ function qrReadFile(input){
       if(code){
         document.getElementById('qrResultText').textContent=code.data;
         resultBox.style.display='block';
-        // Check if URL
         try{new URL(code.data);document.getElementById('qrOpenUrlBtn').style.display='inline-flex';document.getElementById('qrOpenUrlBtn').dataset.url=code.data}catch(e){document.getElementById('qrOpenUrlBtn').style.display='none'}
         showToast('✓ QR code decoded!');
       }else{
@@ -1345,6 +1428,12 @@ function qrReadFile(input){
   };
   reader.readAsDataURL(file);
 }
+
+// QR reader drag-and-drop
+const qrRA=document.getElementById('qrReaderArea');
+qrRA.addEventListener('dragover',e=>{e.preventDefault();qrRA.classList.add('drag-over')});
+qrRA.addEventListener('dragleave',()=>qrRA.classList.remove('drag-over'));
+qrRA.addEventListener('drop',e=>{e.preventDefault();qrRA.classList.remove('drag-over');const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('image/'))qrProcessImageFile(f);else showToast('⚠ Please drop an image file')});
 
 function qrCopyResult(){
   const text=document.getElementById('qrResultText').textContent;
