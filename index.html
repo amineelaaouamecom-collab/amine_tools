@@ -23,7 +23,6 @@
   --bg-primary:#a855f7;--bg-secondary:#ec4899;
   --qr-primary:#f59e0b;--qr-secondary:#ef4444;
   --cod-primary:#10b981;--cod-secondary:#f59e0b;
-  --imggen-primary:#06b6d4;--imggen-secondary:#8b5cf6;
 }
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
@@ -78,7 +77,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(10,15,10,.88);backdrop-fil
 .tool-box.bg-active .tool-box-arrow{color:var(--bg-primary)}
 .tool-box.qr-active .tool-box-arrow{color:var(--qr-primary)}
 .tool-box.cod-active .tool-box-arrow{color:var(--cod-primary)}
-.tool-box.imggen-active .tool-box-arrow{color:var(--imggen-primary)}
 
 /* TOOL PANEL */
 .tool-panel{overflow:hidden;max-height:0;transition:max-height .5s cubic-bezier(.4,0,.2,1),opacity .3s;opacity:0}
@@ -334,54 +332,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(10,15,10,.88);backdrop-fil
 .btn.emerald{background:var(--cod-primary);color:#000;border-color:var(--cod-primary);font-weight:700}
 .btn.emerald:hover{background:#059669;border-color:#059669;color:#fff}
 
-/* IMAGE GENERATION */
-.imggen-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:32px;letter-spacing:-2px;line-height:1;margin-bottom:4px;background:linear-gradient(135deg,var(--imggen-primary),var(--imggen-secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.imggen-tagline{color:var(--muted);font-size:13px;margin-bottom:20px}
-.imggen-tagline span{color:var(--imggen-primary);font-weight:500}
-.imggen-input-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:18px;position:relative;overflow:hidden}
-.imggen-input-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 100% 0%,rgba(6,182,212,.05)0%,transparent 60%);pointer-events:none}
-.imggen-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;display:block}
-.imggen-textarea{width:100%;min-height:90px;font-size:12px;font-family:'DM Sans',monospace;border:1px solid var(--border2);border-radius:9px;padding:9px 11px;background:var(--surface);color:var(--text);resize:vertical;line-height:1.8;transition:border-color .2s;position:relative;z-index:1}
-.imggen-textarea:focus{outline:none;border-color:var(--imggen-primary)}
-.imggen-textarea::placeholder{color:var(--muted)}
-.imggen-controls{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
-@media(max-width:700px){.imggen-controls{grid-template-columns:1fr}}
-.imggen-control-group{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:14px 16px}
-.imggen-control-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:10px;display:block}
-.imggen-select{width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border2);background:var(--surface2);color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;outline:none;transition:all .2s}
-.imggen-select:focus{border-color:var(--imggen-primary);background:var(--surface)}
-.imggen-button-group{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
-.imggen-btn{background:var(--surface);border:1px solid var(--border2);color:var(--muted);border-radius:8px;padding:6px 12px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;text-align:center}
-.imggen-btn:hover{border-color:var(--imggen-primary);color:var(--text)}
-.imggen-btn.active{background:rgba(6,182,212,.15);border-color:var(--imggen-primary);color:var(--imggen-primary);font-weight:700}
-.imggen-btn-generate{display:flex;gap:7px;width:100%;background:var(--imggen-primary);color:#000;border:none;border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;align-items:center;justify-content:center;transition:all .2s;margin-bottom:14px}
-.imggen-btn-generate:hover:not(:disabled){background:#0891b2;transform:translateY(-1px)}
-.imggen-btn-generate:disabled{opacity:.4;cursor:not-allowed}
-.imggen-loading{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:12px 14px;background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.2);border-radius:9px;color:var(--imggen-primary);font-size:12px}
-.imggen-progress-bar{flex:1;height:4px;background:var(--border2);border-radius:3px;overflow:hidden}
-.imggen-progress-fill{height:100%;background:linear-gradient(90deg,var(--imggen-primary),var(--imggen-secondary));width:0%;transition:width .4s ease;border-radius:3px}
-.imggen-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:16px}
-@media(max-width:700px){.imggen-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}}
-.imggen-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:all .2s;display:flex;flex-direction:column}
-.imggen-card:hover{border-color:var(--imggen-primary);transform:translateY(-2px)}
-.imggen-card.loading{border-color:var(--gold);animation:pulse 1.5s infinite}
-.imggen-card.error{border-color:var(--danger)}
-.imggen-image-container{position:relative;width:100%;aspect-ratio:1;background:var(--surface);overflow:hidden;flex-shrink:0}
-.imggen-image{width:100%;height:100%;object-fit:cover;display:block}
-.imggen-image-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:26px;color:rgba(255,255,255,.15);background:var(--surface)}
-.imggen-image-badge{position:absolute;top:6px;right:6px;display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:700;padding:4px 8px;border-radius:6px;background:rgba(0,0,0,.7);color:#fff;z-index:1}
-.imggen-image-badge.done{background:var(--imggen-primary);color:#000}
-.imggen-image-badge.error{background:var(--danger)}
-.imggen-card-body{padding:10px 12px;flex:1;display:flex;flex-direction:column;gap:6px}
-.imggen-card-title{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
-.imggen-card-actions{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap}
-.imggen-icon-btn{flex:1;padding:6px 8px;border:1px solid var(--border2);background:transparent;border-radius:6px;cursor:pointer;font-size:10px;color:var(--muted);transition:all .15s;font-weight:500}
-.imggen-icon-btn:hover{border-color:var(--imggen-primary);color:var(--imggen-primary);background:rgba(6,182,212,.05)}
-.imggen-icon-btn.error{border-color:var(--danger);color:var(--danger)}
-.imggen-empty{grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--muted);font-size:13px;border:2px dashed var(--border);border-radius:12px;background:var(--surface2)}
-.imggen-empty-icon{font-size:40px;display:block;margin-bottom:10px;opacity:.6}
-.btn.imggen-style{background:var(--imggen-primary);color:#000;border-color:var(--imggen-primary);font-weight:700}
-.btn.imggen-style:hover{background:#0891b2;border-color:#0891b2;color:#000}
+/* HERO */
 .hero{padding:32px 0 24px;text-align:center;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% -20%,rgba(212,160,23,.12)0%,transparent 65%);pointer-events:none}
 .hero-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(212,160,23,.1);border:1px solid rgba(212,160,23,.3);border-radius:99px;padding:5px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold2);margin-bottom:14px}
@@ -524,14 +475,7 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
       <span class="tool-box-arrow">›</span>
     </div>
 
-    <!-- Image Generation -->
-    <div class="tool-box" id="imggenbox" style="background:var(--surface);border:2px solid var(--border)" onclick="toggleTool('imggen-panel','imggenbox')">
-      <div class="tool-box-icon">🎨</div>
-      <div class="tool-box-name" style="background:linear-gradient(135deg,var(--imggen-primary),var(--imggen-secondary));-webkit-background-clip:text;background-clip:text">Image Generation</div>
-      <div class="tool-box-desc">Generate stunning AI images with Nano Banana — powered by advanced models.</div>
-      <div class="tool-box-tags"><span class="tool-tag">Text-to-Image</span><span class="tool-tag">Multiple Models</span><span class="tool-tag">HD Output</span></div>
-      <span class="tool-box-arrow">›</span>
-    </div>
+  </div>
 </div>
 
 <!-- ══════════════ SQUISHIT PANEL ══════════════ -->
@@ -981,98 +925,6 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
 </div>
 </div>
 
-<!-- ══════════════ IMAGE GENERATION PANEL ══════════════ -->
-<div class="tool-panel" id="imggen-panel">
-<div class="tool-panel-inner">
-  <button class="panel-close-btn" onclick="closePanel('imggen-panel','imggenbox')">✕</button>
-  <div class="imggen-logo">🎨 Image</div>
-  <div style="margin-top:-4px"><span style="font-size:20px;background:linear-gradient(135deg,var(--imggen-secondary),var(--imggen-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:800">Generation</span></div>
-  <div class="imggen-tagline">Create stunning <span>AI-powered</span> images from simple text prompts with <span>Nano Banana</span> technology</div>
-
-  <form id="imggenForm" onsubmit="generateImages(event)">
-    <!-- Prompt Input -->
-    <div class="imggen-input-card">
-      <label class="imggen-label">Describe your image</label>
-      <textarea class="imggen-textarea" id="imggenPrompt" placeholder="e.g., a serene mountain landscape at sunset with pine trees" required></textarea>
-    </div>
-
-    <!-- Model & Settings Grid -->
-    <div class="imggen-controls">
-      <!-- Model Selection -->
-      <div class="imggen-control-group">
-        <label class="imggen-control-label">Model</label>
-        <select class="imggen-select" id="imggenModel">
-          <option value="nano-banana">🍌 Nano Banana</option>
-          <option value="nano-banana-pro">🍌 Nano Banana Pro</option>
-        </select>
-      </div>
-
-      <!-- Aspect Ratio Selection -->
-      <div class="imggen-control-group">
-        <label class="imggen-control-label">Aspect Ratio</label>
-        <div class="imggen-button-group">
-          <button type="button" class="imggen-btn active" data-aspect="16:9" onclick="selectAspectRatio(event)">16:9</button>
-          <button type="button" class="imggen-btn" data-aspect="4:3" onclick="selectAspectRatio(event)">4:3</button>
-          <button type="button" class="imggen-btn" data-aspect="1:1" onclick="selectAspectRatio(event)">1:1</button>
-          <button type="button" class="imggen-btn" data-aspect="3:4" onclick="selectAspectRatio(event)">3:4</button>
-          <button type="button" class="imggen-btn" data-aspect="9:16" onclick="selectAspectRatio(event)">9:16</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Quantity & Generate -->
-    <div class="imggen-control-group">
-      <label class="imggen-control-label">Number of Images</label>
-      <div class="imggen-button-group">
-        <button type="button" class="imggen-btn active" data-qty="1" onclick="selectQuantity(event)">1x</button>
-        <button type="button" class="imggen-btn" data-qty="2" onclick="selectQuantity(event)">2x</button>
-        <button type="button" class="imggen-btn" data-qty="3" onclick="selectQuantity(event)">3x</button>
-        <button type="button" class="imggen-btn" data-qty="4" onclick="selectQuantity(event)">4x</button>
-      </div>
-    </div>
-
-    <button type="submit" class="imggen-btn-generate">
-      <span>⚡ Generate Images</span>
-    </button>
-
-    <!-- Loading Progress -->
-    <div id="imggenLoading" style="display:none" class="imggen-loading">
-      <span>Generating...</span>
-      <div class="imggen-progress-bar">
-        <div class="imggen-progress-fill"></div>
-      </div>
-    </div>
-
-    <!-- Error Message -->
-    <div id="imggenError" style="display:none;margin-top:12px;padding:10px 14px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);border-radius:8px;color:var(--danger);font-size:12px;line-height:1.5"></div>
-  </form>
-
-  <!-- Stats Bar -->
-  <div class="stats-bar" id="imggenStats" style="margin-bottom:16px;margin-top:16px;display:none">
-    <div class="stat">
-      <div class="stat-value"><span id="imggenStatGenerated">0</span></div>
-      <div class="stat-label">Generated</div>
-    </div>
-    <div class="stat">
-      <div class="stat-value" id="imggenStatTime">-</div>
-      <div class="stat-label">Time</div>
-    </div>
-    <div class="stat">
-      <div class="stat-value"><span id="imggenStatModel">-</span></div>
-      <div class="stat-label">Model</div>
-    </div>
-  </div>
-
-  <!-- Results Grid -->
-  <div id="imggenResults">
-    <div class="imggen-empty">
-      <span class="imggen-empty-icon">🎨</span>
-      Your generated images will appear here
-    </div>
-  </div>
-</div>
-</div>
-
 <footer>
   <div class="footer-left">Made with <span>♥</span> — By Amine Loading 100% client-side, files never leave your device</div>
   <div class="footer-right"><span class="dot"></span> No upload limit &nbsp;·&nbsp; <span class="dot"></span> No sign-up &nbsp;·&nbsp; <span class="dot"></span> Forever free</div>
@@ -1089,7 +941,7 @@ function toggleTool(panelId,boxId){
   const panel=document.getElementById(panelId),box=document.getElementById(boxId);
   const isOpen=panel.classList.contains('open');
   document.querySelectorAll('.tool-panel').forEach(p=>p.classList.remove('open'));
-  document.querySelectorAll('.tool-box').forEach(b=>{b.classList.remove('active','tiktok-active','converter-active','bg-active','qr-active','cod-active','imggen-active')});
+  document.querySelectorAll('.tool-box').forEach(b=>{b.classList.remove('active','tiktok-active','converter-active','bg-active','qr-active','cod-active')});
   if(!isOpen){
     panel.classList.add('open');
     if(box){
@@ -1099,13 +951,12 @@ function toggleTool(panelId,boxId){
       if(panelId==='bg-panel')box.classList.add('bg-active');
       if(panelId==='qr-panel')box.classList.add('qr-active');
       if(panelId==='cod-panel')box.classList.add('cod-active');
-      if(panelId==='imggen-panel')box.classList.add('imggen-active');
     }
     setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'start'}),80);
   }
 }
 function openTool(panelId){
-  const map={squishit:'squishit-box','squishit-panel':'squishit-box','amine-panel':'tiktok-box','mp4-panel':'mp4box','bg-panel':'bgbox','qr-panel':'qrbox','cod-panel':'codbox','imggen-panel':'imggenbox'};
+  const map={squishit:'squishit-box','squishit-panel':'squishit-box','amine-panel':'tiktok-box','mp4-panel':'mp4box','bg-panel':'bgbox','qr-panel':'qrbox','cod-panel':'codbox'};
   toggleTool(panelId,map[panelId]||'squishit-box');
 }
 function closePanel(panelId,boxId){
@@ -1729,123 +1580,7 @@ function codCalc(){
     return`<div class="cod-scenario"><div class="cod-scenario-rate">Conf ${s.cr}% · Deliv ${s.dr}%</div><div class="cod-scenario-profit" style="color:${isPos?'var(--green)':'var(--danger)'}">${isPos?'+':''}${np.toFixed(0)} DH</div><div style="font-size:10px;color:var(--muted)">${d.toFixed(0)} delivered</div></div>`;
   }).join('');
 }
-
-/* ── IMAGE GENERATION ── */
-let imggenState={aspectRatio:'16:9',quantity:1,isGenerating:false};
-
-function selectAspectRatio(e){
-  if(e.preventDefault)e.preventDefault();
-  const btn=e.target,aspect=btn.dataset.aspect;
-  document.querySelectorAll('[data-aspect]').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  imggenState.aspectRatio=aspect;
-}
-
-function selectQuantity(e){
-  if(e.preventDefault)e.preventDefault();
-  const btn=e.target,qty=btn.dataset.qty;
-  document.querySelectorAll('[data-qty]').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  imggenState.quantity=parseInt(qty);
-}
-
-async function generateImages(e){
-  e.preventDefault();
-  const prompt=document.getElementById('imggenPrompt').value.trim();
-  const model=document.getElementById('imggenModel').value;
-  
-  if(!prompt){
-    showToast('Please describe your image','#ef4444');
-    return;
-  }
-
-  if(imggenState.isGenerating)return;
-  imggenState.isGenerating=true;
-
-  const btn=e.target.querySelector('button[type="submit"]');
-  const loading=document.getElementById('imggenLoading');
-  const errorDiv=document.getElementById('imggenError');
-  const resultsDiv=document.getElementById('imggenResults');
-
-  btn.disabled=true;
-  loading.style.display='flex';
-  errorDiv.style.display='none';
-  
-  const startTime=Date.now();
-  const progressFill=loading.querySelector('.imggen-progress-fill');
-  let progress=0;
-  const progressInterval=setInterval(()=>{
-    progress=Math.min(progress+Math.random()*30,90);
-    progressFill.style.width=progress+'%';
-  },300);
-
-  try{
-    const response=await fetch('/api/generate-image',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        prompt:prompt,
-        model:model,
-        aspectRatio:imggenState.aspectRatio,
-        count:imggenState.quantity
-      })
-    });
-
-    if(!response.ok){
-      const errData=await response.json().catch(()=>({error:'Request failed'}));
-      throw new Error(errData.error||'API error');
-    }
-
-    const data=await response.json();
-    progress=100;
-    progressFill.style.width='100%';
-    await sleep(300);
-
-    clearInterval(progressInterval);
-    loading.style.display='none';
-
-    const elapsed=((Date.now()-startTime)/1000).toFixed(1);
-    
-    // Show stats
-    const stats=document.getElementById('imggenStats');
-    stats.style.display='flex';
-    document.getElementById('imggenStatGenerated').textContent=data.images?.length||0;
-    document.getElementById('imggenStatTime').textContent=elapsed+'s';
-    const modelName=model.includes('pro')?'Pro':'Standard';
-    document.getElementById('imggenStatModel').textContent=modelName;
-
-    // Display images
-    if(data.images && data.images.length>0){
-      resultsDiv.innerHTML=data.images.map((url,idx)=>`
-        <div class="imggen-card">
-          <div class="imggen-image-container">
-            <img src="${escHtml(url)}" alt="Generated ${idx+1}" class="imggen-image">
-            <div class="imggen-image-badge done">✓ Ready</div>
-          </div>
-          <div class="imggen-card-body">
-            <div class="imggen-card-title">Image ${idx+1}</div>
-            <div class="imggen-card-actions">
-              <a href="${escHtml(url)}" download="image-${idx+1}.png" class="imggen-icon-btn">⬇ Download</a>
-              <button class="imggen-icon-btn" onclick="navigator.clipboard.writeText('${escHtml(url)}')">📋 Copy</button>
-            </div>
-          </div>
-        </div>
-      `).join('');
-    }else{
-      resultsDiv.innerHTML='<div class="imggen-empty"><span class="imggen-empty-icon">❌</span>No images generated</div>';
-    }
-
-    showToast('Images generated successfully!','#06b6d4');
-  }catch(err){
-    clearInterval(progressInterval);
-    loading.style.display='none';
-    errorDiv.style.display='block';
-    errorDiv.textContent='Error: '+(err.message||'Failed to generate images. Check your API key and try again.');
-    resultsDiv.innerHTML='<div class="imggen-empty"><span class="imggen-empty-icon">⚠</span>Generation failed</div>';
-    showToast('Failed to generate images','#ef4444');
-  }finally{
-    btn.disabled=false;
-    imggenState.isGenerating=false;
-  }
-}
 </script>
+
+</body>
+</html>
