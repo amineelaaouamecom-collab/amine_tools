@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.0/lame.min.js"></script>
-<!-- QR libs -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://unpkg.com/jsqr@1.4.0/dist/jsQR.js"></script>
 <style>
@@ -29,7 +28,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(34,197,94,.03)1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.03)1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
 .wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 24px}
 
-/* NAV */
 nav{position:sticky;top:0;z-index:100;background:rgba(10,15,10,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:12px 0}
 .nav-inner{max-width:960px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
 .nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;background:linear-gradient(135deg,var(--gold),var(--gold2) 50%,var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
@@ -38,7 +36,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(10,15,10,.88);backdrop-fil
 .nav-link:hover{color:var(--text);border-color:var(--border2)}
 .nav-link.active{color:var(--green);border-color:var(--green2);background:rgba(34,197,94,.07)}
 
-/* TOOL GRID */
 .tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:16px 0 20px}
 @media(max-width:700px){.tools-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:480px){.tools-grid{grid-template-columns:1fr}}
@@ -78,14 +75,12 @@ nav{position:sticky;top:0;z-index:100;background:rgba(10,15,10,.88);backdrop-fil
 .tool-box.qr-active .tool-box-arrow{color:var(--qr-primary)}
 .tool-box.cod-active .tool-box-arrow{color:var(--cod-primary)}
 
-/* TOOL PANEL */
 .tool-panel{overflow:hidden;max-height:0;transition:max-height .5s cubic-bezier(.4,0,.2,1),opacity .3s;opacity:0}
 .tool-panel.open{max-height:9999px;opacity:1}
 .tool-panel-inner{border:1px solid var(--border);border-radius:20px;padding:28px 24px;margin-bottom:20px;background:var(--surface);position:relative;overflow:hidden}
 .panel-close-btn{position:absolute;top:14px;right:14px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:var(--muted);transition:all .15s;z-index:2}
 .panel-close-btn:hover{color:var(--danger);border-color:var(--danger)}
 
-/* COMMON */
 .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:32px;letter-spacing:-2px;background:linear-gradient(135deg,var(--gold),var(--gold2) 50%,var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:4px}
 .tagline{color:var(--muted);font-size:13px;font-weight:300;letter-spacing:.4px;margin-bottom:20px}
 .tagline span{color:var(--green);font-weight:500}
@@ -182,7 +177,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(10,15,10,.88);backdrop-fil
 .al-stat .n{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--gold2)}
 .al-stat .n.green{color:var(--green)}
 .al-stat .n.red{color:var(--tiktok-red)}
-.al-stat .l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
 .al-prog-card{background:var(--surface2);border:1px solid var(--border);border-radius:11px;padding:11px 14px;margin-bottom:12px}
 .al-prog-top{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:7px}
 .al-prog-track{height:5px;background:var(--border2);border-radius:99px;overflow:hidden}
@@ -224,6 +218,9 @@ nav{position:sticky;top:0;z-index:100;background:rgba(10,15,10,.88);backdrop-fil
 .al-actions button.mp3btn:hover{background:rgba(212,160,23,.3)}
 .al-actions button:disabled{opacity:.5;cursor:wait}
 
+/* Auto-retry badge */
+.al-autoretry-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(238,29,82,.1);border:1px solid rgba(238,29,82,.25);border-radius:7px;padding:5px 12px;font-size:11px;color:var(--tiktok-red);font-weight:500;margin-bottom:10px}
+
 /* MP4 → MP3 */
 .conv-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:32px;letter-spacing:-2px;line-height:1;margin-bottom:4px;background:linear-gradient(135deg,var(--conv-primary),var(--conv-secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .conv-tagline{color:var(--muted);font-size:13px;margin-bottom:20px}
@@ -244,13 +241,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(10,15,10,.88);backdrop-fil
 .bg-card-name{font-size:11px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px}
 .bg-card-status{font-size:10px;color:var(--muted)}
 .bg-card-actions{display:flex;gap:5px;margin-top:7px}
-.bg-apikey-row{display:flex;gap:8px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
-.bg-apikey-input{flex:1;min-width:200px;padding:8px 12px;border-radius:9px;border:1px solid var(--border2);background:var(--surface);color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;transition:border-color .2s}
-.bg-apikey-input:focus{border-color:var(--bg-primary)}
-.bg-apikey-input::placeholder{color:var(--muted)}
-.bg-notice{background:rgba(168,85,247,.07);border:1px solid rgba(168,85,247,.2);border-radius:9px;padding:10px 14px;font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.6}
-.bg-notice a{color:var(--bg-primary);text-decoration:none}
-.bg-notice a:hover{text-decoration:underline}
 .btn.purple{background:var(--bg-primary);color:#fff;border-color:var(--bg-primary)}
 .btn.purple:hover{background:#9333ea;border-color:#9333ea;color:#fff}
 
@@ -272,8 +262,8 @@ nav{position:sticky;top:0;z-index:100;background:rgba(10,15,10,.88);backdrop-fil
 .qr-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
 .qr-opt-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;display:block}
 .qr-color-input{width:100%;height:36px;border-radius:8px;border:1px solid var(--border2);background:var(--surface);cursor:pointer;padding:2px}
-.qr-size-select,.conv-bitrate-select{background:var(--surface);border:1px solid var(--border2);color:var(--text);padding:6px 10px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;outline:none;transition:all .2s;width:100%}
-.qr-size-select:focus,.conv-bitrate-select:focus{border-color:var(--qr-primary)}
+.qr-size-select{background:var(--surface);border:1px solid var(--border2);color:var(--text);padding:6px 10px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;outline:none;transition:all .2s;width:100%}
+.qr-size-select:focus{border-color:var(--qr-primary)}
 .qr-reader-area{border:2px dashed var(--border2);border-radius:14px;padding:32px 20px;text-align:center;cursor:pointer;background:var(--surface2);transition:all .25s}
 .qr-reader-area:hover{border-color:var(--qr-primary)}
 .qr-result-box{background:var(--surface2);border:1px solid var(--border);border-radius:11px;padding:14px 16px;margin-top:14px;display:none}
@@ -283,10 +273,21 @@ nav{position:sticky;top:0;z-index:100;background:rgba(10,15,10,.88);backdrop-fil
 .btn.amber{background:var(--qr-primary);color:#000;border-color:var(--qr-primary);font-weight:700}
 .btn.amber:hover{background:#d97706;border-color:#d97706;color:#000}
 
-/* COD CALCULATOR */
+/* ══════════ COD CALCULATOR ══════════ */
 .cod-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:32px;letter-spacing:-2px;line-height:1;margin-bottom:4px;background:linear-gradient(135deg,var(--cod-primary),var(--cod-secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.cod-tagline{color:var(--muted);font-size:13px;margin-bottom:20px}
+.cod-tagline{color:var(--muted);font-size:13px;margin-bottom:16px}
 .cod-tagline span{color:var(--cod-primary);font-weight:500}
+
+/* COD mode switcher */
+.cod-mode-switch{display:flex;gap:0;margin-bottom:20px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:4px;width:fit-content}
+.cod-mode-btn{padding:8px 20px;border-radius:9px;border:none;background:transparent;color:var(--muted);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap}
+.cod-mode-btn:hover{color:var(--text)}
+.cod-mode-btn.active{background:linear-gradient(135deg,var(--cod-primary),var(--cod-secondary));color:#000}
+
+.cod-section{display:none}
+.cod-section.active{display:block}
+
+/* shared grid */
 .cod-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:580px){.cod-grid{grid-template-columns:1fr}}
 .cod-card{background:var(--surface2);border:1px solid var(--border);border-radius:13px;padding:16px 18px}
@@ -297,15 +298,12 @@ nav{position:sticky;top:0;z-index:100;background:rgba(10,15,10,.88);backdrop-fil
 .cod-input{width:100%;padding:9px 12px;border-radius:9px;border:1px solid var(--border2);background:var(--surface);color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;outline:none;transition:border-color .2s}
 .cod-input:focus{border-color:var(--cod-primary)}
 .cod-input.locked{background:var(--surface2);color:var(--muted);cursor:not-allowed}
-.cod-rates-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
-.cod-rate-box{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:9px 12px;text-align:center}
-.cod-rate-val{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--cod-primary)}
-.cod-rate-label{font-size:10px;color:var(--muted);margin-top:2px}
 .cod-result-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
 .cod-result-box{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:12px 14px;text-align:center}
 .cod-result-box.profit{border-color:var(--green2);background:rgba(34,197,94,.05)}
 .cod-result-box.loss{border-color:var(--danger);background:rgba(239,68,68,.05)}
 .cod-result-box.neutral{border-color:var(--border2)}
+.cod-result-box.highlight{border-color:var(--cod-secondary);background:rgba(240,192,64,.05)}
 .cod-result-val{font-family:'Syne',sans-serif;font-size:22px;font-weight:700}
 .cod-result-val.green{color:var(--green)}
 .cod-result-val.red{color:var(--danger)}
@@ -325,61 +323,65 @@ nav{position:sticky;top:0;z-index:100;background:rgba(10,15,10,.88);backdrop-fil
 .cod-scenario{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:10px 12px;text-align:center}
 .cod-scenario-rate{font-size:10px;color:var(--muted);margin-bottom:4px}
 .cod-scenario-profit{font-family:'Syne',sans-serif;font-size:15px;font-weight:700}
-.cod-toggle-row{display:flex;gap:7px;margin-bottom:12px;flex-wrap:wrap}
-.cod-toggle{padding:6px 12px;border:1px solid var(--border2);border-radius:7px;background:var(--surface);color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
-.cod-toggle:hover{border-color:var(--cod-primary);color:var(--text)}
-.cod-toggle.active{border-color:var(--cod-primary);background:rgba(16,185,129,.1);color:var(--cod-primary)}
 .btn.emerald{background:var(--cod-primary);color:#000;border-color:var(--cod-primary);font-weight:700}
 .btn.emerald:hover{background:#059669;border-color:#059669;color:#fff}
+
+/* PRICING MODE specific */
+.pricing-hero{background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(240,192,64,.05));border:1px solid rgba(16,185,129,.2);border-radius:14px;padding:20px 22px;margin-bottom:20px}
+.pricing-hero-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--cod-primary);margin-bottom:6px}
+.pricing-hero-sub{font-size:12px;color:var(--muted);line-height:1.6}
+.suggested-price-box{background:linear-gradient(135deg,rgba(16,185,129,.15),rgba(240,192,64,.1));border:2px solid var(--cod-primary);border-radius:14px;padding:20px;text-align:center;position:relative;overflow:hidden}
+.suggested-price-box::before{content:'✓ RECOMMENDED';position:absolute;top:10px;right:12px;font-size:9px;font-weight:800;color:var(--cod-primary);letter-spacing:1.5px;opacity:.7}
+.suggested-price-val{font-family:'Syne',sans-serif;font-size:42px;font-weight:800;color:var(--cod-primary);line-height:1}
+.suggested-price-label{font-size:12px;color:var(--muted);margin-top:5px}
+.suggested-price-note{font-size:11px;color:var(--gold2);margin-top:4px;font-weight:500}
+.pricing-metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+@media(max-width:500px){.pricing-metric-row{grid-template-columns:1fr 1fr}}
+.pricing-metric{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+.pricing-metric-val{font-family:'Syne',sans-serif;font-size:20px;font-weight:700}
+.pricing-metric-label{font-size:10px;color:var(--muted);margin-top:3px}
+.pricing-slider-row{margin-bottom:16px}
+.pricing-slider-label{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);margin-bottom:6px}
+.pricing-slider-label span{font-family:'Syne',sans-serif;font-weight:700;color:var(--text);font-size:14px}
+.pricing-slider{width:100%;accent-color:var(--cod-primary);cursor:pointer;height:4px}
+.price-sim-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
+.price-sim-table th{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);padding:6px 10px;text-align:left;border-bottom:1px solid var(--border)}
+.price-sim-table td{padding:8px 10px;border-bottom:1px solid var(--border)}
+.price-sim-table tr:last-child td{border-bottom:none}
+.price-sim-table .highlighted-row{background:rgba(16,185,129,.06)}
+.price-sim-table .highlighted-row td{color:var(--cod-primary);font-weight:700}
+.profit-good{color:var(--green)}
+.profit-warn{color:var(--gold2)}
+.profit-bad{color:var(--danger)}
 
 /* HERO */
 .hero{padding:32px 0 24px;text-align:center;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% -20%,rgba(212,160,23,.12)0%,transparent 65%);pointer-events:none}
 .hero-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(212,160,23,.1);border:1px solid rgba(212,160,23,.3);border-radius:99px;padding:5px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold2);margin-bottom:14px}
-.hero-badge .flash{color:var(--gold2)}
 .hero-title{font-family:'Syne',sans-serif;font-size:clamp(28px,5.5vw,58px);font-weight:800;line-height:1.1;letter-spacing:-2px;color:#fff;margin-bottom:10px}
 .hero-title .accent{background:linear-gradient(135deg,var(--gold),var(--gold2) 40%,var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hero-sub{color:var(--muted);font-size:13px;line-height:1.6;max-width:480px;margin:0 auto 18px}
 .hero-pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:0}
 .hero-pill{display:flex;align-items:center;gap:5px;background:var(--surface2);border:1px solid var(--border2);border-radius:99px;padding:5px 12px;font-size:11px;font-weight:500;color:var(--muted)}
 .hero-pill .dot-pill{width:4px;height:4px;border-radius:50%;background:var(--green);display:inline-block;flex-shrink:0}
-
-/* SECTION LABEL */
 .section-label{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:10px}
 .section-label::after{content:'';flex:1;height:1px;background:var(--border)}
-
-/* DRAG OVERLAY */
-.drag-overlay{position:fixed;inset:0;z-index:9999;background:rgba(10,15,10,.85);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
-.drag-overlay.visible{opacity:1;pointer-events:auto}
-.drag-overlay-box{border:3px dashed var(--gold);border-radius:24px;padding:48px 72px;text-align:center;background:rgba(212,160,23,.05)}
-.drag-overlay-icon{font-size:52px;margin-bottom:12px}
-.drag-overlay-text{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--gold2)}
-.drag-overlay-sub{color:var(--muted);font-size:13px;margin-top:6px}
-
-/* MP4 drop zone */
-.mp4-drop-zone{border:2px dashed var(--border2);border-radius:14px;padding:32px 20px;text-align:center;cursor:pointer;background:var(--surface2);transition:all .25s;position:relative}
-.mp4-drop-zone:hover,.mp4-drop-zone.drag-over{border-color:var(--conv-primary);background:rgba(6,182,212,.05)}
-.mp4-drop-zone .drop-icon{font-size:32px;margin-bottom:8px}
-.mp4-drop-zone p{font-size:14px;color:var(--text);margin-bottom:4px}
-.mp4-drop-zone .drop-sub{font-size:12px;color:var(--muted)}
-
-/* QR read drop zone */
-.qr-reader-area.drag-over{border-color:var(--qr-primary);background:rgba(245,158,11,.07)}
-
-/* FOOTER */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--surface2);border:1px solid var(--green);border-radius:10px;padding:11px 18px;font-size:13px;color:var(--green);z-index:999;transform:translateY(60px);opacity:0;transition:all .3s;pointer-events:none;max-width:320px}
+.toast.show{transform:translateY(0);opacity:1}
 footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
 .footer-left{font-size:12px;color:var(--muted)}
 .footer-left span{color:var(--gold2)}
 .footer-right{display:flex;gap:7px;align-items:center;font-size:11px;color:var(--muted)}
 .dot{width:4px;height:4px;border-radius:50%;background:var(--green);display:inline-block}
-
-/* TOAST */
-.toast{position:fixed;bottom:24px;right:24px;background:var(--surface2);border:1px solid var(--green);border-radius:10px;padding:11px 18px;font-size:13px;color:var(--green);z-index:999;transform:translateY(60px);opacity:0;transition:all .3s;pointer-events:none;max-width:320px}
-.toast.show{transform:translateY(0);opacity:1}
-
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+.mp4-drop-zone{border:2px dashed var(--border2);border-radius:14px;padding:32px 20px;text-align:center;cursor:pointer;background:var(--surface2);transition:all .25s;position:relative}
+.mp4-drop-zone:hover,.mp4-drop-zone.drag-over{border-color:var(--conv-primary);background:rgba(6,182,212,.05)}
+.mp4-drop-zone .drop-icon{font-size:32px;margin-bottom:8px}
+.mp4-drop-zone p{font-size:14px;color:var(--text);margin-bottom:4px}
+.mp4-drop-zone .drop-sub{font-size:12px;color:var(--muted)}
+.qr-reader-area.drag-over{border-color:var(--qr-primary);background:rgba(245,158,11,.07)}
 @media(max-width:600px){
   .logo,.al-logo,.conv-logo,.bg-logo,.qr-logo,.cod-logo{font-size:24px}
   .card-inner{grid-template-columns:46px 1fr auto;gap:9px}
@@ -387,6 +389,8 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
   .al-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
   .tool-panel-inner{padding:18px 14px}
   .cod-result-grid{grid-template-columns:1fr 1fr}
+  .cod-mode-switch{width:100%}
+  .cod-mode-btn{flex:1;text-align:center}
 }
 </style>
 </head>
@@ -405,10 +409,8 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
 
 <div class="wrap">
 <div id="tools-top">
-
-<!-- HERO -->
 <section class="hero">
-  <div class="hero-badge"><span class="flash">⚡</span> FREE TOOLS SUITE</div>
+  <div class="hero-badge"><span>⚡</span> FREE TOOLS SUITE</div>
   <h1 class="hero-title">Everything you need,<br><span class="accent">right in your browser</span></h1>
   <div class="hero-pills">
     <span class="hero-pill"><span class="dot-pill"></span> No uploads · Client-side only</span>
@@ -418,64 +420,50 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
 </section>
 
 <div class="section-label">Choose a tool</div>
-
-  <div class="tools-grid" id="tools-grid">
-
-    <!-- SquishIt -->
-    <div class="tool-box squish-box" id="squishit-box" onclick="toggleTool('squishit-panel','squishit-box')">
-      <div class="tool-box-icon">🗜️</div>
-      <div class="tool-box-name">SquishIt ⚡</div>
-      <div class="tool-box-desc">Auto-compress images to WebP — smallest size, best quality, 100% private.</div>
-      <div class="tool-box-tags"><span class="tool-tag">JPG→WebP</span><span class="tool-tag">PNG→WebP</span><span class="tool-tag">Drag&Drop</span></div>
-      <span class="tool-box-arrow">›</span>
-    </div>
-
-    <!-- Amine Loading -->
-    <div class="tool-box tiktok-box" id="tiktok-box" onclick="toggleTool('amine-panel','tiktok-box')">
-      <div class="tool-box-icon">📥</div>
-      <div class="tool-box-name">Amine Loading</div>
-      <div class="tool-box-desc">Bulk TikTok downloader — HD, no watermark, MP3 audio, auto-retry, ZIP.</div>
-      <div class="tool-box-tags"><span class="tool-tag">HD Video</span><span class="tool-tag">MP3 Audio</span><span class="tool-tag">Auto-Retry</span></div>
-      <span class="tool-box-arrow">›</span>
-    </div>
-
-    <!-- MP4→MP3 -->
-    <div class="tool-box mp4box" id="mp4box" onclick="toggleTool('mp4-panel','mp4box')">
-      <div class="tool-box-icon">🎧</div>
-      <div class="tool-box-name">MP4 → MP3</div>
-      <div class="tool-box-desc">Extract audio from MP4, trim by start/end time, download as MP3.</div>
-      <div class="tool-box-tags"><span class="tool-tag">MP3 Export</span><span class="tool-tag">Trim</span><span class="tool-tag">Client-side</span></div>
-      <span class="tool-box-arrow">›</span>
-    </div>
-
-    <!-- BG Remover -->
-    <div class="tool-box bgbox" id="bgbox" onclick="toggleTool('bg-panel','bgbox')">
-      <div class="tool-box-icon">✂️</div>
-      <div class="tool-box-name">BG Remover</div>
-      <div class="tool-box-desc">Remove image backgrounds with high quality — output always WebP transparent.</div>
-      <div class="tool-box-tags"><span class="tool-tag">Transparent WebP</span><span class="tool-tag">HD</span><span class="tool-tag">Batch</span></div>
-      <span class="tool-box-arrow">›</span>
-    </div>
-
-    <!-- QR -->
-    <div class="tool-box qrbox" id="qrbox" onclick="toggleTool('qr-panel','qrbox')">
-      <div class="tool-box-icon">📱</div>
-      <div class="tool-box-name">QR Generator</div>
-      <div class="tool-box-desc">Generate custom QR codes and read/scan QR codes from images — 100% offline.</div>
-      <div class="tool-box-tags"><span class="tool-tag">Generate</span><span class="tool-tag">Read/Scan</span><span class="tool-tag">Download</span></div>
-      <span class="tool-box-arrow">›</span>
-    </div>
-
-    <!-- COD Calculator -->
-    <div class="tool-box codbox" id="codbox" onclick="toggleTool('cod-panel','codbox')">
-      <div class="tool-box-icon">📦</div>
-      <div class="tool-box-name">COD Calculator</div>
-      <div class="tool-box-desc">Morocco COD profit/loss calc — delivery, confirmation, fulfillment rates & break-even.</div>
-      <div class="tool-box-tags"><span class="tool-tag">Profit/Loss</span><span class="tool-tag">Break-even</span><span class="tool-tag">Maroc</span></div>
-      <span class="tool-box-arrow">›</span>
-    </div>
-
+<div class="tools-grid" id="tools-grid">
+  <div class="tool-box squish-box" id="squishit-box" onclick="toggleTool('squishit-panel','squishit-box')">
+    <div class="tool-box-icon">🗜️</div>
+    <div class="tool-box-name">SquishIt ⚡</div>
+    <div class="tool-box-desc">Auto-compress images to WebP — smallest size, best quality, 100% private.</div>
+    <div class="tool-box-tags"><span class="tool-tag">JPG→WebP</span><span class="tool-tag">PNG→WebP</span><span class="tool-tag">Drag&Drop</span></div>
+    <span class="tool-box-arrow">›</span>
   </div>
+  <div class="tool-box tiktok-box" id="tiktok-box" onclick="toggleTool('amine-panel','tiktok-box')">
+    <div class="tool-box-icon">📥</div>
+    <div class="tool-box-name">Amine Loading</div>
+    <div class="tool-box-desc">Bulk TikTok downloader — HD, no watermark, MP3 audio, auto-retry, ZIP.</div>
+    <div class="tool-box-tags"><span class="tool-tag">HD Video</span><span class="tool-tag">MP3 Audio</span><span class="tool-tag">Auto-Retry</span></div>
+    <span class="tool-box-arrow">›</span>
+  </div>
+  <div class="tool-box mp4box" id="mp4box" onclick="toggleTool('mp4-panel','mp4box')">
+    <div class="tool-box-icon">🎧</div>
+    <div class="tool-box-name">MP4 → MP3</div>
+    <div class="tool-box-desc">Extract audio from MP4, trim by start/end time, download as MP3.</div>
+    <div class="tool-box-tags"><span class="tool-tag">MP3 Export</span><span class="tool-tag">Trim</span><span class="tool-tag">Client-side</span></div>
+    <span class="tool-box-arrow">›</span>
+  </div>
+  <div class="tool-box bgbox" id="bgbox" onclick="toggleTool('bg-panel','bgbox')">
+    <div class="tool-box-icon">✂️</div>
+    <div class="tool-box-name">BG Remover</div>
+    <div class="tool-box-desc">Remove image backgrounds with high quality — output always WebP transparent.</div>
+    <div class="tool-box-tags"><span class="tool-tag">Transparent WebP</span><span class="tool-tag">HD</span><span class="tool-tag">Batch</span></div>
+    <span class="tool-box-arrow">›</span>
+  </div>
+  <div class="tool-box qrbox" id="qrbox" onclick="toggleTool('qr-panel','qrbox')">
+    <div class="tool-box-icon">📱</div>
+    <div class="tool-box-name">QR Generator</div>
+    <div class="tool-box-desc">Generate custom QR codes and read/scan QR codes from images — 100% offline.</div>
+    <div class="tool-box-tags"><span class="tool-tag">Generate</span><span class="tool-tag">Read/Scan</span><span class="tool-tag">Download</span></div>
+    <span class="tool-box-arrow">›</span>
+  </div>
+  <div class="tool-box codbox" id="codbox" onclick="toggleTool('cod-panel','codbox')">
+    <div class="tool-box-icon">📦</div>
+    <div class="tool-box-name">COD Calculator</div>
+    <div class="tool-box-desc">Morocco COD profit calc + smart pricing simulator — break-even & min 30 DH profit.</div>
+    <div class="tool-box-tags"><span class="tool-tag">Profit/Loss</span><span class="tool-tag">Smart Pricing</span><span class="tool-tag">Maroc</span></div>
+    <span class="tool-box-arrow">›</span>
+  </div>
+</div>
 </div>
 
 <!-- ══════════════ SQUISHIT PANEL ══════════════ -->
@@ -539,7 +527,7 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
   <button class="panel-close-btn" onclick="closePanel('amine-panel','tiktok-box')">✕</button>
   <div class="al-logo"><span class="al-tk">Amine</span><span class="al-cy">Loading</span><span style="font-size:24px">📥</span></div>
   <p class="al-tagline">Bulk TikTok downloader — <span>HD · MP3 audio · Auto-retry · ZIP</span></p>
-  <div class="al-auto-badge">🤖 Auto-fetch + Auto-retry enabled — failed videos retry automatically</div>
+  <div class="al-auto-badge">🤖 Auto-fetch + Auto-retry enabled — failed videos retry automatically after fetch</div>
   <div class="al-input-card">
     <label class="al-input-label">TikTok URLs — one per line</label>
     <textarea class="al-textarea" id="alUrls" placeholder="https://www.tiktok.com/@user/video/123456789&#10;https://www.tiktok.com/@user/video/987654321"></textarea>
@@ -561,6 +549,7 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
       <div class="al-prog-top"><span id="alProgText">Fetching…</span><span id="alProgPct">0%</span></div>
       <div class="al-prog-track"><div class="al-prog-fill" id="alProgFill"></div></div>
     </div>
+    <div id="alAutoRetryBanner" style="display:none" class="al-autoretry-badge">🔄 Auto-retrying <span id="alAutoRetryCount">0</span> failed videos…</div>
     <div class="al-dl-bar">
       <p id="alDlMsg">Waiting for results…</p>
       <div style="display:flex;gap:7px;flex-wrap:wrap">
@@ -652,8 +641,6 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
     <button class="qr-tab active" onclick="qrSwitchTab('gen',this)">⚡ Generate QR</button>
     <button class="qr-tab" onclick="qrSwitchTab('read',this)">🔍 Read / Scan QR</button>
   </div>
-
-  <!-- Generate -->
   <div class="qr-section active" id="qr-gen-section">
     <input type="text" class="qr-input" id="qrText" placeholder="Enter URL, text, phone number, or anything…" oninput="qrGenerate()" value="https://example.com">
     <div class="qr-options">
@@ -692,8 +679,6 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
       <button class="btn" onclick="qrCopyToClipboard()">📋 Copy Image</button>
     </div>
   </div>
-
-  <!-- Read -->
   <div class="qr-section" id="qr-read-section">
     <div class="qr-reader-area" id="qrReaderArea" onclick="document.getElementById('qrReadInput').click()">
       <div style="font-size:36px;margin-bottom:10px">📷</div>
@@ -720,213 +705,275 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
 <div class="tool-panel-inner">
   <button class="panel-close-btn" onclick="closePanel('cod-panel','codbox')">✕</button>
   <div class="cod-logo">COD Calculator 📦</div>
-  <p class="cod-tagline">Cash on Delivery profit calculator for <span>Morocco market</span> — full breakdown</p>
+  <p class="cod-tagline">Cash on Delivery calculator for <span>Morocco market</span> — profit & smart pricing</p>
 
-  <!-- Fixed costs info -->
-  <div style="background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:11px 14px;margin-bottom:16px;font-size:12px;color:var(--muted);line-height:1.7">
-    📋 <strong style="color:var(--text)">Your fixed COD costs (Maroc):</strong>
-    <span style="color:var(--cod-primary)">35 DH</span> livraison ·
-    <span style="color:var(--cod-secondary)">11 DH</span> confirmation ·
-    <span style="color:var(--gold2)">2 DH</span> fulfillment —
-    <strong style="color:var(--text)">Product cost & confirmation charged only on delivered orders · Delivery charged on delivered · Fulfillment on all 100</strong>
+  <!-- MODE SWITCHER -->
+  <div class="cod-mode-switch">
+    <button class="cod-mode-btn active" id="codModeCalc" onclick="codSwitchMode('calc')">📊 Profit / Simulation</button>
+    <button class="cod-mode-btn" id="codModePricing" onclick="codSwitchMode('pricing')">🎯 Smart Pricing</button>
   </div>
 
-  <div class="cod-grid">
-    <!-- Inputs -->
-    <div class="cod-card">
-      <div class="cod-card-title">📦 Product Info</div>
-      <div class="cod-field">
-        <div class="cod-label"><span>Selling price (DH)</span></div>
-        <input type="number" class="cod-input" id="cod-price" placeholder="ex: 199" value="199" oninput="codCalc()">
-      </div>
-      <div class="cod-field">
-        <div class="cod-label"><span>Product cost (DH)</span></div>
-        <input type="number" class="cod-input" id="cod-product-cost" placeholder="ex: 45" value="45" oninput="codCalc()">
-      </div>
-      <div class="cod-field">
-        <div class="cod-label"><span>Ads cost per order (DH)</span></div>
-        <input type="number" class="cod-input" id="cod-ads" placeholder="ex: 20" value="20" oninput="codCalc()">
-      </div>
+  <!-- ══ SECTION: PROFIT / SIMULATION ══ -->
+  <div class="cod-section active" id="cod-calc-section">
+    <div style="background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:11px 14px;margin-bottom:16px;font-size:12px;color:var(--muted);line-height:1.7">
+      📋 <strong style="color:var(--text)">COD costs (Maroc):</strong>
+      <span style="color:var(--cod-primary)">35 DH</span> livraison ·
+      <span style="color:var(--cod-secondary)">11 DH</span> confirmation ·
+      <span style="color:var(--gold2)">2 DH</span> fulfillment —
+      <strong style="color:var(--text)">Product cost & confirmation charged only on delivered orders · Delivery charged on delivered · Fulfillment on all 100</strong>
     </div>
-
-    <!-- Fixed costs -->
-    <div class="cod-card">
-      <div class="cod-card-title">🚚 COD Fixed Costs</div>
-      <div class="cod-field">
-        <div class="cod-label"><span>Delivery (DH)</span><span style="color:var(--cod-primary);font-size:10px">Editable</span></div>
-        <input type="number" class="cod-input" id="cod-delivery" value="35" oninput="codCalc()">
-      </div>
-      <div class="cod-field">
-        <div class="cod-label"><span>Confirmation (DH)</span><span style="color:var(--cod-primary);font-size:10px">Editable</span></div>
-        <input type="number" class="cod-input" id="cod-confirm" value="11" oninput="codCalc()">
-      </div>
-      <div class="cod-field">
-        <div class="cod-label"><span>Fulfillment (DH)</span><span style="color:var(--cod-primary);font-size:10px">Editable</span></div>
-        <input type="number" class="cod-input" id="cod-fulfill" value="2" oninput="codCalc()">
-      </div>
-    </div>
-
-    <!-- Delivery rates -->
-    <div class="cod-card">
-      <div class="cod-card-title">📊 Delivery Rates</div>
-      <div class="cod-field">
-        <div class="cod-label"><span>Confirmation rate (%)</span></div>
-        <input type="number" class="cod-input" id="cod-conf-rate" placeholder="ex: 65" value="65" min="0" max="100" oninput="codCalc()">
-      </div>
-      <div class="cod-field">
-        <div class="cod-label"><span>Delivery rate (% of confirmed)</span></div>
-        <input type="number" class="cod-input" id="cod-deliv-rate" placeholder="ex: 75" value="75" min="0" max="100" oninput="codCalc()">
-      </div>
-      <div style="margin-top:8px">
-        <div class="cod-rate-box" style="width:100%;text-align:left;padding:10px 14px">
-          <div style="font-size:11px;color:var(--muted);margin-bottom:3px">Effective delivery rate (confirmation × delivery)</div>
-          <div class="cod-rate-val" id="cod-eff-rate-display">48.75%</div>
+    <div class="cod-grid">
+      <div class="cod-card">
+        <div class="cod-card-title">📦 Product Info</div>
+        <div class="cod-field">
+          <div class="cod-label"><span>Selling price (DH)</span></div>
+          <input type="number" class="cod-input" id="cod-price" placeholder="ex: 199" value="199" oninput="codCalc()">
+        </div>
+        <div class="cod-field">
+          <div class="cod-label"><span>Product cost (DH)</span></div>
+          <input type="number" class="cod-input" id="cod-product-cost" placeholder="ex: 45" value="45" oninput="codCalc()">
+        </div>
+        <div class="cod-field">
+          <div class="cod-label"><span>Ads cost per order (DH)</span></div>
+          <input type="number" class="cod-input" id="cod-ads" placeholder="ex: 20" value="20" oninput="codCalc()">
         </div>
       </div>
-    </div>
-
-    <!-- Return cost -->
-    <div class="cod-card">
-      <div class="cod-card-title">🔄 Return / Refus</div>
-      <div class="cod-field">
-        <div class="cod-label"><span>Return shipping cost (DH)</span><span style="color:var(--muted);font-size:10px">default 0</span></div>
-        <input type="number" class="cod-input" id="cod-return" placeholder="ex: 20" value="0" oninput="codCalc()">
-      </div>
-      <div class="cod-field">
-        <div class="cod-label"><span>Other costs per order (DH)</span></div>
-        <input type="number" class="cod-input" id="cod-other" placeholder="ex: 0" value="0" oninput="codCalc()">
-      </div>
-      <div style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.6">
-        ⚠ Return cost is 0 by default — add a value if your provider charges for returns/refus.
-      </div>
-    </div>
-
-    <!-- Results full width -->
-    <div class="cod-card full">
-      <div class="cod-card-title">💰 Per 100 Orders Sent</div>
-      <div class="cod-result-grid" id="codResultGrid">
-        <div class="cod-result-box neutral">
-          <div class="cod-result-val gold" id="cod-r-orders">—</div>
-          <div class="cod-result-label">Orders delivered</div>
+      <div class="cod-card">
+        <div class="cod-card-title">🚚 COD Fixed Costs</div>
+        <div class="cod-field">
+          <div class="cod-label"><span>Delivery (DH)</span><span style="color:var(--cod-primary);font-size:10px">Editable</span></div>
+          <input type="number" class="cod-input" id="cod-delivery" value="35" oninput="codCalc()">
         </div>
-        <div class="cod-result-box neutral">
-          <div class="cod-result-val cyan" id="cod-r-revenue">—</div>
-          <div class="cod-result-label">Revenue (DH)</div>
+        <div class="cod-field">
+          <div class="cod-label"><span>Confirmation (DH)</span><span style="color:var(--cod-primary);font-size:10px">Editable</span></div>
+          <input type="number" class="cod-input" id="cod-confirm" value="11" oninput="codCalc()">
         </div>
-        <div class="cod-result-box neutral">
-          <div class="cod-result-val red" id="cod-r-total-cost">—</div>
-          <div class="cod-result-label">Total costs (DH)</div>
-        </div>
-        <div class="cod-result-box" id="cod-r-profit-box">
-          <div class="cod-result-val" id="cod-r-profit">—</div>
-          <div class="cod-result-label">Net profit/loss (DH)</div>
+        <div class="cod-field">
+          <div class="cod-label"><span>Fulfillment (DH)</span><span style="color:var(--cod-primary);font-size:10px">Editable</span></div>
+          <input type="number" class="cod-input" id="cod-fulfill" value="2" oninput="codCalc()">
         </div>
       </div>
-
-      <!-- Breakdown -->
-      <div class="cod-breakdown" id="codBreakdown" style="display:none">
-        <div class="cod-bk-row"><span class="cod-bk-label">Revenue (delivered × price)</span><span class="cod-bk-val green" id="bk-revenue"></span></div>
-        <div class="cod-bk-row"><span class="cod-bk-label">Product cost (delivered orders only)</span><span class="cod-bk-val red" id="bk-prod"></span></div>
-        <div class="cod-bk-row"><span class="cod-bk-label">Ads cost (all 100 orders sent)</span><span class="cod-bk-val red" id="bk-ads"></span></div>
-        <div class="cod-bk-row"><span class="cod-bk-label">Delivery fees (delivered only)</span><span class="cod-bk-val red" id="bk-deliv"></span></div>
-        <div class="cod-bk-row"><span class="cod-bk-label">Confirmation fees (delivered only)</span><span class="cod-bk-val red" id="bk-conf"></span></div>
-        <div class="cod-bk-row"><span class="cod-bk-label">Fulfillment (all 100 orders)</span><span class="cod-bk-val red" id="bk-fulfill"></span></div>
-        <div class="cod-bk-row"><span class="cod-bk-label">Return shipping (non-delivered)</span><span class="cod-bk-val red" id="bk-return"></span></div>
-        <div class="cod-bk-row"><span class="cod-bk-label">Other costs</span><span class="cod-bk-val red" id="bk-other"></span></div>
-        <div class="cod-bk-row"><span class="cod-bk-label" style="color:var(--text);font-weight:700">NET PROFIT / LOSS</span><span class="cod-bk-val" id="bk-net"></span></div>
-      </div>
-      <button class="btn" onclick="codToggleBreakdown()" style="margin-top:10px;font-size:11px" id="codBkBtn">▼ Show breakdown</button>
-    </div>
-
-    <!-- Per single order -->
-    <div class="cod-card full">
-      <div class="cod-card-title">📋 Per Single Delivered Order</div>
-      <div class="cod-result-grid">
-        <div class="cod-result-box neutral">
-          <div class="cod-result-val gold" id="cod-s-margin">—</div>
-          <div class="cod-result-label">Gross margin (DH)</div>
+      <div class="cod-card">
+        <div class="cod-card-title">📊 Delivery Rates</div>
+        <div class="cod-field">
+          <div class="cod-label"><span>Confirmation rate (%)</span></div>
+          <input type="number" class="cod-input" id="cod-conf-rate" placeholder="ex: 65" value="65" min="0" max="100" oninput="codCalc()">
         </div>
-        <div class="cod-result-box neutral">
-          <div class="cod-result-val cyan" id="cod-s-fixed">—</div>
-          <div class="cod-result-label">Fixed COD costs (DH)</div>
+        <div class="cod-field">
+          <div class="cod-label"><span>Delivery rate (% of confirmed)</span></div>
+          <input type="number" class="cod-input" id="cod-deliv-rate" placeholder="ex: 75" value="75" min="0" max="100" oninput="codCalc()">
         </div>
-        <div class="cod-result-box" id="cod-s-profit-box">
-          <div class="cod-result-val" id="cod-s-profit">—</div>
-          <div class="cod-result-label">Net profit per order</div>
-        </div>
-        <div class="cod-result-box neutral">
-          <div class="cod-result-val" id="cod-s-roi" style="color:var(--conv-primary)">—</div>
-          <div class="cod-result-label">ROI %</div>
+        <div style="margin-top:8px">
+          <div class="cod-result-box neutral" style="text-align:left;padding:10px 14px">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:3px">Effective delivery rate</div>
+            <div class="cod-result-val gold" id="cod-eff-rate-display" style="font-size:20px">48.75%</div>
+          </div>
         </div>
       </div>
-
-      <!-- Cost per Delivered / Cost per Confirmed -->
-      <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-        <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:10px">📊 Media Buying Metrics</div>
+      <div class="cod-card">
+        <div class="cod-card-title">🔄 Return / Refus</div>
+        <div class="cod-field">
+          <div class="cod-label"><span>Return shipping cost (DH)</span><span style="color:var(--muted);font-size:10px">default 0</span></div>
+          <input type="number" class="cod-input" id="cod-return" placeholder="ex: 20" value="0" oninput="codCalc()">
+        </div>
+        <div class="cod-field">
+          <div class="cod-label"><span>Other costs per order (DH)</span></div>
+          <input type="number" class="cod-input" id="cod-other" placeholder="ex: 0" value="0" oninput="codCalc()">
+        </div>
+      </div>
+      <!-- Results -->
+      <div class="cod-card full">
+        <div class="cod-card-title">💰 Per 100 Orders Sent</div>
+        <div class="cod-result-grid" id="codResultGrid">
+          <div class="cod-result-box neutral"><div class="cod-result-val gold" id="cod-r-orders">—</div><div class="cod-result-label">Orders delivered</div></div>
+          <div class="cod-result-box neutral"><div class="cod-result-val cyan" id="cod-r-revenue">—</div><div class="cod-result-label">Revenue (DH)</div></div>
+          <div class="cod-result-box neutral"><div class="cod-result-val red" id="cod-r-total-cost">—</div><div class="cod-result-label">Total costs (DH)</div></div>
+          <div class="cod-result-box" id="cod-r-profit-box"><div class="cod-result-val" id="cod-r-profit">—</div><div class="cod-result-label">Net profit/loss (DH)</div></div>
+        </div>
+        <div class="cod-breakdown" id="codBreakdown" style="display:none">
+          <div class="cod-bk-row"><span class="cod-bk-label">Revenue (delivered × price)</span><span class="cod-bk-val green" id="bk-revenue"></span></div>
+          <div class="cod-bk-row"><span class="cod-bk-label">Product cost (delivered only)</span><span class="cod-bk-val red" id="bk-prod"></span></div>
+          <div class="cod-bk-row"><span class="cod-bk-label">Ads cost (all 100 orders)</span><span class="cod-bk-val red" id="bk-ads"></span></div>
+          <div class="cod-bk-row"><span class="cod-bk-label">Delivery fees (delivered only)</span><span class="cod-bk-val red" id="bk-deliv"></span></div>
+          <div class="cod-bk-row"><span class="cod-bk-label">Confirmation fees (delivered only)</span><span class="cod-bk-val red" id="bk-conf"></span></div>
+          <div class="cod-bk-row"><span class="cod-bk-label">Fulfillment (all 100 orders)</span><span class="cod-bk-val red" id="bk-fulfill"></span></div>
+          <div class="cod-bk-row"><span class="cod-bk-label">Return shipping (non-delivered)</span><span class="cod-bk-val red" id="bk-return"></span></div>
+          <div class="cod-bk-row"><span class="cod-bk-label">Other costs</span><span class="cod-bk-val red" id="bk-other"></span></div>
+          <div class="cod-bk-row"><span class="cod-bk-label" style="color:var(--text);font-weight:700">NET PROFIT / LOSS</span><span class="cod-bk-val" id="bk-net"></span></div>
+        </div>
+        <button class="btn" onclick="codToggleBreakdown()" style="margin-top:10px;font-size:11px" id="codBkBtn">▼ Show breakdown</button>
+      </div>
+      <!-- Per single order -->
+      <div class="cod-card full">
+        <div class="cod-card-title">📋 Per Single Delivered Order</div>
         <div class="cod-result-grid">
-          <div class="cod-result-box neutral" style="border-color:rgba(240,192,64,.3)">
-            <div class="cod-result-val gold" id="cod-cpd">—</div>
-            <div class="cod-result-label">Cost per Delivered (DH)</div>
-            <div style="font-size:10px;color:var(--muted);margin-top:4px">Total ads spend ÷ delivered</div>
-          </div>
-          <div class="cod-result-box neutral" style="border-color:rgba(105,201,208,.3)">
-            <div class="cod-result-val cyan" id="cod-cpc-val">—</div>
-            <div class="cod-result-label">Cost per Confirmed (DH)</div>
-            <div style="font-size:10px;color:var(--muted);margin-top:4px">Total ads spend ÷ confirmed</div>
-          </div>
-          <div class="cod-result-box neutral" style="border-color:rgba(168,85,247,.3)">
-            <div class="cod-result-val" id="cod-cpl" style="color:var(--bg-primary)">—</div>
-            <div class="cod-result-label">Cost per Lead / Order (DH)</div>
-            <div style="font-size:10px;color:var(--muted);margin-top:4px">= Ads input per 100 ÷ 100</div>
-          </div>
-          <div class="cod-result-box neutral" style="border-color:rgba(34,197,94,.3)">
-            <div class="cod-result-val green" id="cod-roas">—</div>
-            <div class="cod-result-label">ROAS</div>
-            <div style="font-size:10px;color:var(--muted);margin-top:4px">Revenue ÷ ads spend</div>
-          </div>
+          <div class="cod-result-box neutral"><div class="cod-result-val gold" id="cod-s-margin">—</div><div class="cod-result-label">Gross margin (DH)</div></div>
+          <div class="cod-result-box neutral"><div class="cod-result-val cyan" id="cod-s-fixed">—</div><div class="cod-result-label">Fixed COD costs (DH)</div></div>
+          <div class="cod-result-box" id="cod-s-profit-box"><div class="cod-result-val" id="cod-s-profit">—</div><div class="cod-result-label">Net profit per order</div></div>
+          <div class="cod-result-box neutral"><div class="cod-result-val" id="cod-s-roi" style="color:var(--conv-primary)">—</div><div class="cod-result-label">ROI %</div></div>
         </div>
-        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:10px 14px;margin-top:10px;font-size:11px;color:var(--muted);line-height:1.8">
-          💡 <strong style="color:var(--text)">Example:</strong> 100 orders sent · 2 DH ads/order = <strong style="color:var(--gold2)">200 DH total ads spend</strong> · 50% conf × 50% deliv = <strong style="color:var(--green)">25 delivered</strong> → <strong style="color:var(--cod-primary)">Cost per Delivered = 200 ÷ 25 = 8 DH</strong>
+        <!-- Media Buying -->
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:10px">📊 Media Buying Metrics</div>
+          <div class="cod-result-grid">
+            <div class="cod-result-box neutral" style="border-color:rgba(240,192,64,.3)"><div class="cod-result-val gold" id="cod-cpd">—</div><div class="cod-result-label">Cost per Delivered (DH)</div><div style="font-size:10px;color:var(--muted);margin-top:4px">Total ads ÷ delivered</div></div>
+            <div class="cod-result-box neutral" style="border-color:rgba(105,201,208,.3)"><div class="cod-result-val cyan" id="cod-cpc-val">—</div><div class="cod-result-label">Cost per Confirmed (DH)</div><div style="font-size:10px;color:var(--muted);margin-top:4px">Total ads ÷ confirmed</div></div>
+            <div class="cod-result-box neutral" style="border-color:rgba(168,85,247,.3)"><div class="cod-result-val" id="cod-cpl" style="color:var(--bg-primary)">—</div><div class="cod-result-label">Cost per Lead (DH)</div></div>
+            <div class="cod-result-box neutral" style="border-color:rgba(34,197,94,.3)"><div class="cod-result-val green" id="cod-roas">—</div><div class="cod-result-label">ROAS</div></div>
+          </div>
         </div>
       </div>
-    </div>
-
-    <!-- Break-even -->
-    <div class="cod-card full">
-      <div class="cod-card-title">⚖️ Break-even Analysis</div>
-      <div class="cod-result-grid">
-        <div class="cod-result-box neutral">
-          <div class="cod-result-val gold" id="cod-be-price">—</div>
-          <div class="cod-result-label">Min selling price (DH)</div>
-        </div>
-        <div class="cod-result-box neutral">
-          <div class="cod-result-val cyan" id="cod-be-orders">—</div>
-          <div class="cod-result-label">Min orders to profit (per 100)</div>
-        </div>
-        <div class="cod-result-box neutral">
-          <div class="cod-result-val" id="cod-be-conf-rate" style="color:var(--bg-primary)">—</div>
-          <div class="cod-result-label">Min confirmation rate</div>
-        </div>
-        <div class="cod-result-box neutral">
-          <div class="cod-result-val" id="cod-be-deliv-rate" style="color:var(--bg-secondary)">—</div>
-          <div class="cod-result-label">Min delivery rate</div>
+      <!-- Break-even -->
+      <div class="cod-card full">
+        <div class="cod-card-title">⚖️ Break-even Analysis</div>
+        <div class="cod-result-grid">
+          <div class="cod-result-box neutral"><div class="cod-result-val gold" id="cod-be-price">—</div><div class="cod-result-label">Min selling price (DH)</div></div>
+          <div class="cod-result-box neutral"><div class="cod-result-val cyan" id="cod-be-orders">—</div><div class="cod-result-label">Min delivered (per 100)</div></div>
+          <div class="cod-result-box neutral"><div class="cod-result-val" id="cod-be-conf-rate" style="color:var(--bg-primary)">—</div><div class="cod-result-label">Min confirmation rate</div></div>
+          <div class="cod-result-box neutral"><div class="cod-result-val" id="cod-be-deliv-rate" style="color:var(--bg-secondary)">—</div><div class="cod-result-label">Min delivery rate</div></div>
         </div>
       </div>
+      <!-- Scenarios -->
+      <div class="cod-card full">
+        <div class="cod-card-title">📈 Scenario Simulator (per 100 orders)</div>
+        <div class="cod-scenario-grid" id="codScenarioGrid"></div>
+      </div>
     </div>
-
-    <!-- Scenario table -->
-    <div class="cod-card full">
-      <div class="cod-card-title">📈 Scenario Simulator (per 100 orders)</div>
-      <p style="font-size:11px;color:var(--muted);margin-bottom:10px">Different delivery rate scenarios using your current costs & price:</p>
-      <div class="cod-scenario-grid" id="codScenarioGrid"></div>
-    </div>
-
   </div>
+
+  <!-- ══ SECTION: SMART PRICING ══ -->
+  <div class="cod-section" id="cod-pricing-section">
+    <div class="pricing-hero">
+      <div class="pricing-hero-title">🎯 Smart Pricing Mode</div>
+      <div class="pricing-hero-sub">Entrez votre coût produit + charges → recevez le <strong style="color:var(--cod-primary)">prix de vente recommandé</strong> pour garantir un profit minimum par commande livrée. Simulez différents prix pour voir l'impact.</div>
+    </div>
+
+    <div class="cod-grid">
+      <!-- Left: inputs -->
+      <div class="cod-card">
+        <div class="cod-card-title">📦 Coût & Charges</div>
+        <div class="cod-field">
+          <div class="cod-label"><span>Coût produit (DH)</span></div>
+          <input type="number" class="cod-input" id="p-prod-cost" placeholder="ex: 45" value="80" oninput="pricingCalc()">
+        </div>
+        <div class="cod-field">
+          <div class="cod-label"><span>Livraison (DH)</span></div>
+          <input type="number" class="cod-input" id="p-delivery" value="35" oninput="pricingCalc()">
+        </div>
+        <div class="cod-field">
+          <div class="cod-label"><span>Confirmation (DH)</span></div>
+          <input type="number" class="cod-input" id="p-confirm" value="11" oninput="pricingCalc()">
+        </div>
+        <div class="cod-field">
+          <div class="cod-label"><span>Fulfillment (DH)</span></div>
+          <input type="number" class="cod-input" id="p-fulfill" value="2" oninput="pricingCalc()">
+        </div>
+        <div class="cod-field">
+          <div class="cod-label"><span>Coût ads / commande (DH)</span></div>
+          <input type="number" class="cod-input" id="p-ads" placeholder="ex: 20" value="20" oninput="pricingCalc()">
+        </div>
+      </div>
+      <!-- Right: rates & target -->
+      <div class="cod-card">
+        <div class="cod-card-title">📊 Taux & Objectif</div>
+        <div class="cod-field">
+          <div class="cod-label"><span>Confirmation rate (%)</span></div>
+          <input type="number" class="cod-input" id="p-conf-rate" value="80" min="1" max="100" oninput="pricingCalc()">
+        </div>
+        <div class="cod-field">
+          <div class="cod-label"><span>Delivery rate (%)</span></div>
+          <input type="number" class="cod-input" id="p-deliv-rate" value="70" min="1" max="100" oninput="pricingCalc()">
+        </div>
+        <div class="cod-field">
+          <div class="cod-label"><span>Profit minimum visé (DH/pièce)</span></div>
+          <input type="number" class="cod-input" id="p-min-profit" value="30" min="0" oninput="pricingCalc()">
+        </div>
+        <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.15);border-radius:9px;padding:10px 12px;margin-top:6px;font-size:11px;color:var(--muted);line-height:1.7">
+          💡 Le profit visé est <strong style="color:var(--text)">par commande livrée</strong>. Le calculateur répartit les coûts ads/fulfillment sur les commandes delivered.
+        </div>
+      </div>
+
+      <!-- Recommended price — full width hero -->
+      <div class="cod-card full" style="padding:0;overflow:hidden;border-color:rgba(16,185,129,.3)">
+        <div style="padding:20px 22px;background:linear-gradient(135deg,rgba(16,185,129,.1),rgba(240,192,64,.06))">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
+            <div>
+              <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--cod-primary);margin-bottom:6px">Prix recommandé</div>
+              <div style="display:flex;align-items:baseline;gap:8px">
+                <div style="font-family:'Syne',sans-serif;font-size:52px;font-weight:800;color:var(--cod-primary);line-height:1" id="p-suggested-price">—</div>
+                <div style="font-size:18px;color:var(--muted);font-family:'Syne',sans-serif">DH</div>
+              </div>
+              <div style="font-size:12px;color:var(--muted);margin-top:4px">Pour garantir <strong id="p-min-profit-display" style="color:var(--gold2)">30 DH</strong> de profit net par commande livrée</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+              <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:10px 16px;text-align:center;min-width:130px">
+                <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Cost per Delivered</div>
+                <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--gold2)" id="p-cpd">—</div>
+              </div>
+              <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:10px 16px;text-align:center;min-width:130px">
+                <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Cost per Confirmed</div>
+                <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--conv-primary)" id="p-cpc">—</div>
+              </div>
+            </div>
+          </div>
+          <!-- Key metrics row -->
+          <div class="pricing-metric-row" style="margin-top:16px">
+            <div class="pricing-metric">
+              <div class="pricing-metric-val green" id="p-net-profit">—</div>
+              <div class="pricing-metric-label">Profit net / livrée (DH)</div>
+            </div>
+            <div class="pricing-metric">
+              <div class="pricing-metric-val gold" id="p-gross-margin">—</div>
+              <div class="pricing-metric-label">Marge brute (DH)</div>
+            </div>
+            <div class="pricing-metric">
+              <div class="pricing-metric-val" style="color:var(--conv-primary)" id="p-eff-rate">—</div>
+              <div class="pricing-metric-label">Taux effectif</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Price simulator slider -->
+      <div class="cod-card full">
+        <div class="cod-card-title">🔢 Simulateur de Prix — ajustez pour voir l'impact</div>
+        <div class="pricing-slider-row">
+          <div class="pricing-slider-label">
+            Prix de vente simulé: <span id="p-sim-price-display">299</span> DH
+          </div>
+          <input type="range" class="pricing-slider" id="p-sim-slider" min="50" max="999" value="299" step="1" oninput="pricingSimUpdate()">
+        </div>
+        <!-- Simulation result -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px" id="p-sim-results">
+          <div class="pricing-metric"><div class="pricing-metric-val" id="p-sim-profit" style="color:var(--green)">—</div><div class="pricing-metric-label">Profit / livrée</div></div>
+          <div class="pricing-metric"><div class="pricing-metric-val" id="p-sim-profit100" style="color:var(--gold2)">—</div><div class="pricing-metric-label">Profit / 100 orders</div></div>
+          <div class="pricing-metric"><div class="pricing-metric-val" id="p-sim-cpd-val" style="color:var(--conv-primary)">—</div><div class="pricing-metric-label">CPD (DH)</div></div>
+          <div class="pricing-metric"><div class="pricing-metric-val" id="p-sim-roi" style="color:var(--bg-primary)">—</div><div class="pricing-metric-label">ROI %</div></div>
+        </div>
+
+        <!-- Price table -->
+        <table class="price-sim-table" id="p-price-table">
+          <thead>
+            <tr>
+              <th>Prix (DH)</th>
+              <th>Profit / livrée</th>
+              <th>Profit / 100</th>
+              <th>CPD</th>
+              <th>CPC</th>
+              <th>ROI</th>
+            </tr>
+          </thead>
+          <tbody id="p-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
 </div>
 </div>
 
 <footer>
-  <div class="footer-left">Made with <span>♥</span> — By Amine Loading 100% client-side, files never leave your device</div>
+  <div class="footer-left">Made with <span>♥</span> — By Amine Loading · 100% client-side, files never leave your device</div>
   <div class="footer-right"><span class="dot"></span> No upload limit &nbsp;·&nbsp; <span class="dot"></span> No sign-up &nbsp;·&nbsp; <span class="dot"></span> Forever free</div>
 </footer>
 </div>
@@ -935,7 +982,6 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
 
 <!-- ══════════════ CORE JS ══════════════ -->
 <script>
-/* ── PANEL TOGGLE ── */
 function scrollToTools(){document.getElementById('tools-top').scrollIntoView({behavior:'smooth'})}
 function toggleTool(panelId,boxId){
   const panel=document.getElementById(panelId),box=document.getElementById(boxId);
@@ -955,70 +1001,43 @@ function toggleTool(panelId,boxId){
     setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'start'}),80);
   }
 }
-function openTool(panelId){
-  const map={squishit:'squishit-box','squishit-panel':'squishit-box','amine-panel':'tiktok-box','mp4-panel':'mp4box','bg-panel':'bgbox','qr-panel':'qrbox','cod-panel':'codbox'};
-  toggleTool(panelId,map[panelId]||'squishit-box');
-}
 function closePanel(panelId,boxId){
   document.getElementById(panelId).classList.remove('open');
   const b=document.getElementById(boxId);
   if(b)b.classList.remove('active','tiktok-active','converter-active','bg-active','qr-active','cod-active');
   document.getElementById('tools-top').scrollIntoView({behavior:'smooth'});
 }
-
-/* ── TOAST ── */
 function showToast(msg,color){
   const t=document.getElementById('toast');
-  t.textContent=msg;
-  t.style.color=color||'var(--green)';
-  t.style.borderColor=color||'var(--green)';
-  t.classList.add('show');
-  clearTimeout(t._timer);
-  t._timer=setTimeout(()=>t.classList.remove('show'),3400);
+  t.textContent=msg;t.style.color=color||'var(--green)';t.style.borderColor=color||'var(--green)';
+  t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),3400);
 }
 function formatSize(b){return b>=1048576?(b/1048576).toFixed(2)+' MB':Math.round(b/1024)+' KB'}
 function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
 
-/* ── GLOBAL CTRL+V PASTE ── */
 document.addEventListener('paste',function(e){
-  // Don't intercept paste in text inputs/textareas
   const tag=document.activeElement&&document.activeElement.tagName;
   if(tag==='INPUT'||tag==='TEXTAREA')return;
-
   const items=[...(e.clipboardData||e.originalEvent.clipboardData).items];
   const imageItem=items.find(i=>i.type.startsWith('image/'));
   if(!imageItem)return;
-
   e.preventDefault();
-  const file=imageItem.getAsFile();
-  if(!file)return;
-
-  // Detect which panel is open and route accordingly
+  const file=imageItem.getAsFile();if(!file)return;
   const openPanel=document.querySelector('.tool-panel.open');
   if(!openPanel){showToast('⚠ Open a tool first to paste an image','var(--gold2)');return}
-
   const pid=openPanel.id;
-  if(pid==='squishit-panel'){
-    processFiles([file]);
-    showToast('📋 Image pasted into SquishIt!');
-  } else if(pid==='bg-panel'){
-    handleBgFiles([file]);
-    showToast('📋 Image pasted into BG Remover!');
-  } else if(pid==='qr-panel'){
-    // Route to read tab
-    const readTab=document.querySelector('.qr-tab:not(.active)');
-    if(document.getElementById('qr-read-section')&&!document.getElementById('qr-read-section').classList.contains('active')){
+  if(pid==='squishit-panel'){processFiles([file]);showToast('📋 Image pasted into SquishIt!')}
+  else if(pid==='bg-panel'){handleBgFiles([file]);showToast('📋 Image pasted into BG Remover!')}
+  else if(pid==='qr-panel'){
+    if(!document.getElementById('qr-read-section').classList.contains('active')){
       document.querySelectorAll('.qr-tab').forEach(t=>t.classList.remove('active'));
       document.querySelectorAll('.qr-section').forEach(s=>s.classList.remove('active'));
       document.querySelector('.qr-tab:last-child').classList.add('active');
       document.getElementById('qr-read-section').classList.add('active');
     }
-    qrProcessImageFile(file);
-    showToast('📋 Image pasted into QR Reader!');
-  } else {
-    showToast('⚠ This tool doesn\'t accept image paste','var(--gold2)');
-  }
+    qrProcessImageFile(file);showToast('📋 Image pasted into QR Reader!');
+  }else{showToast('⚠ This tool doesn\'t accept image paste','var(--gold2)')}
 });
 </script>
 
@@ -1058,6 +1077,7 @@ function markError(id,obj){obj.status='error';document.getElementById(`card-${id
 function removeImage(id){images=images.filter(i=>i.id!==id);const el=document.getElementById(`card-${id}`);if(el){el.style.opacity='0';el.style.transform='translateX(20px)';el.style.transition='all .2s';setTimeout(()=>el.remove(),200)}if(!images.length)resultsSection.style.display='none';setTimeout(updateStats,210)}
 function updateStats(){const done=images.filter(i=>i.status==='done');const totalOrig=images.reduce((a,i)=>a+i.origSize,0);const totalComp=done.reduce((a,i)=>a+i.compressedBlob.size,0);const pct=totalOrig>0&&done.length===images.length&&images.length>0?((totalOrig-totalComp)/totalOrig*100):0;document.getElementById('s-files').textContent=images.length;document.getElementById('s-before').textContent=formatSize(totalOrig);document.getElementById('s-after').textContent=done.length>0?formatSize(totalComp):'—';document.getElementById('s-saved').textContent=done.length===images.length&&images.length>0?pct.toFixed(1)+'%':'—'}
 async function downloadAllZip(){const done=images.filter(i=>i.status==='done'&&i.compressedBlob);if(!done.length){showToast('⚠ No compressed images ready yet');return}showToast('⏳ Creating ZIP…');const zip=new JSZip();done.forEach(i=>zip.file(i.compressedName,i.compressedBlob));const content=await zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:6}});const a=document.createElement('a');a.href=URL.createObjectURL(content);a.download='squishit_webp.zip';a.click();showToast('✓ ZIP downloaded!')}
+function processFiles(files){handleFiles(files)}
 </script>
 
 <!-- ══════════════ AMINE LOADING JS ══════════════ -->
@@ -1066,15 +1086,15 @@ let alStore=[];let alRetryCount=0;
 function alCleanUrl(raw){try{const u=new URL(raw.trim());return u.origin+u.pathname.replace(/\/$/,'')}catch(e){return raw.trim()}}
 function alGetLinks(){return[...new Set(document.getElementById('alUrls').value.split('\n').map(l=>l.trim()).filter(l=>l.includes('tiktok.com')).map(alCleanUrl))]}
 function alPaste(){navigator.clipboard.readText().then(t=>{document.getElementById('alUrls').value=t}).catch(()=>showToast('⚠ Paste manually with Ctrl+V'))}
-function alClear(){document.getElementById('alUrls').value='';document.getElementById('alGrid').innerHTML='<div class="al-empty"><span class="al-empty-icon">🎵</span>Paste your TikTok links above and hit <strong style="color:var(--tiktok-red)">Fetch all videos</strong></div>';document.getElementById('alStatsSection').style.display='none';document.getElementById('alRetryBtn').style.display='none';alStore=[];alRetryCount=0}
+function alClear(){document.getElementById('alUrls').value='';document.getElementById('alGrid').innerHTML='<div class="al-empty"><span class="al-empty-icon">🎵</span>Paste your TikTok links above and hit <strong style="color:var(--tiktok-red)">Fetch all videos</strong></div>';document.getElementById('alStatsSection').style.display='none';document.getElementById('alRetryBtn').style.display='none';document.getElementById('alAutoRetryBanner').style.display='none';alStore=[];alRetryCount=0}
 function alUpdateStats(){
   const total=alStore.length,ready=alStore.filter(v=>v&&v.ok).length,err=alStore.filter(v=>v&&v.ok===false).length,done=ready+err;
   document.getElementById('alTotal').textContent=total;document.getElementById('alReady').textContent=ready;document.getElementById('alErr').textContent=err;document.getElementById('alRetries').textContent=alRetryCount;
   const pct=total?Math.round(done/total*100):0;const fill=document.getElementById('alProgFill');fill.style.width=pct+'%';document.getElementById('alProgPct').textContent=pct+'%';
-  if(done>=total&&total>0){fill.classList.add('done');document.getElementById('alProgText').textContent=`✓ Done — ${ready} ready${err>0?`, ${err} failed`:''}`}else{fill.classList.remove('done');document.getElementById('alProgText').textContent=`Fetching… ${done}/${total}`}
+  if(done>=total&&total>0&&alStore.every(v=>v!==null)){fill.classList.add('done');document.getElementById('alProgText').textContent=`✓ Done — ${ready} ready${err>0?`, ${err} failed`:''}`}else{fill.classList.remove('done');document.getElementById('alProgText').textContent=`Fetching… ${done}/${total}`}
   document.getElementById('alDlAllBtn').disabled=ready===0;document.getElementById('alDlZipBtn').disabled=ready===0;document.getElementById('alDlMp3ZipBtn').disabled=ready===0;
-  document.getElementById('alRetryBtn').style.display=(err>0&&done>=total)?'inline-flex':'none';
-  document.getElementById('alDlMsg').innerHTML=ready>0?`<strong>${ready} video${ready>1?'s':''}</strong> ready${err>0?` — <span style="color:var(--danger)">${err} failed</span>`:''}`:done<total?'Fetching, please wait…':'No videos could be fetched.';
+  document.getElementById('alRetryBtn').style.display=(err>0&&alStore.every(v=>v!==null))?'inline-flex':'none';
+  document.getElementById('alDlMsg').innerHTML=ready>0?`<strong>${ready} video${ready>1?'s':''}</strong> ready${err>0?` — <span style="color:var(--danger)">${err} failed</span>`:''}`:alStore.every(v=>v!==null)?'No videos could be fetched.':'Fetching, please wait…';
 }
 function alSetCard(idx,v){
   const el=document.getElementById('al-vc-'+idx);if(!el)return;
@@ -1091,8 +1111,6 @@ async function alSaveBlob(url,filename,btn){
   if(btn){btn.textContent='…';btn.disabled=true}
   try{const res=await fetch(url,{mode:'cors'});if(!res.ok)throw new Error('fetch failed');const blob=await res.blob();const bUrl=URL.createObjectURL(blob);const a=document.createElement('a');a.href=bUrl;a.download=filename;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(()=>URL.revokeObjectURL(bUrl),10000);if(btn)btn.textContent='✓'}catch(e){const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();document.body.removeChild(a);if(btn){btn.textContent='↓ HD';btn.disabled=false}}
 }
-
-/* MP3 extraction from TikTok video URL */
 async function alDownloadMp3(videoUrl,id,btn){
   if(!videoUrl){showToast('⚠ No video URL');return}
   if(btn){btn.textContent='⏳';btn.disabled=true}
@@ -1110,11 +1128,10 @@ async function alDownloadMp3(videoUrl,id,btn){
     showToast('✓ MP3 downloaded!');
     if(btn){btn.textContent='✓ MP3'}
   }catch(e){
-    showToast('⚠ MP3 extraction failed — try individual download','var(--danger)');
+    showToast('⚠ MP3 extraction failed','var(--danger)');
     if(btn){btn.textContent='🎵 MP3';btn.disabled=false}
   }
 }
-
 async function encodeAudioBufferToMp3Simple(audioBuffer,bitrate){
   return new Promise(async(resolve,reject)=>{
     try{
@@ -1134,7 +1151,6 @@ async function encodeAudioBufferToMp3Simple(audioBuffer,bitrate){
     }catch(e){reject(e)}
   });
 }
-
 async function alCallApi(cleanUrl){
   try{const r=await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(cleanUrl)}&hd=1`,{signal:AbortSignal.timeout(14000)});const j=await r.json();if(j.code===0&&j.data&&(j.data.play||j.data.hdplay))return j.data;throw new Error(j.msg||'No data')}catch(e){throw e}
 }
@@ -1145,30 +1161,73 @@ async function alFetchOne(url,idx,maxRetries=3){
   }
   return{ok:false,url:clean,idx,msg:'Max retries reached'};
 }
+
 async function alFetchAll(){
   const links=alGetLinks();if(!links.length){showToast('⚠ Paste at least one TikTok URL');return}
   alStore=new Array(links.length).fill(null);alRetryCount=0;
   document.getElementById('alStatsSection').style.display='block';
-  document.getElementById('alFetchBtn').disabled=true;document.getElementById('alDlAllBtn').disabled=true;document.getElementById('alDlZipBtn').disabled=true;document.getElementById('alDlMp3ZipBtn').disabled=true;document.getElementById('alRetryBtn').style.display='none';
+  document.getElementById('alFetchBtn').disabled=true;
+  document.getElementById('alDlAllBtn').disabled=true;document.getElementById('alDlZipBtn').disabled=true;document.getElementById('alDlMp3ZipBtn').disabled=true;
+  document.getElementById('alRetryBtn').style.display='none';
+  document.getElementById('alAutoRetryBanner').style.display='none';
   const grid=document.getElementById('alGrid');
   grid.innerHTML=links.map((url,i)=>`<div class="al-vcard" id="al-vc-${i}"><div class="al-thumb"><div class="al-thumb-ph"><span class="al-spin" style="font-size:22px;color:rgba(255,255,255,.35)">↻</span></div><span class="al-badge loading"><span class="al-spin">↻</span> Loading</span></div><div class="al-vbody"><div class="al-vtitle" style="color:var(--muted);font-size:10px">${alCleanUrl(url).replace('https://www.tiktok.com/','')}</div></div></div>`).join('');
   document.getElementById('alTotal').textContent=links.length;document.getElementById('alReady').textContent='0';document.getElementById('alErr').textContent='0';document.getElementById('alRetries').textContent='0';
-  document.getElementById('alProgFill').style.width='0%';document.getElementById('alProgPct').textContent='0%';document.getElementById('alProgText').textContent=`Fetching ${links.length} videos (with auto-retry)…`;document.getElementById('alDlMsg').textContent='Fetching, please wait…';
+  document.getElementById('alProgFill').style.width='0%';document.getElementById('alProgPct').textContent='0%';
+  document.getElementById('alProgText').textContent=`Fetching ${links.length} videos…`;document.getElementById('alDlMsg').textContent='Fetching, please wait…';
+
+  // Phase 1: fetch all with 3 retries each
   const promises=links.map((url,idx)=>sleep(idx*200).then(()=>alFetchOne(url,idx,3).then(v=>{alStore[idx]=v;alSetCard(idx,v);alUpdateStats()})));
   await Promise.all(promises);
+
+  // Phase 2: AUTO-RETRY all that are still failed
+  const failedAfterPhase1=alStore.map((v,i)=>({v,i})).filter(({v})=>v&&!v.ok);
+  if(failedAfterPhase1.length>0){
+    // Show auto-retry banner
+    document.getElementById('alAutoRetryBanner').style.display='inline-flex';
+    document.getElementById('alAutoRetryCount').textContent=failedAfterPhase1.length;
+    showToast(`🔄 Auto-retrying ${failedAfterPhase1.length} failed video(s)…`,'var(--gold2)');
+
+    // Reset cards to loading state
+    failedAfterPhase1.forEach(({v,i})=>{
+      alStore[i]=null;
+      const el=document.getElementById('al-vc-'+i);
+      if(el)el.innerHTML=`<div class="al-thumb"><div class="al-thumb-ph"><span class="al-spin" style="font-size:22px;color:rgba(255,255,255,.35)">↻</span></div><span class="al-badge loading"><span class="al-spin">↻</span> Retrying</span></div><div class="al-vbody"><div class="al-vtitle" style="color:var(--muted);font-size:10px">Auto-retrying…</div></div>`;
+    });
+    document.getElementById('alProgFill').classList.remove('done');
+    document.getElementById('alProgText').textContent=`Auto-retrying ${failedAfterPhase1.length} failed…`;
+
+    const retryPromises=failedAfterPhase1.map(({v,i},qi)=>
+      sleep(qi*600+500).then(()=>{
+        alRetryCount++;
+        alUpdateStats();
+        return alFetchOne(v.url,i,4).then(result=>{alStore[i]=result;alSetCard(i,result);alUpdateStats()});
+      })
+    );
+    await Promise.all(retryPromises);
+    document.getElementById('alAutoRetryBanner').style.display='none';
+  }
+
   document.getElementById('alFetchBtn').disabled=false;
-  const failedCount=alStore.filter(v=>v&&!v.ok).length;
-  if(failedCount>0)showToast(`⚠ ${failedCount} video(s) failed after auto-retry`,'var(--gold2)');
-  else showToast(`✓ All ${alStore.filter(v=>v&&v.ok).length} videos fetched!`);
+  const finalFailed=alStore.filter(v=>v&&!v.ok).length;
+  const finalReady=alStore.filter(v=>v&&v.ok).length;
+  if(finalFailed>0)showToast(`⚠ ${finalFailed} video(s) still failed after all retries`,'var(--gold2)');
+  else showToast(`✓ All ${finalReady} videos fetched successfully!`);
+  alUpdateStats();
 }
+
 async function alRetryFailed(){
   const failed=alStore.map((v,i)=>({v,i})).filter(({v})=>v&&!v.ok);if(!failed.length)return;
   document.getElementById('alRetryBtn').disabled=true;
+  document.getElementById('alAutoRetryBanner').style.display='inline-flex';
+  document.getElementById('alAutoRetryCount').textContent=failed.length;
   failed.forEach(({v,i})=>{alStore[i]=null;const el=document.getElementById('al-vc-'+i);if(el)el.innerHTML=`<div class="al-thumb"><div class="al-thumb-ph"><span class="al-spin" style="font-size:22px;color:rgba(255,255,255,.35)">↻</span></div><span class="al-badge loading"><span class="al-spin">↻</span> Retrying</span></div><div class="al-vbody"><div class="al-vtitle" style="color:var(--muted);font-size:10px">Retrying…</div></div>`});
   alUpdateStats();
-  const promises=failed.map(({v,i},qi)=>sleep(qi*400).then(()=>alFetchOne(v.url,i,3).then(result=>{alStore[i]=result;alSetCard(i,result);alUpdateStats()})));
+  const promises=failed.map(({v,i},qi)=>sleep(qi*400).then(()=>{alRetryCount++;alUpdateStats();return alFetchOne(v.url,i,3).then(result=>{alStore[i]=result;alSetCard(i,result);alUpdateStats()})}));
   await Promise.all(promises);
   document.getElementById('alRetryBtn').disabled=false;
+  document.getElementById('alAutoRetryBanner').style.display='none';
+  alUpdateStats();
 }
 async function alDownloadAll(){
   const ready=alStore.filter(v=>v&&v.ok);if(!ready.length)return;
@@ -1190,8 +1249,8 @@ async function alDownloadZip(){
   }
   if(!fetched){showToast('⚠ Could not fetch videos for ZIP','var(--danger)');btn.disabled=false;btn.textContent='📦 ZIP all videos';return}
   btn.textContent='⏳ Compressing…';
-  const content=await zip.generateAsync({type:'blob',compression:'STORE',comment:'Amine Loading'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(content);a.download=`tiktok_videos_${new Date().toISOString().slice(0,10)}.zip`;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(()=>URL.revokeObjectURL(a.href),15000);
+  const content=await zip.generateAsync({type:'blob',compression:'STORE'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(content);a.download=`tiktok_videos_${new Date().toISOString().slice(0,10)}.zip`;document.body.appendChild(a);a.click();document.body.removeChild(a);
   btn.disabled=false;btn.textContent='📦 ZIP all videos';showToast(`✓ ZIP with ${fetched} video${fetched>1?'s':''} downloaded!`);
 }
 async function alDownloadAllMp3Zip(){
@@ -1223,7 +1282,6 @@ async function alDownloadAllMp3Zip(){
 <!-- ══════════════ MP4→MP3 JS ══════════════ -->
 <script>
 let _mp3Blob=null,_mp4PreviewUrl=null;
-// Drag-drop for MP4
 const mp4DZ=document.getElementById('mp4DropZone');
 mp4DZ.addEventListener('dragover',e=>{e.preventDefault();mp4DZ.classList.add('drag-over')});
 mp4DZ.addEventListener('dragleave',()=>mp4DZ.classList.remove('drag-over'));
@@ -1266,7 +1324,7 @@ function mp4Download(){if(!_mp3Blob){showToast('⚠ No MP3 available');return}co
 
 <!-- ══════════════ BG REMOVER JS ══════════════ -->
 <script>
-const BG_API_KEY = 'aTHJEGLPi7GjRGoKygEsg2xn';
+const BG_API_KEY='aTHJEGLPi7GjRGoKygEsg2xn';
 let bgFiles=[];
 const bgDropZone=document.getElementById('bgDropZone'),bgFileInput=document.getElementById('bgFileInput');
 bgDropZone.addEventListener('dragover',e=>{e.preventDefault();bgDropZone.classList.add('drag-over')});
@@ -1275,8 +1333,6 @@ bgDropZone.addEventListener('drop',e=>{e.preventDefault();bgDropZone.classList.r
 bgDropZone.addEventListener('click',e=>{if(e.target.classList.contains('browse-btn')||e.target===bgFileInput)return;bgFileInput.click()});
 bgFileInput.addEventListener('change',()=>handleBgFiles([...bgFileInput.files]));
 document.getElementById('bgAddMoreBtn').addEventListener('click',()=>bgFileInput.click());
-
-window.addEventListener('load',()=>{codCalc();qrGenerate()});
 function handleBgFiles(files){
   const valid=files.filter(f=>f.type.match(/^image\/(jpeg|png|webp)/));
   if(!valid.length){showToast('⚠ Please select JPEG, PNG, or WebP images');return}
@@ -1300,14 +1356,11 @@ function addBgFile(file,apiKey){
 async function processBgFile(file,id,obj,apiKey){
   const bar=document.getElementById(`bg-bar-${id}`),status=document.getElementById(`bg-status-${id}`);
   try{
-    const formData=new FormData();
-    formData.append('image_file',file);
-    formData.append('size','auto');
+    const formData=new FormData();formData.append('image_file',file);formData.append('size','auto');
     bar.style.width='40%';status.textContent='Processing with remove.bg…';
     const res=await fetch('https://api.remove.bg/v1.0/removebg',{method:'POST',headers:{'X-Api-Key':apiKey},body:formData});
     if(!res.ok){const err=await res.json().catch(()=>({}));throw new Error(err.errors?.[0]?.title||`HTTP ${res.status}`)}
     bar.style.width='75%';status.textContent='Converting to WebP…';
-    // Result is PNG, convert to WebP
     const pngBlob=await res.blob();
     const img=new Image(),url=URL.createObjectURL(pngBlob);
     await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;img.src=url});
@@ -1319,8 +1372,7 @@ async function processBgFile(file,id,obj,apiKey){
     obj.resultBlob=webpBlob;obj.status='done';
     const card=document.getElementById(`bg-card-${id}`);card.classList.remove('processing');card.classList.add('done');
     const webpUrl=URL.createObjectURL(webpBlob);
-    document.getElementById(`bg-thumb-${id}`).src=webpUrl;
-    document.getElementById(`bg-thumb-${id}`).style.opacity='1';
+    document.getElementById(`bg-thumb-${id}`).src=webpUrl;document.getElementById(`bg-thumb-${id}`).style.opacity='1';
     status.innerHTML=`<span style="color:var(--green)">✓ Background removed — ${formatSize(webpBlob.size)} WebP</span>`;
     document.getElementById(`bg-actions-${id}`).innerHTML=`<a class="btn" href="${webpUrl}" download="${obj.resultName}" style="font-size:11px;padding:5px 10px">↓ Download WebP</a><button class="icon-btn del" onclick="removeBgFile(${id})">✕</button>`;
     showToast(`✓ Background removed: ${file.name}`);
@@ -1336,8 +1388,7 @@ function removeBgFile(id){bgFiles=bgFiles.filter(f=>f.id!==id);const el=document
 function bgClearAll(){bgFiles=[];document.getElementById('bgCardList').innerHTML='';document.getElementById('bgResultsSection').style.display='none';bgFileInput.value=''}
 async function bgDownloadAllZip(){
   const done=bgFiles.filter(f=>f.status==='done'&&f.resultBlob);if(!done.length){showToast('⚠ No processed images ready');return}
-  showToast('⏳ Creating ZIP…');
-  const zip=new JSZip();done.forEach(f=>zip.file(f.resultName,f.resultBlob));
+  showToast('⏳ Creating ZIP…');const zip=new JSZip();done.forEach(f=>zip.file(f.resultName,f.resultBlob));
   const content=await zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:6}});
   const a=document.createElement('a');a.href=URL.createObjectURL(content);a.download='nobg_webp.zip';a.click();showToast('✓ ZIP downloaded!');
 }
@@ -1345,170 +1396,94 @@ async function bgDownloadAllZip(){
 
 <!-- ══════════════ QR CODE JS ══════════════ -->
 <script>
-let qrInstance=null;
-function qrSwitchTab(tab,btn){
-  document.querySelectorAll('.qr-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.qr-section').forEach(s=>s.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('qr-'+tab+'-section').classList.add('active');
-}
-
+function qrSwitchTab(tab,btn){document.querySelectorAll('.qr-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.qr-section').forEach(s=>s.classList.remove('active'));btn.classList.add('active');document.getElementById('qr-'+tab+'-section').classList.add('active')}
 function qrGenerate(){
   const text=document.getElementById('qrText').value.trim();
   if(!text){const c=document.getElementById('qrCanvas');const ctx=c.getContext('2d');c.width=300;c.height=300;ctx.fillStyle='#fff';ctx.fillRect(0,0,300,300);return}
-  const size=parseInt(document.getElementById('qrSize').value);
-  const fgColor=document.getElementById('qrFgColor').value;
-  const bgColor=document.getElementById('qrBgColor').value;
-  const ecc=document.getElementById('qrEcc').value;
+  const size=parseInt(document.getElementById('qrSize').value),fgColor=document.getElementById('qrFgColor').value,bgColor=document.getElementById('qrBgColor').value,ecc=document.getElementById('qrEcc').value;
   const eccMap={L:QRCode.CorrectLevel.L,M:QRCode.CorrectLevel.M,Q:QRCode.CorrectLevel.Q,H:QRCode.CorrectLevel.H};
-  // Use hidden div trick for qrcodejs
   const tmp=document.createElement('div');tmp.style.display='none';document.body.appendChild(tmp);
   new QRCode(tmp,{text,width:size,height:size,colorDark:fgColor,colorLight:bgColor,correctLevel:eccMap[ecc]||QRCode.CorrectLevel.M});
   const imgEl=tmp.querySelector('img')||tmp.querySelector('canvas');
-  setTimeout(()=>{
-    const src=imgEl?imgEl.src:null;
-    if(src){const c=document.getElementById('qrCanvas');const img=new Image();img.onload=()=>{c.width=size;c.height=size;c.getContext('2d').drawImage(img,0,0)};img.src=src}
-    document.body.removeChild(tmp);
-  },200);
+  setTimeout(()=>{const src=imgEl?imgEl.src:null;if(src){const c=document.getElementById('qrCanvas');const img=new Image();img.onload=()=>{c.width=size;c.height=size;c.getContext('2d').drawImage(img,0,0)};img.src=src}document.body.removeChild(tmp)},200);
 }
-
-function qrDownloadPng(){
-  const c=document.getElementById('qrCanvas'),text=document.getElementById('qrText').value.trim();
-  if(!text){showToast('⚠ Enter text first');return}
-  const a=document.createElement('a');a.href=c.toDataURL('image/png');a.download='qrcode.png';a.click();
-  showToast('✓ QR PNG downloaded!');
-}
-
-function qrDownloadSvg(){
-  const text=document.getElementById('qrText').value.trim();if(!text){showToast('⚠ Enter text first');return}
-  const size=parseInt(document.getElementById('qrSize').value);
-  const fg=document.getElementById('qrFgColor').value,bg=document.getElementById('qrBgColor').value;
-  // Simple SVG QR (fallback - use canvas as source)
-  const c=document.getElementById('qrCanvas');
-  const dataUrl=c.toDataURL('image/png');
-  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}"><image href="${dataUrl}" width="${size}" height="${size}"/></svg>`;
-  const blob=new Blob([svg],{type:'image/svg+xml'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='qrcode.svg';a.click();
-  showToast('✓ QR SVG downloaded!');
-}
-
-function qrCopyToClipboard(){
-  const c=document.getElementById('qrCanvas');
-  c.toBlob(blob=>{try{navigator.clipboard.write([new ClipboardItem({'image/png':blob})]).then(()=>showToast('✓ Copied to clipboard!')).catch(()=>showToast('⚠ Copy not supported in this browser','var(--gold2)'))}catch(e){showToast('⚠ Copy not supported','var(--gold2)')}});
-}
-
-function qrReadFile(input){
-  const file=input.files[0];if(!file)return;
-  qrProcessImageFile(file);
-}
-
+function qrDownloadPng(){const c=document.getElementById('qrCanvas'),text=document.getElementById('qrText').value.trim();if(!text){showToast('⚠ Enter text first');return}const a=document.createElement('a');a.href=c.toDataURL('image/png');a.download='qrcode.png';a.click();showToast('✓ QR PNG downloaded!')}
+function qrDownloadSvg(){const text=document.getElementById('qrText').value.trim();if(!text){showToast('⚠ Enter text first');return}const size=parseInt(document.getElementById('qrSize').value);const c=document.getElementById('qrCanvas');const dataUrl=c.toDataURL('image/png');const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}"><image href="${dataUrl}" width="${size}" height="${size}"/></svg>`;const blob=new Blob([svg],{type:'image/svg+xml'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='qrcode.svg';a.click();showToast('✓ QR SVG downloaded!')}
+function qrCopyToClipboard(){const c=document.getElementById('qrCanvas');c.toBlob(blob=>{try{navigator.clipboard.write([new ClipboardItem({'image/png':blob})]).then(()=>showToast('✓ Copied to clipboard!')).catch(()=>showToast('⚠ Copy not supported','var(--gold2)'))}catch(e){showToast('⚠ Copy not supported','var(--gold2)')}})}
+function qrReadFile(input){const file=input.files[0];if(!file)return;qrProcessImageFile(file)}
 function qrProcessImageFile(file){
   const errBox=document.getElementById('qrReadError'),resultBox=document.getElementById('qrResultBox');
   errBox.style.display='none';resultBox.style.display='none';
   const reader=new FileReader();
-  reader.onload=e=>{
-    const img=new Image();
-    img.onload=()=>{
-      const canvas=document.getElementById('qrReaderCanvas');
-      canvas.width=img.width;canvas.height=img.height;
-      canvas.getContext('2d').drawImage(img,0,0);
-      const imageData=canvas.getContext('2d').getImageData(0,0,canvas.width,canvas.height);
-      const code=jsQR(imageData.data,imageData.width,imageData.height);
-      if(code){
-        document.getElementById('qrResultText').textContent=code.data;
-        resultBox.style.display='block';
-        try{new URL(code.data);document.getElementById('qrOpenUrlBtn').style.display='inline-flex';document.getElementById('qrOpenUrlBtn').dataset.url=code.data}catch(e){document.getElementById('qrOpenUrlBtn').style.display='none'}
-        showToast('✓ QR code decoded!');
-      }else{
-        errBox.textContent='✕ No QR code found in this image. Try a clearer or higher-resolution image.';
-        errBox.style.display='block';
-      }
-    };
-    img.src=e.target.result;
-  };
-  reader.readAsDataURL(file);
+  reader.onload=e=>{const img=new Image();img.onload=()=>{const canvas=document.getElementById('qrReaderCanvas');canvas.width=img.width;canvas.height=img.height;canvas.getContext('2d').drawImage(img,0,0);const imageData=canvas.getContext('2d').getImageData(0,0,canvas.width,canvas.height);const code=jsQR(imageData.data,imageData.width,imageData.height);if(code){document.getElementById('qrResultText').textContent=code.data;resultBox.style.display='block';try{new URL(code.data);document.getElementById('qrOpenUrlBtn').style.display='inline-flex';document.getElementById('qrOpenUrlBtn').dataset.url=code.data}catch(e){document.getElementById('qrOpenUrlBtn').style.display='none'}showToast('✓ QR code decoded!')}else{errBox.textContent='✕ No QR code found in this image.';errBox.style.display='block'}};img.src=e.target.result};reader.readAsDataURL(file);
 }
-
-// QR reader drag-and-drop
 const qrRA=document.getElementById('qrReaderArea');
 qrRA.addEventListener('dragover',e=>{e.preventDefault();qrRA.classList.add('drag-over')});
 qrRA.addEventListener('dragleave',()=>qrRA.classList.remove('drag-over'));
 qrRA.addEventListener('drop',e=>{e.preventDefault();qrRA.classList.remove('drag-over');const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('image/'))qrProcessImageFile(f);else showToast('⚠ Please drop an image file')});
-
-function qrCopyResult(){
-  const text=document.getElementById('qrResultText').textContent;
-  navigator.clipboard.writeText(text).then(()=>showToast('✓ Copied!')).catch(()=>{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);showToast('✓ Copied!')});
-}
+function qrCopyResult(){const text=document.getElementById('qrResultText').textContent;navigator.clipboard.writeText(text).then(()=>showToast('✓ Copied!')).catch(()=>{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);showToast('✓ Copied!')})}
 function qrOpenUrl(){const url=document.getElementById('qrOpenUrlBtn').dataset.url;if(url)window.open(url,'_blank','')}
 </script>
 
 <!-- ══════════════ COD CALCULATOR JS ══════════════ -->
 <script>
 let codBkOpen=false;
+
+function codSwitchMode(mode){
+  document.getElementById('codModeCalc').classList.toggle('active',mode==='calc');
+  document.getElementById('codModePricing').classList.toggle('active',mode==='pricing');
+  document.getElementById('cod-calc-section').classList.toggle('active',mode==='calc');
+  document.getElementById('cod-pricing-section').classList.toggle('active',mode==='pricing');
+  if(mode==='pricing')pricingCalc();
+}
+
 function codToggleBreakdown(){
   codBkOpen=!codBkOpen;
   document.getElementById('codBreakdown').style.display=codBkOpen?'block':'none';
   document.getElementById('codBkBtn').textContent=codBkOpen?'▲ Hide breakdown':'▼ Show breakdown';
 }
-function codVal(id){return parseFloat(document.getElementById(id).value)||0}
+
+function codV(id){return parseFloat(document.getElementById(id).value)||0}
+
+/* ─── PROFIT / SIMULATION CALC ─── */
 function codCalc(){
-  const price=codVal('cod-price'),prodCost=codVal('cod-product-cost'),ads=codVal('cod-ads');
-  const delivery=codVal('cod-delivery'),confirm=codVal('cod-confirm'),fulfill=codVal('cod-fulfill');
-  const returnCost=codVal('cod-return'),other=codVal('cod-other');
-  const confRate=codVal('cod-conf-rate')/100,delivRate=codVal('cod-deliv-rate')/100;
+  const price=codV('cod-price'),prodCost=codV('cod-product-cost'),ads=codV('cod-ads');
+  const delivery=codV('cod-delivery'),confirm=codV('cod-confirm'),fulfill=codV('cod-fulfill');
+  const returnCost=codV('cod-return'),other=codV('cod-other');
+  const confRate=codV('cod-conf-rate')/100,delivRate=codV('cod-deliv-rate')/100;
   const effRate=confRate*delivRate;
   document.getElementById('cod-eff-rate-display').textContent=(effRate*100).toFixed(2)+'%';
 
-  // ─── Per 100 orders sent ───
-  // CORRECT LOGIC:
-  // • Product cost    → only on DELIVERED orders (you only buy stock that gets sold)
-  // • Confirmation    → only on DELIVERED orders (confirmation center charges per delivered)
-  // • Delivery fee    → only on DELIVERED orders
-  // • Fulfillment     → all 100 (warehouse handles every order)
-  // • Ads             → all 100 (you paid for every lead)
-  // • Return cost     → non-delivered orders (optional, default 0)
   const N=100;
-  const confirmed=N*confRate;          // orders that get confirmed
-  const delivered=N*effRate;           // orders actually delivered (conf × deliv rate)
-  const nonDelivered=N-delivered;      // refused + undelivered
-
-  const revenue      = delivered * price;
-  const costProd     = delivered * prodCost;    // ← only on delivered
-  const costAds      = N * ads;                  // ← all 100 leads
-  const costDeliv    = delivered * delivery;     // ← only on delivered
-  const costConfirm  = delivered * confirm;      // ← only on delivered
-  const costFulfill  = N * fulfill;              // ← all 100
-  const costReturn   = nonDelivered * returnCost;// ← non-delivered (0 by default)
-  const costOther    = N * other;
-
-  const totalCost = costProd + costAds + costDeliv + costConfirm + costFulfill + costReturn + costOther;
-  const netProfit = revenue - totalCost;
+  const confirmed=N*confRate,delivered=N*effRate,nonDelivered=N-delivered;
+  const revenue=delivered*price,costProd=delivered*prodCost,costAds=N*ads;
+  const costDeliv=delivered*delivery,costConfirm=delivered*confirm,costFulfill=N*fulfill;
+  const costReturn=nonDelivered*returnCost,costOther=N*other;
+  const totalCost=costProd+costAds+costDeliv+costConfirm+costFulfill+costReturn+costOther;
+  const netProfit=revenue-totalCost;
 
   document.getElementById('cod-r-orders').textContent=delivered.toFixed(1);
   document.getElementById('cod-r-revenue').textContent=revenue.toFixed(0)+' DH';
   document.getElementById('cod-r-total-cost').textContent=totalCost.toFixed(0)+' DH';
   document.getElementById('cod-r-profit').textContent=(netProfit>=0?'+':'')+netProfit.toFixed(0)+' DH';
-  const profBox=document.getElementById('cod-r-profit-box'),profVal=document.getElementById('cod-r-profit');
-  profBox.className='cod-result-box '+(netProfit>0?'profit':netProfit<0?'loss':'neutral');
-  profVal.className='cod-result-val '+(netProfit>0?'green':netProfit<0?'red':'gold');
+  const pb=document.getElementById('cod-r-profit-box'),pv=document.getElementById('cod-r-profit');
+  pb.className='cod-result-box '+(netProfit>0?'profit':netProfit<0?'loss':'neutral');
+  pv.className='cod-result-val '+(netProfit>0?'green':netProfit<0?'red':'gold');
 
-  // ─── Breakdown ───
   document.getElementById('bk-revenue').textContent='+'+revenue.toFixed(0)+' DH';document.getElementById('bk-revenue').className='cod-bk-val green';
   document.getElementById('bk-prod').textContent='-'+costProd.toFixed(0)+' DH ('+delivered.toFixed(1)+' orders)';document.getElementById('bk-prod').className='cod-bk-val red';
   document.getElementById('bk-ads').textContent='-'+costAds.toFixed(0)+' DH ('+N+' leads × '+ads+' DH)';document.getElementById('bk-ads').className='cod-bk-val red';
   document.getElementById('bk-deliv').textContent='-'+costDeliv.toFixed(0)+' DH';document.getElementById('bk-deliv').className='cod-bk-val red';
   document.getElementById('bk-conf').textContent='-'+costConfirm.toFixed(0)+' DH ('+delivered.toFixed(1)+' delivered)';document.getElementById('bk-conf').className='cod-bk-val red';
   document.getElementById('bk-fulfill').textContent='-'+costFulfill.toFixed(0)+' DH (all '+N+')';document.getElementById('bk-fulfill').className='cod-bk-val red';
-  document.getElementById('bk-return').textContent=returnCost>0?('-'+costReturn.toFixed(0)+' DH ('+nonDelivered.toFixed(1)+' returns)'):'0 DH';document.getElementById('bk-return').className='cod-bk-val '+(returnCost>0?'red':'');
+  document.getElementById('bk-return').textContent=returnCost>0?('-'+costReturn.toFixed(0)+' DH'):'0 DH';document.getElementById('bk-return').className='cod-bk-val '+(returnCost>0?'red':'');
   document.getElementById('bk-other').textContent='-'+costOther.toFixed(0)+' DH';document.getElementById('bk-other').className='cod-bk-val red';
-  const netEl=document.getElementById('bk-net');netEl.textContent=(netProfit>=0?'+':'')+netProfit.toFixed(0)+' DH';netEl.className='cod-bk-val '+(netProfit>0?'green':netProfit<0?'red':'gold');
+  const ne=document.getElementById('bk-net');ne.textContent=(netProfit>=0?'+':'')+netProfit.toFixed(0)+' DH';ne.className='cod-bk-val '+(netProfit>0?'green':netProfit<0?'red':'gold');
 
-  // ─── Per single delivered order ───
-  const fixedPerOrder = delivery + confirm + fulfill;
-  const grossMargin   = price - prodCost;
+  const fixedPerOrder=delivery+confirm+fulfill,grossMargin=price-prodCost;
   document.getElementById('cod-s-margin').textContent=grossMargin.toFixed(0)+' DH';
   document.getElementById('cod-s-fixed').textContent=fixedPerOrder.toFixed(0)+' DH';
-  const netPerDelivered = delivered>0 ? netProfit/delivered : 0;
+  const netPerDelivered=delivered>0?netProfit/delivered:0;
   const sEl=document.getElementById('cod-s-profit'),sBox=document.getElementById('cod-s-profit-box');
   sEl.textContent=(netPerDelivered>=0?'+':'')+netPerDelivered.toFixed(1)+' DH';
   sEl.className='cod-result-val '+(netPerDelivered>0?'green':netPerDelivered<0?'red':'gold');
@@ -1516,70 +1491,132 @@ function codCalc(){
   const roi=totalCost>0?(netProfit/totalCost*100):0;
   document.getElementById('cod-s-roi').textContent=(roi>=0?'+':'')+roi.toFixed(1)+'%';
 
-  // ─── Media Buying Metrics ───
-  // Cost per Delivered = total ads spend ÷ delivered orders
-  const totalAdsSpend = N * ads;
-  const cpd = delivered > 0 ? totalAdsSpend / delivered : 0;
-  const cpcVal = confirmed > 0 ? totalAdsSpend / confirmed : 0;
-  const cpl = ads; // cost per lead = ads cost per order sent
-  const roas = totalAdsSpend > 0 ? revenue / totalAdsSpend : 0;
+  const totalAdsSpend=N*ads,cpd=delivered>0?totalAdsSpend/delivered:0,cpcVal=confirmed>0?totalAdsSpend/confirmed:0;
+  document.getElementById('cod-cpd').textContent=cpd>0?cpd.toFixed(2)+' DH':'—';
+  document.getElementById('cod-cpc-val').textContent=cpcVal>0?cpcVal.toFixed(2)+' DH':'—';
+  document.getElementById('cod-cpl').textContent=ads>0?ads.toFixed(2)+' DH':'—';
+  document.getElementById('cod-roas').textContent=totalAdsSpend>0?(revenue/totalAdsSpend).toFixed(2)+'x':'—';
 
-  document.getElementById('cod-cpd').textContent = cpd > 0 ? cpd.toFixed(2)+' DH' : '—';
-  document.getElementById('cod-cpc-val').textContent = cpcVal > 0 ? cpcVal.toFixed(2)+' DH' : '—';
-  document.getElementById('cod-cpl').textContent = cpl > 0 ? cpl.toFixed(2)+' DH' : '—';
-  document.getElementById('cod-roas').textContent = roas > 0 ? roas.toFixed(2)+'x' : '—';
-
-  // ─── Break-even ───
-  // Min price: revenue must cover total cost when delivered is fixed
-  // price * delivered = costProd_d + costAds + costDeliv + costConfirm_d + costFulfill + costReturn_nd + costOther
-  // price * d = d*prodCost + N*ads + d*delivery + d*confirm + N*fulfill + nd*returnCost + N*other
-  // price = prodCost + (N*ads + N*fulfill + nd*returnCost + N*other)/d + delivery + confirm
-  const bePriceVal = delivered > 0
-    ? prodCost + (N*ads + N*fulfill + nonDelivered*returnCost + N*other)/delivered + delivery + confirm
-    : null;
-  document.getElementById('cod-be-price').textContent = bePriceVal ? bePriceVal.toFixed(0)+' DH' : '—';
-
-  // Min delivered orders for break-even (brute force)
+  const bePriceVal=delivered>0?prodCost+(N*ads+N*fulfill+nonDelivered*returnCost+N*other)/delivered+delivery+confirm:null;
+  document.getElementById('cod-be-price').textContent=bePriceVal?bePriceVal.toFixed(0)+' DH':'—';
   let beOrders='—';
-  for(let d=1;d<=N;d++){
-    const nd=N-d;
-    const rev=d*price;
-    const tc=d*prodCost+N*ads+d*delivery+d*confirm+N*fulfill+nd*returnCost+N*other;
-    if(rev>=tc){beOrders=d;break}
-  }
+  for(let d=1;d<=N;d++){const nd=N-d;if(d*price>=d*prodCost+N*ads+d*delivery+d*confirm+N*fulfill+nd*returnCost+N*other){beOrders=d;break}}
   document.getElementById('cod-be-orders').textContent=beOrders;
-
-  // Min confirmation rate (brute force, keep delivRate fixed)
   let minConf='—';
-  for(let cr=1;cr<=100;cr++){
-    const er=(cr/100)*delivRate,d=N*er,nd=N-d,conf=d;
-    const rev=d*price;
-    const tc=d*prodCost+N*ads+d*delivery+d*confirm+N*fulfill+nd*returnCost+N*other;
-    if(rev>=tc){minConf=cr+'%';break}
-  }
+  for(let cr=1;cr<=100;cr++){const er=(cr/100)*delivRate,d=N*er,nd=N-d;if(d*price>=d*prodCost+N*ads+d*delivery+d*confirm+N*fulfill+nd*returnCost+N*other){minConf=cr+'%';break}}
   document.getElementById('cod-be-conf-rate').textContent=minConf;
-
-  // Min delivery rate (brute force, keep confRate fixed)
   let minDeliv='—';
-  for(let dr=1;dr<=100;dr++){
-    const er=confRate*(dr/100),d=N*er,nd=N-d;
-    const rev=d*price;
-    const tc=d*prodCost+N*ads+d*delivery+d*confirm+N*fulfill+nd*returnCost+N*other;
-    if(rev>=tc){minDeliv=dr+'%';break}
-  }
+  for(let dr=1;dr<=100;dr++){const er=confRate*(dr/100),d=N*er,nd=N-d;if(d*price>=d*prodCost+N*ads+d*delivery+d*confirm+N*fulfill+nd*returnCost+N*other){minDeliv=dr+'%';break}}
   document.getElementById('cod-be-deliv-rate').textContent=minDeliv;
 
-  // ─── Scenarios ───
   const scenarios=[{cr:40,dr:60},{cr:50,dr:65},{cr:60,dr:70},{cr:65,dr:75},{cr:70,dr:80},{cr:75,dr:85}];
-  const sgGrid=document.getElementById('codScenarioGrid');
-  sgGrid.innerHTML=scenarios.map(s=>{
+  document.getElementById('codScenarioGrid').innerHTML=scenarios.map(s=>{
     const er=(s.cr/100)*(s.dr/100),d=N*er,nd=N-d;
-    const rev=d*price;
-    const tc=d*prodCost+N*ads+d*delivery+d*confirm+N*fulfill+nd*returnCost+N*other;
-    const np=rev-tc;const isPos=np>=0;
+    const rev=d*price,tc=d*prodCost+N*ads+d*delivery+d*confirm+N*fulfill+nd*returnCost+N*other,np=rev-tc;const isPos=np>=0;
     return`<div class="cod-scenario"><div class="cod-scenario-rate">Conf ${s.cr}% · Deliv ${s.dr}%</div><div class="cod-scenario-profit" style="color:${isPos?'var(--green)':'var(--danger)'}">${isPos?'+':''}${np.toFixed(0)} DH</div><div style="font-size:10px;color:var(--muted)">${d.toFixed(0)} delivered</div></div>`;
   }).join('');
 }
+
+/* ─── SMART PRICING CALC ─── */
+function pricingCalc(){
+  const prodCost=codV('p-prod-cost'),delivery=codV('p-delivery'),confirm=codV('p-confirm'),fulfill=codV('p-fulfill'),ads=codV('p-ads');
+  const confRate=codV('p-conf-rate')/100,delivRate=codV('p-deliv-rate')/100,minProfit=codV('p-min-profit');
+  const effRate=confRate*delivRate;
+  const N=100,delivered=N*effRate,confirmed=N*confRate,nonDelivered=N-delivered;
+
+  document.getElementById('p-eff-rate').textContent=(effRate*100).toFixed(1)+'%';
+  document.getElementById('p-min-profit-display').textContent=minProfit+' DH';
+
+  if(delivered<=0){
+    ['p-suggested-price','p-cpd','p-cpc','p-net-profit','p-gross-margin'].forEach(id=>{document.getElementById(id).textContent='—'});
+    return;
+  }
+
+  // Formula: price * delivered = delivered*(prodCost+delivery+confirm) + N*(ads+fulfill) + nonDelivered*0 + delivered*minProfit
+  // price = prodCost + delivery + confirm + (N*(ads+fulfill))/delivered + minProfit
+  // We want NET profit per delivered order = minProfit
+  // Net profit per 100 orders = revenue - all costs
+  // revenue = delivered * price
+  // total cost = delivered*prodCost + N*ads + delivered*delivery + delivered*confirm + N*fulfill
+  // net = delivered*price - (delivered*(prodCost+delivery+confirm) + N*(ads+fulfill))
+  // net/delivered = price - (prodCost+delivery+confirm) - N*(ads+fulfill)/delivered
+  // For net/delivered = minProfit:
+  // price = prodCost + delivery + confirm + N*(ads+fulfill)/delivered + minProfit
+  const fixedCostPerDelivered=(N*(ads+fulfill))/delivered;
+  const suggestedPrice=prodCost+delivery+confirm+fixedCostPerDelivered+minProfit;
+  const roundedPrice=Math.ceil(suggestedPrice/5)*5; // round up to nearest 5
+
+  document.getElementById('p-suggested-price').textContent=roundedPrice;
+
+  // Recalculate with rounded price
+  const revenue=delivered*roundedPrice;
+  const totalCost=delivered*(prodCost+delivery+confirm)+N*(ads+fulfill);
+  const netProfit100=revenue-totalCost;
+  const netPerDelivered=netProfit100/delivered;
+  const grossMargin=roundedPrice-prodCost;
+  const totalAds=N*ads;
+  const cpd=totalAds/delivered,cpc=totalAds/confirmed;
+  const roi=totalCost>0?(netProfit100/totalCost*100):0;
+
+  document.getElementById('p-cpd').textContent=cpd.toFixed(2)+' DH';
+  document.getElementById('p-cpc').textContent=cpc.toFixed(2)+' DH';
+  document.getElementById('p-net-profit').textContent='+'+netPerDelivered.toFixed(1)+' DH';
+  document.getElementById('p-gross-margin').textContent=grossMargin.toFixed(0)+' DH';
+
+  // Update slider starting point to suggested price
+  const slider=document.getElementById('p-sim-slider');
+  slider.value=roundedPrice;
+  document.getElementById('p-sim-price-display').textContent=roundedPrice;
+  pricingSimCalcAt(roundedPrice,prodCost,delivery,confirm,fulfill,ads,confRate,delivRate,minProfit);
+
+  // Build price table: rows from prodCost+48 to suggestedPrice+200, step 10
+  const tableMin=Math.max(50,Math.floor((suggestedPrice-80)/10)*10);
+  const tableMax=Math.ceil((suggestedPrice+180)/10)*10;
+  const rows=[];
+  for(let p=tableMin;p<=tableMax;p+=10){
+    const rev=delivered*p,tc=delivered*(prodCost+delivery+confirm)+N*(ads+fulfill);
+    const np=rev-tc,npPerD=np/delivered,r=tc>0?(np/tc*100):0;
+    const isRecommended=p===roundedPrice;
+    const cpd2=(N*ads)/delivered,cpc2=(N*ads)/confirmed;
+    const cls=npPerD>=minProfit?'profit-good':npPerD>=0?'profit-warn':'profit-bad';
+    rows.push(`<tr class="${isRecommended?'highlighted-row':''}">
+      <td><strong>${p} DH</strong>${isRecommended?' ✓':''}</td>
+      <td class="${cls}">${npPerD>=0?'+':''}${npPerD.toFixed(1)} DH</td>
+      <td class="${cls}">${np>=0?'+':''}${np.toFixed(0)} DH</td>
+      <td>${cpd2.toFixed(1)} DH</td>
+      <td>${cpc2.toFixed(1)} DH</td>
+      <td class="${r>=0?'profit-good':'profit-bad'}">${r>=0?'+':''}${r.toFixed(1)}%</td>
+    </tr>`);
+  }
+  document.getElementById('p-table-body').innerHTML=rows.join('');
+  // Scroll recommended row into view
+  setTimeout(()=>{const rec=document.querySelector('#p-table-body .highlighted-row');if(rec)rec.scrollIntoView({block:'nearest'})},100);
+}
+
+function pricingSimUpdate(){
+  const price=parseInt(document.getElementById('p-sim-slider').value);
+  document.getElementById('p-sim-price-display').textContent=price;
+  const prodCost=codV('p-prod-cost'),delivery=codV('p-delivery'),confirm=codV('p-confirm'),fulfill=codV('p-fulfill'),ads=codV('p-ads');
+  const confRate=codV('p-conf-rate')/100,delivRate=codV('p-deliv-rate')/100,minProfit=codV('p-min-profit');
+  pricingSimCalcAt(price,prodCost,delivery,confirm,fulfill,ads,confRate,delivRate,minProfit);
+}
+
+function pricingSimCalcAt(price,prodCost,delivery,confirm,fulfill,ads,confRate,delivRate,minProfit){
+  const N=100,delivered=N*confRate*delivRate,confirmed=N*confRate;
+  if(delivered<=0)return;
+  const revenue=delivered*price,totalCost=delivered*(prodCost+delivery+confirm)+N*(ads+fulfill);
+  const np=revenue-totalCost,npPerD=delivered>0?np/delivered:0,roi=totalCost>0?(np/totalCost*100):0;
+  const cpd=(N*ads)/delivered;
+  const profitColor=npPerD>=minProfit?'var(--green)':npPerD>=0?'var(--gold2)':'var(--danger)';
+  document.getElementById('p-sim-profit').textContent=(npPerD>=0?'+':'')+npPerD.toFixed(1)+' DH';
+  document.getElementById('p-sim-profit').style.color=profitColor;
+  document.getElementById('p-sim-profit100').textContent=(np>=0?'+':'')+np.toFixed(0)+' DH';
+  document.getElementById('p-sim-profit100').style.color=profitColor;
+  document.getElementById('p-sim-cpd-val').textContent=cpd.toFixed(1)+' DH';
+  document.getElementById('p-sim-roi').textContent=(roi>=0?'+':'')+roi.toFixed(1)+'%';
+}
+
+window.addEventListener('load',()=>{codCalc();qrGenerate();pricingCalc()});
 </script>
 
 </body>
