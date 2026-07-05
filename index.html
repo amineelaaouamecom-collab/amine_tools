@@ -2117,3 +2117,65 @@ window.addEventListener('load',()=>{
 </script>
 </body>
 </html>
+<!-- ============================================================
+  SAWTY.MA — KEY ROTATION PATCH
+  Zid had script tag QBLA </body> f HTML dyalk
+  ============================================================ -->
+<script>
+// ── SAWTY.MA 5-KEY ROTATION SYSTEM ──────────────────────────────────────
+(function(){
+  const KEYS=[
+    'AQ.Ab8RN6K8bohctlfFDZkKLP_izRTs5Spy_Cy102VFTpOQEzL6LA',
+    'AQ.Ab8RN6Jsb8DVajTeqwZb_2fikoUWE3jZw2ck6CZ5ag6IP8hxUw',
+    'AQ.Ab8RN6Lis0OnYXh-xRjWOt9qFvSs_ocBA6fLUgS0PMfOwcS7DQ',
+    'AQ.Ab8RN6I-vAXRID6eile1jh9vef_8fakTcOKJSxGrJuzSjiUBvg',
+    'AQ.Ab8RN6IxHn77tuVrYlVhPag8IbrI1-I2k9cbYjvIMjYLIB6rOQ',
+  ];
+  let idx=parseInt(localStorage.getItem('_sk_i')||'0')%KEYS.length;
+  let fails=JSON.parse(localStorage.getItem('_sk_f')||'{}');
+  // Reset errors kol s3a
+  (function(){const n=Date.now(),l=parseInt(localStorage.getItem('_sk_r')||'0');if(n-l>3600000){fails={};localStorage.setItem('_sk_f','{}');localStorage.setItem('_sk_r',String(n));}})();
+
+  window.aiGetKey=function(){
+    for(let t=0;t<KEYS.length;t++){
+      if((fails[idx]||0)<3)return KEYS[idx];
+      idx=(idx+1)%KEYS.length;
+    }
+    fails={};localStorage.setItem('_sk_f','{}');idx=0;return KEYS[0];
+  };
+  window.aiRotateKey=function(){
+    fails[idx]=(fails[idx]||0)+1;
+    localStorage.setItem('_sk_f',JSON.stringify(fails));
+    idx=(idx+1)%KEYS.length;
+    localStorage.setItem('_sk_i',String(idx));
+    if(typeof showToast==='function')showToast('🔄 Key '+(idx+1)+'/'+KEYS.length+' — auto switch!','var(--gold2)');
+    return window.aiGetKey();
+  };
+  window.aiLoadKey=function(){
+    const el=document.getElementById('ai-api-key');
+    if(el)el.value='●●●●●● ('+KEYS.length+' keys — rotation auto)';
+  };
+  window.aiSaveKey=function(){};
+
+  // Auto-patch Gemini fetch calls — rotate on 429/403/quota
+  const _origFetch=window.fetch;
+  window.fetch=async function(url,opts){
+    if(typeof url==='string'&&url.includes('generativelanguage.googleapis.com')){
+      // Inject current key
+      const k=window.aiGetKey();
+      url=url.replace(/key=[^&]+/,'key='+encodeURIComponent(k));
+      const r=await _origFetch(url,opts);
+      // Rate limit — rotate o retry
+      if(r.status===429||r.status===403){
+        const k2=window.aiRotateKey();
+        const url2=url.replace(/key=[^&]+/,'key='+encodeURIComponent(k2));
+        return _origFetch(url2,opts);
+      }
+      return r;
+    }
+    return _origFetch(url,opts);
+  };
+
+  console.log('[SAWTY] Key rotation ready — '+KEYS.length+' keys configured');
+})();
+</script>
