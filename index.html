@@ -550,6 +550,10 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
 .angle-chip .ac-icon{font-size:16px;flex-shrink:0}
 .angle-chip .ac-check{width:14px;height:14px;border-radius:3px;border:1.5px solid var(--border2);margin-left:auto;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .15s}
 .angle-chip.selected .ac-check{background:var(--ai-primary);border-color:var(--ai-primary);color:#fff}
+.lpbox::before{background:radial-gradient(ellipse at 50% 0%,rgba(249,115,22,.1)0%,transparent 65%)}
+.lpbox .tool-box-name{background:linear-gradient(135deg,#f97316,#ec4899);-webkit-background-clip:text;background-clip:text}
+.tool-box.active.lp-active{border-color:#f97316}
+.tool-box.lp-active .tool-box-arrow{color:#f97316}
 </style>
 </head>
 <body>
@@ -580,6 +584,12 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
     <div class="tool-box-icon">🎙️</div><div class="tool-box-name">sawty.ma</div>
     <div class="tool-box-desc">Generate hype Moroccan Darija TikTok UGC scripts + AI voiceover audio.</div>
     <div class="tool-box-tags"><span class="tool-tag">Darija Script</span><span class="tool-tag">AI Voice</span><span class="tool-tag">script</span></div>
+    <span class="tool-box-arrow">›</span>
+  </div>
+  <div class="tool-box lpbox" id="lpbox" onclick="toggleTool('lp-panel','lpbox')">
+    <div class="tool-box-icon">🖼️</div><div class="tool-box-name">Landing Page AI</div>
+    <div class="tool-box-desc">Upload product photo → AI kaysewwer lik landing page kamla, mobile-ready, b Darija/Français/English.</div>
+    <div class="tool-box-tags"><span class="tool-tag">AI Design</span><span class="tool-tag">Mobile</span><span class="tool-tag">Auto Copy</span></div>
     <span class="tool-box-arrow">›</span>
   </div>
   <div class="tool-box squish-box" id="squishit-box" onclick="toggleTool('squishit-panel','squishit-box')">
@@ -1323,6 +1333,75 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
   </div>
 </div></div>
 
+<!-- AI LANDING PAGE GENERATOR PANEL -->
+<div class="tool-panel" id="lp-panel"><div class="tool-panel-inner">
+  <button class="panel-close-btn" onclick="closePanel('lp-panel','lpbox')">✕</button>
+  <div class="logo" style="background:linear-gradient(135deg,#f97316,#ec4899 60%,#8b5cf6);-webkit-background-clip:text;background-clip:text">Landing Page AI 🖼️</div>
+  <p class="tagline">Sift taswira dyal product, 3tini détails — o l'AI kay-design lik landing page <span style="color:#f97316">kamla, mobile-ready</span></p>
+
+  <div class="ai-grid">
+    <div class="ai-field full">
+      <label class="ai-label">📸 Product Photo</label>
+      <div class="creative-drop" id="lpPhotoDrop" onclick="document.getElementById('lpPhotoInput').click()">
+        <div id="lpPhotoPreviewWrap" style="display:none">
+          <img id="lpPhotoPreview" style="max-width:120px;max-height:120px;border-radius:10px;border:1px solid var(--border2)">
+        </div>
+        <div id="lpPhotoPlaceholder">
+          <div style="font-size:24px;margin-bottom:6px">📸</div>
+          <div style="font-size:13px;color:var(--text);margin-bottom:4px">Click or drop product photo hna</div>
+          <div style="font-size:11px;color:var(--muted)">JPG, PNG, WebP</div>
+        </div>
+      </div>
+      <input type="file" id="lpPhotoInput" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="lpHandlePhoto(this.files[0])">
+    </div>
+
+    <div class="ai-field"><label class="ai-label">Product Name</label><input type="text" class="ai-input" id="lp-name" placeholder="Gel Cheveux Pro"></div>
+    <div class="ai-field"><label class="ai-label">Currency</label><input type="text" class="ai-input" id="lp-currency" value="DH" placeholder="DH"></div>
+    <div class="ai-field"><label class="ai-label">Price</label><input type="number" class="ai-input" id="lp-price" placeholder="199"></div>
+    <div class="ai-field"><label class="ai-label">Original Price (optional — pour promo)</label><input type="number" class="ai-input" id="lp-original-price" placeholder="349"></div>
+    <div class="ai-field full"><label class="ai-label">Offer / Promo (livraison gratuite, -40% aujourd'hui...)</label><input type="text" class="ai-input" id="lp-offer" placeholder="Livraison gratuite + Paiement à la livraison"></div>
+    <div class="ai-field"><label class="ai-label">Language</label>
+      <select class="ai-select" id="lp-lang">
+        <option value="Moroccan Darija (Arabic script)">Darija (حروف عربية)</option>
+        <option value="Moroccan Darija (Latin/Arabizi script)">Darija (Arabizi)</option>
+        <option value="French">Français</option>
+        <option value="Modern Standard Arabic">العربية الفصحى</option>
+        <option value="English">English</option>
+      </select>
+    </div>
+    <div class="ai-field"><label class="ai-label">Tone</label>
+      <select class="ai-select" id="lp-tone">
+        <option>Promo/Hype (énergique, urgent)</option>
+        <option>Trust/Premium (calme, rassurant)</option>
+        <option>Storytelling (avant/après, émotionnel)</option>
+        <option>Comedy (léger, drôle)</option>
+      </select>
+    </div>
+  </div>
+
+  <div style="margin-top:6px;margin-bottom:4px">
+    <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:10px">🎯 Marketing Angles</div>
+    <div id="lp-angles-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px"></div>
+  </div>
+
+  <button class="ai-btn-generate" id="lp-gen-btn" onclick="lpGenerate()" style="margin-top:16px;background:linear-gradient(135deg,#f97316,#ec4899)">✨ Générer Landing Page</button>
+  <div id="lp-error"></div>
+
+  <div id="lp-preview-section" style="display:none;margin-top:24px">
+    <div class="results-header">
+      <span class="results-title">📱 Preview</span>
+      <div class="action-btns">
+        <button class="btn primary" id="lp-download-btn" onclick="lpDownloadHtml()">↓ Download HTML</button>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:center;margin-top:14px">
+      <div style="width:390px;max-width:100%;height:750px;border-radius:34px;border:8px solid #1a1a1a;overflow:hidden;background:#000">
+        <iframe id="lp-preview-frame" style="width:100%;height:100%;border:none;background:#fff"></iframe>
+      </div>
+    </div>
+  </div>
+</div></div>
+
 <footer>
   <div class="footer-left">Made with <span>♥</span> — By Amine Loading · 100% client-side, files never leave your device</div>
   <div class="footer-right"><span class="dot"></span> No upload limit &nbsp;·&nbsp; <span class="dot"></span> No sign-up &nbsp;·&nbsp; <span class="dot"></span> Forever free</div>
@@ -1337,24 +1416,25 @@ function toggleTool(panelId,boxId){
   const panel=document.getElementById(panelId),box=document.getElementById(boxId);
   const isOpen=panel.classList.contains('open');
   document.querySelectorAll('.tool-panel').forEach(p=>p.classList.remove('open'));
-  document.querySelectorAll('.tool-box').forEach(b=>b.classList.remove('active','tiktok-active','converter-active','bg-active','qr-active','cod-active','fc-active','tester-active','ai-active'));
+  document.querySelectorAll('.tool-box').forEach(b=>b.classList.remove('active','tiktok-active','converter-active','bg-active','qr-active','cod-active','fc-active','tester-active','ai-active','lp-active'));
   if(!isOpen){
     panel.classList.add('open');
     if(box){
       box.classList.add('active');
-      const map={'amine-panel':'tiktok-active','mp4-panel':'converter-active','bg-panel':'bg-active','qr-panel':'qr-active','cod-panel':'cod-active','fc-panel':'fc-active','tester-panel':'tester-active','ai-panel':'ai-active'};
+      const map={'amine-panel':'tiktok-active','mp4-panel':'converter-active','bg-panel':'bg-active','qr-panel':'qr-active','cod-panel':'cod-active','fc-panel':'fc-active','tester-panel':'tester-active','ai-panel':'ai-active','lp-panel':'lp-active'};
       if(map[panelId])box.classList.add(map[panelId]);
     }
     setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'start'}),80);
     if(panelId==='fc-panel')setTimeout(fcRender,150);
     if(panelId==='tester-panel')testerRender();
     if(panelId==='ai-panel'){aiLoadKey();sawtyRender();aiInitAngles();}
+    if(panelId==='lp-panel'){lpInitAngles();}
   }
 }
 function closePanel(panelId,boxId){
   document.getElementById(panelId).classList.remove('open');
   const b=document.getElementById(boxId);
-  if(b)b.classList.remove('active','tiktok-active','converter-active','bg-active','qr-active','cod-active','fc-active','tester-active','ai-active');
+  if(b)b.classList.remove('active','tiktok-active','converter-active','bg-active','qr-active','cod-active','fc-active','tester-active','ai-active','lp-active');
   document.getElementById('tools-top').scrollIntoView({behavior:'smooth'});
 }
 function showToast(msg,color){
@@ -2107,12 +2187,145 @@ function testerRender(){
   document.getElementById('tst-tbl-body').innerHTML=tHtml;
 }
 
+// ── AI LANDING PAGE GENERATOR ───────────────────────────────────────────
+let lpPhotoBase64=null, lpPhotoMime=null, lpSelectedAngles=new Set(), lpLastHtml=null;
+
+function lpInitAngles(){
+  const grid=document.getElementById('lp-angles-grid');
+  if(!grid || typeof AI_ANGLES==='undefined')return;
+  grid.innerHTML=AI_ANGLES.map(a=>
+    `<div class="angle-chip" id="lp-angle-${a.id}" onclick="lpToggleAngle('${a.id}')" title="${a.desc}">
+      <span class="ac-icon">${a.icon}</span><span style="flex:1">${a.label}</span><span class="ac-check"></span>
+    </div>`
+  ).join('');
+}
+function lpToggleAngle(id){
+  if(lpSelectedAngles.has(id))lpSelectedAngles.delete(id);else lpSelectedAngles.add(id);
+  const chip=document.getElementById('lp-angle-'+id);
+  if(chip){chip.classList.toggle('selected',lpSelectedAngles.has(id));const c=chip.querySelector('.ac-check');if(c)c.textContent=lpSelectedAngles.has(id)?'✓':''}
+}
+
+// Photo upload / drop
+const lpDrop=document.getElementById('lpPhotoDrop');
+if(lpDrop){
+  lpDrop.addEventListener('dragover',e=>{e.preventDefault();lpDrop.classList.add('drag-over')});
+  lpDrop.addEventListener('dragleave',()=>lpDrop.classList.remove('drag-over'));
+  lpDrop.addEventListener('drop',e=>{e.preventDefault();lpDrop.classList.remove('drag-over');const f=e.dataTransfer.files[0];if(f)lpHandlePhoto(f)});
+}
+function lpHandlePhoto(file){
+  if(!file || !file.type.startsWith('image/'))return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const dataUrl=e.target.result;
+    lpPhotoMime=file.type;
+    lpPhotoBase64=dataUrl.split(',')[1];
+    document.getElementById('lpPhotoPreview').src=dataUrl;
+    document.getElementById('lpPhotoPreviewWrap').style.display='block';
+    document.getElementById('lpPhotoPlaceholder').style.display='none';
+    lpDrop.classList.add('has-file');
+  };
+  reader.readAsDataURL(file);
+}
+
+function lpBuildPrompt(){
+  const name=document.getElementById('lp-name').value.trim()||'Produit';
+  const currency=document.getElementById('lp-currency').value.trim()||'DH';
+  const price=document.getElementById('lp-price').value.trim();
+  const origPrice=document.getElementById('lp-original-price').value.trim();
+  const offer=document.getElementById('lp-offer').value.trim();
+  const lang=document.getElementById('lp-lang').value;
+  const tone=document.getElementById('lp-tone').value;
+  const angles=[...lpSelectedAngles].map(id=>{
+    const a=(typeof AI_ANGLES!=='undefined')?AI_ANGLES.find(x=>x.id===id):null;
+    return a?`- ${a.icon} ${a.label}: ${a.desc}`:'';
+  }).filter(Boolean).join('\n')||'(aucun angle spécifique — utilise ton meilleur jugement)';
+
+  return `
+Tu es un designer + copywriter e-commerce expert, spécialisé dans les landing pages mobiles très convertissantes pour le marché marocain.
+
+Analyse la photo du produit fournie (couleurs, style, ambiance) et génère une landing page mobile UNIQUE, complète et autonome en HTML.
+
+Produit: ${name}
+Prix: ${price} ${currency}${origPrice?` (Prix barré: ${origPrice} ${currency} — calcule et affiche le % de réduction)`:''}
+Offre/Promo: ${offer||'aucune offre spéciale'}
+Langue du texte: ${lang}
+Ton: ${tone}
+Angles marketing à intégrer naturellement dans la structure et le texte:
+${angles}
+
+RÈGLES STRICTES:
+1. Réponds UNIQUEMENT avec du HTML brut, complet, sans balises markdown \`\`\`, sans aucune explication avant/après.
+2. Un seul fichier autonome: <style> inline dans <head>, pas de JS externe obligatoire, pas de framework.
+3. Design mobile-first (largeur cible ~390-430px), moderne, punchy, optimisé conversion:
+   - Hero avec gros titre accrocheur + le produit + bouton CTA
+   - Section bénéfices/features avec émojis comme icônes
+   - Bloc prix avec prix barré + badge réduction si applicable
+   - Bannière urgence/scarcity si l'angle le demande
+   - Bouton CTA "Commander" sticky en bas de l'écran
+   - Footer simple (garantie, livraison, paiement à la livraison)
+4. Pour la photo du produit, insère EXACTEMENT ce placeholder comme src (ne jamais inventer une URL d'image):
+   <img src="PRODUCT_PHOTO_PLACEHOLDER" alt="${name}">
+   Tu peux l'utiliser plusieurs fois si besoin (hero + galerie).
+5. Le texte doit être vraiment écrit dans la langue demandée (${lang}), naturel et persuasif.
+6. Page légère, pas de dépendances externes sauf éventuellement une police Google Fonts.
+`.trim();
+}
+
+async function lpGenerate(){
+  const errBox=document.getElementById('lp-error');
+  errBox.innerHTML='';
+  if(!lpPhotoBase64){errBox.innerHTML='<div class="ai-error">⚠ Sift taswira dyal product 3afak.</div>';return}
+  const btn=document.getElementById('lp-gen-btn');
+  btn.disabled=true;btn.innerHTML='<span class="ai-spinner"></span> Génération…';
+
+  try{
+    // NB: "key=" khawi f l'URL — l-fetch patch dyal key-rotation (li kayn f script akhor)
+    // kayzid l-key l-s7i7 automatiquement o kaydir rotate ila kanet 429/403.
+    const res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        contents:[{parts:[
+          {inlineData:{mimeType:lpPhotoMime,data:lpPhotoBase64}},
+          {text:lpBuildPrompt()}
+        ]}]
+      })
+    });
+    const json=await res.json();
+    if(!res.ok)throw new Error(json.error?.message||'Gemini request failed ('+res.status+')');
+    let raw=json.candidates?.[0]?.content?.parts?.[0]?.text;
+    if(!raw)throw new Error('Aucune réponse HTML reçue.');
+    raw=raw.replace(/^```html/i,'').replace(/^```/,'').replace(/```$/,'').trim();
+    raw=raw.split('PRODUCT_PHOTO_PLACEHOLDER').join('data:'+lpPhotoMime+';base64,'+lpPhotoBase64);
+    lpLastHtml=raw;
+    document.getElementById('lp-preview-frame').srcdoc=raw;
+    document.getElementById('lp-preview-section').style.display='block';
+    setTimeout(()=>document.getElementById('lp-preview-section').scrollIntoView({behavior:'smooth',block:'nearest'}),100);
+    showToast('✓ Landing page générée!');
+  }catch(e){
+    errBox.innerHTML='<div class="ai-error">✕ '+escHtml(e.message)+'</div>';
+  }finally{
+    btn.disabled=false;btn.innerHTML='✨ Générer Landing Page';
+  }
+}
+
+function lpDownloadHtml(){
+  if(!lpLastHtml)return;
+  const blob=new Blob([lpLastHtml],{type:'text/html'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='landing_page_'+Date.now()+'.html';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  showToast('✓ HTML téléchargé!');
+}
+
 // ── INIT ─────────────────────────────────────────────────────────────────
 window.addEventListener('load',()=>{
   codCalc();qrGenerate();pricingCalc();
   fcSetType('reply');fcCharCount();fcRender();
   testerRender();
   aiInitAngles();
+  lpInitAngles();
 });
 </script>
 </body>
