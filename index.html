@@ -1447,7 +1447,7 @@ function showToast(msg,color){
 const AI_KEY_STORAGE='_ai_gemini_key';
 const SAWTY_STORAGE='_sawty_usage';
 // Embedded API key — not shown in UI
-const _SAWTY_KEY='AQ.Ab8RN6IfXC-HgWuK5jlvI2ZPR5T4b734gnjjtDinTABsagJ4Gw';
+const _SAWTY_KEY='AQ.Ab8RN6LdfUltOQzmkIrZpmVRDTm3Uvgytwt90SnxIlX8ex2QUA';
 let aiLastScriptData=null;
 
 function aiLoadKey(){
@@ -2338,11 +2338,11 @@ window.addEventListener('load',()=>{
 // ── SAWTY.MA 5-KEY ROTATION SYSTEM ──────────────────────────────────────
 (function(){
   const KEYS=[
-    'AQ.Ab8RN6K8bohctlfFDZkKLP_izRTs5Spy_Cy102VFTpOQEzL6LA',
-    'AQ.Ab8RN6Jsb8DVajTeqwZb_2fikoUWE3jZw2ck6CZ5ag6IP8hxUw',
-    'AQ.Ab8RN6Lis0OnYXh-xRjWOt9qFvSs_ocBA6fLUgS0PMfOwcS7DQ',
-    'AQ.Ab8RN6I-vAXRID6eile1jh9vef_8fakTcOKJSxGrJuzSjiUBvg',
-    'AQ.Ab8RN6IxHn77tuVrYlVhPag8IbrI1-I2k9cbYjvIMjYLIB6rOQ',
+    'AQ.Ab8RN6LdfUltOQzmkIrZpmVRDTm3Uvgytwt90SnxIlX8ex2QUA',
+    'AQ.Ab8RN6LdfUltOQzmkIrZpmVRDTm3Uvgytwt90SnxIlX8ex2QUA',
+    'AQ.Ab8RN6LdfUltOQzmkIrZpmVRDTm3Uvgytwt90SnxIlX8ex2QUA',
+    'AQ.Ab8RN6LdfUltOQzmkIrZpmVRDTm3Uvgytwt90SnxIlX8ex2QUA',
+    'AQ.Ab8RN6LdfUltOQzmkIrZpmVRDTm3Uvgytwt90SnxIlX8ex2QUA',
   ];
   let idx=parseInt(localStorage.getItem('_sk_i')||'0')%KEYS.length;
   let fails=JSON.parse(localStorage.getItem('_sk_f')||'{}');
