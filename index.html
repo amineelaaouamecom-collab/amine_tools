@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>⚡ Tools — SquishIt · Amine Loading · MP4→MP3 · BG Remover · QR · COD Calculator · Fake Comment · Product Tester</title>
+<title>⚡ Tools — SquishIt · Amine Loading · MP4→MP3 · BG Remover · QR · COD Calculator · Fake Comment · Product Tester · Video Cutter</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.0/lame.min.js"></script>
@@ -554,6 +554,28 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
 .lpbox .tool-box-name{background:linear-gradient(135deg,#f97316,#ec4899);-webkit-background-clip:text;background-clip:text}
 .tool-box.active.lp-active{border-color:#f97316}
 .tool-box.lp-active .tool-box-arrow{color:#f97316}
+
+/* VIDEO CUTTER */
+.vcbox::before{background:radial-gradient(ellipse at 50% 0%,rgba(132,204,22,.1)0%,transparent 65%)}
+.vcbox .tool-box-name{background:linear-gradient(135deg,#84cc16,#22d3ee);-webkit-background-clip:text;background-clip:text}
+.tool-box.active.vc-active{border-color:#84cc16}
+.tool-box.vc-active .tool-box-arrow{color:#84cc16}
+.vc-drop{border:2px dashed var(--border2);border-radius:14px;padding:32px 20px;text-align:center;cursor:pointer;background:var(--surface2);transition:all .2s}
+.vc-drop:hover,.vc-drop.drag-over{border-color:#84cc16}
+.vc-drop p{font-size:14px;color:var(--text);margin-bottom:4px}
+.vc-field{display:flex;flex-direction:column;gap:5px;flex:1;min-width:150px}
+.vc-field label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:500}
+.vc-field select,.vc-field input{padding:9px 10px;border-radius:8px;border:1px solid var(--border2);background:var(--surface);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px}
+.vc-field select:focus,.vc-field input:focus{outline:none;border-color:#84cc16}
+.vc-info{margin-top:12px;font-size:13px;color:var(--muted)}
+.vc-info b{color:#84cc16;font-weight:700}
+.vc-bar{height:6px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-top:10px;border:1px solid var(--border)}
+.vc-bar>div{height:100%;width:0;background:linear-gradient(90deg,#84cc16,#22d3ee);transition:width .15s}
+.vc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;margin-top:16px}
+.vc-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.vc-card video{width:100%;aspect-ratio:9/16;max-height:300px;object-fit:contain;background:#000;border-radius:8px}
+.vc-card-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700}
+.vc-card-sub{font-size:11px;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -638,6 +660,12 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
     <div class="tool-box-icon">🧪</div><div class="tool-box-name">Product Tester</div>
     <div class="tool-box-desc">Track ad tests — CPL, CTR, CPM, upload creatives, product page link, find winners. Data saved per device.</div>
     <div class="tool-box-tags"><span class="tool-tag">Winners</span><span class="tool-tag">CPL/CTR</span><span class="tool-tag">Per-device</span></div>
+    <span class="tool-box-arrow">›</span>
+  </div>
+  <div class="tool-box vcbox" id="vcbox" onclick="toggleTool('vc-panel','vcbox')">
+    <div class="tool-box-icon">🎬</div><div class="tool-box-name">Video Cutter</div>
+    <div class="tool-box-desc">Upload a video, pick the clip length (5s, 10s, 15s…) and get all the parts auto-cut — download one by one or as ZIP.</div>
+    <div class="tool-box-tags"><span class="tool-tag">Auto Split</span><span class="tool-tag">ZIP</span><span class="tool-tag">Client-side</span></div>
     <span class="tool-box-arrow">›</span>
   </div>
 
@@ -731,6 +759,60 @@ footer{margin-top:40px;padding:20px 0 32px;border-top:1px solid var(--border);di
   <div class="al-grid" id="alGrid">
     <div class="al-empty"><span class="al-empty-icon">🎵</span>Paste TikTok links above and hit <strong style="color:var(--tiktok-red)">Fetch all videos</strong></div>
   </div>
+</div></div>
+
+<!-- VIDEO CUTTER PANEL -->
+<div class="tool-panel" id="vc-panel"><div class="tool-panel-inner">
+  <button class="panel-close-btn" onclick="closePanel('vc-panel','vcbox')">✕</button>
+  <div class="conv-logo" style="background:linear-gradient(135deg,#84cc16,#22d3ee);-webkit-background-clip:text;background-clip:text">Video Cutter</div>
+  <p class="conv-tagline">Upload a video, choose the <span style="color:#84cc16">length of each clip</span> and it is cut automatically into equal parts.</p>
+  <div class="al-input-card">
+    <div class="vc-drop" id="vcDrop">
+      <div class="drop-icon">🎬</div><p>Drop your video here</p>
+      <p class="drop-sub">MP4, WebM, MOV supported</p>
+      <button class="browse-btn" style="margin-top:12px" onclick="event.stopPropagation();document.getElementById('vcFileInput').click()">Browse File</button>
+    </div>
+    <input type="file" id="vcFileInput" accept="video/*" style="display:none">
+    <div id="vcLoaded" style="display:none;margin-top:14px">
+      <video id="vcPreview" controls playsinline style="width:100%;max-height:260px;border-radius:10px;background:#000"></video>
+      <div class="vc-info" id="vcFileInfo"></div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px">
+        <div class="vc-field">
+          <label for="vcSeg">Clip length</label>
+          <select id="vcSeg" onchange="vcOnSegChange()">
+            <option value="3">3 seconds</option>
+            <option value="5">5 seconds</option>
+            <option value="10" selected>10 seconds</option>
+            <option value="15">15 seconds</option>
+            <option value="20">20 seconds</option>
+            <option value="30">30 seconds</option>
+            <option value="45">45 seconds</option>
+            <option value="60">60 seconds</option>
+            <option value="custom">Custom…</option>
+          </select>
+        </div>
+        <div class="vc-field" id="vcCustomWrap" style="display:none">
+          <label for="vcCustom">Custom (seconds)</label>
+          <input id="vcCustom" type="number" min="1" step="1" value="12" oninput="vcUpdateInfo()">
+        </div>
+        <div class="vc-field" style="justify-content:flex-end">
+          <label for="vcAudio" style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:14px;color:var(--text);padding:9px 0">
+            <input type="checkbox" id="vcAudio" checked style="width:18px;height:18px;accent-color:#84cc16;padding:0"> 🔊 Include voice / audio
+          </label>
+        </div>
+      </div>
+      <div class="vc-info" id="vcCountInfo"></div>
+      <div class="al-btn-row" style="margin-top:14px">
+        <button class="al-btn red" id="vcCutBtn" onclick="vcCut()">✂️ Cut Video</button>
+        <button class="al-btn" id="vcCancelBtn" onclick="vcCancelRun()" style="display:none">■ Stop</button>
+        <button class="al-btn cyan" id="vcZipBtn" onclick="vcDownloadZip()" style="display:none">↓ Download all (ZIP)</button>
+        <button class="al-btn" onclick="vcClear()">✕ Clear</button>
+      </div>
+      <div class="vc-bar" id="vcBar" style="display:none"><div id="vcBarFill"></div></div>
+    </div>
+  </div>
+  <div id="vcStatus" style="margin-top:10px;color:var(--muted);font-size:12px;display:none"></div>
+  <div class="vc-grid" id="vcGrid"></div>
 </div></div>
 
 <!-- MP4→MP3 PANEL -->
@@ -1416,12 +1498,12 @@ function toggleTool(panelId,boxId){
   const panel=document.getElementById(panelId),box=document.getElementById(boxId);
   const isOpen=panel.classList.contains('open');
   document.querySelectorAll('.tool-panel').forEach(p=>p.classList.remove('open'));
-  document.querySelectorAll('.tool-box').forEach(b=>b.classList.remove('active','tiktok-active','converter-active','bg-active','qr-active','cod-active','fc-active','tester-active','ai-active','lp-active'));
+  document.querySelectorAll('.tool-box').forEach(b=>b.classList.remove('active','tiktok-active','converter-active','bg-active','qr-active','cod-active','fc-active','tester-active','ai-active','lp-active','vc-active'));
   if(!isOpen){
     panel.classList.add('open');
     if(box){
       box.classList.add('active');
-      const map={'amine-panel':'tiktok-active','mp4-panel':'converter-active','bg-panel':'bg-active','qr-panel':'qr-active','cod-panel':'cod-active','fc-panel':'fc-active','tester-panel':'tester-active','ai-panel':'ai-active','lp-panel':'lp-active'};
+      const map={'amine-panel':'tiktok-active','mp4-panel':'converter-active','bg-panel':'bg-active','qr-panel':'qr-active','cod-panel':'cod-active','fc-panel':'fc-active','tester-panel':'tester-active','ai-panel':'ai-active','lp-panel':'lp-active','vc-panel':'vc-active'};
       if(map[panelId])box.classList.add(map[panelId]);
     }
     setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'start'}),80);
@@ -1434,7 +1516,7 @@ function toggleTool(panelId,boxId){
 function closePanel(panelId,boxId){
   document.getElementById(panelId).classList.remove('open');
   const b=document.getElementById(boxId);
-  if(b)b.classList.remove('active','tiktok-active','converter-active','bg-active','qr-active','cod-active','fc-active','tester-active','ai-active','lp-active');
+  if(b)b.classList.remove('active','tiktok-active','converter-active','bg-active','qr-active','cod-active','fc-active','tester-active','ai-active','lp-active','vc-active');
   document.getElementById('tools-top').scrollIntoView({behavior:'smooth'});
 }
 function showToast(msg,color){
@@ -2317,6 +2399,194 @@ function lpDownloadHtml(){
   a.download='landing_page_'+Date.now()+'.html';
   document.body.appendChild(a);a.click();document.body.removeChild(a);
   showToast('✓ HTML téléchargé!');
+}
+
+// ── VIDEO CUTTER ─────────────────────────────────────────────────────────
+let vcFile=null,vcUrl=null,vcVideo=null,vcDur=0,vcClips=[],vcCancel=false,vcBusy=false,vcCtx=null,vcDest=null,vcStream=null;
+const vcDrop=document.getElementById('vcDrop');
+vcDrop.addEventListener('dragover',e=>{e.preventDefault();vcDrop.classList.add('drag-over')});
+vcDrop.addEventListener('dragleave',()=>vcDrop.classList.remove('drag-over'));
+vcDrop.addEventListener('drop',e=>{e.preventDefault();vcDrop.classList.remove('drag-over');const f=e.dataTransfer.files[0];if(f)vcLoad(f)});
+vcDrop.addEventListener('click',e=>{if(e.target.tagName==='BUTTON')return;document.getElementById('vcFileInput').click()});
+document.getElementById('vcFileInput').addEventListener('change',function(){if(this.files&&this.files[0])vcLoad(this.files[0])});
+
+function vcFmt(t){t=Math.max(0,Math.round(t));const m=Math.floor(t/60),s=t%60;return m+':'+String(s).padStart(2,'0')}
+function vcGetSeg(){
+  const v=document.getElementById('vcSeg').value;
+  if(v==='custom')return Math.max(1,parseFloat(document.getElementById('vcCustom').value)||0);
+  return parseFloat(v);
+}
+function vcOnSegChange(){
+  document.getElementById('vcCustomWrap').style.display=document.getElementById('vcSeg').value==='custom'?'flex':'none';
+  vcUpdateInfo();
+}
+function vcUpdateInfo(){
+  const el=document.getElementById('vcCountInfo');
+  if(!vcDur){el.innerHTML='';return}
+  const seg=vcGetSeg();
+  if(!seg){el.innerHTML='Enter a valid length.';return}
+  const n=Math.ceil(vcDur/seg-1e-6);
+  const last=vcDur-(n-1)*seg;
+  let t='<b>'+vcFmt(vcDur)+'</b> video → <b>'+n+'</b> clip'+(n>1?'s':'')+' of '+seg+'s';
+  if(n>1&&last<seg-0.5)t+=' (last one '+Math.round(last)+'s)';
+  el.innerHTML=t;
+}
+function vcLoad(file){
+  if(!file.type.startsWith('video/')){showToast('⚠ Please choose a video file','var(--danger)');return}
+  if(vcBusy)return;
+  vcClear(true);
+  vcFile=file;
+  vcUrl=URL.createObjectURL(file);
+  document.getElementById('vcPreview').src=vcUrl;
+  vcVideo=document.createElement('video');
+  vcVideo.src=vcUrl;vcVideo.preload='auto';vcVideo.playsInline=true;
+  vcVideo.onloadedmetadata=()=>{
+    vcDur=vcVideo.duration;
+    if(!isFinite(vcDur)||!vcDur){showToast('⚠ Cannot read video duration','var(--danger)');vcClear();return}
+    document.getElementById('vcFileInfo').textContent=file.name+' · '+vcFmt(vcDur)+' · '+(file.size/1048576).toFixed(1)+' MB';
+    document.getElementById('vcLoaded').style.display='block';
+    vcUpdateInfo();
+  };
+  vcVideo.onerror=()=>{showToast('⚠ Video format not supported by this browser','var(--danger)');vcClear()};
+}
+function vcPickMime(){
+  if(typeof MediaRecorder==='undefined')return null;
+  const c=['video/mp4;codecs=avc1,mp4a.40.2','video/mp4','video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'];
+  return c.find(m=>MediaRecorder.isTypeSupported(m))||'';
+}
+function vcSeek(t){
+  return new Promise(res=>{
+    const v=vcVideo;
+    if(Math.abs(v.currentTime-t)<0.01){res();return}
+    const h=()=>{v.removeEventListener('seeked',h);res()};
+    v.addEventListener('seeked',h);v.currentTime=t;
+  });
+}
+function vcSetupStream(){
+  if(vcStream)return;
+  vcCtx=new (window.AudioContext||window.webkitAudioContext)();
+  vcDest=vcCtx.createMediaStreamDestination();
+  const src=vcCtx.createMediaElementSource(vcVideo);
+  src.connect(vcDest); // audio goes only to the recorder, nothing plays through speakers
+  vcStream=vcVideo.captureStream?vcVideo.captureStream():vcVideo.mozCaptureStream();
+}
+async function vcRecord(start,end,mime){
+  const v=vcVideo;
+  v.pause();
+  await vcSeek(start);
+  const withAudio=document.getElementById('vcAudio').checked;
+  const tracks=[...vcStream.getVideoTracks(),...(withAudio?vcDest.stream.getAudioTracks():[])];
+  const rec=new MediaRecorder(new MediaStream(tracks),mime?{mimeType:mime,videoBitsPerSecond:6000000}:{});
+  const chunks=[];
+  rec.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
+  const stopped=new Promise(r=>rec.onstop=r);
+  await v.play();
+  rec.start(250);
+  await new Promise(res=>{
+    const iv=setInterval(()=>{
+      if(vcCancel||v.ended||v.currentTime>=end-0.03){clearInterval(iv);res()}
+      const frac=Math.min(1,(v.currentTime-start)/(end-start));
+      vcRecord.onProgress&&vcRecord.onProgress(frac);
+    },40);
+  });
+  v.pause();
+  if(rec.state!=='inactive')rec.stop();
+  await stopped;
+  return new Blob(chunks,{type:(mime||'video/webm').split(';')[0]});
+}
+async function vcCut(){
+  if(vcBusy||!vcFile)return;
+  const seg=vcGetSeg();
+  if(!seg){showToast('⚠ Enter a valid clip length','var(--danger)');return}
+  if(seg>=vcDur){showToast('⚠ Clip length is longer than the video','var(--danger)');return}
+  const mime=vcPickMime();
+  if(mime===null||!(vcVideo.captureStream||vcVideo.mozCaptureStream)){showToast('⚠ Your browser does not support video cutting. Use Chrome, Edge or Firefox.','var(--danger)');return}
+  const ext=mime.includes('mp4')?'mp4':'webm';
+  const n=Math.ceil(vcDur/seg-1e-6);
+  vcBusy=true;vcCancel=false;
+  vcFreeClips();
+  document.getElementById('vcGrid').innerHTML='';
+  document.getElementById('vcZipBtn').style.display='none';
+  document.getElementById('vcCutBtn').disabled=true;
+  document.getElementById('vcCancelBtn').style.display='';
+  document.getElementById('vcBar').style.display='block';
+  const status=document.getElementById('vcStatus');status.style.display='block';
+  const fill=document.getElementById('vcBarFill');
+  try{
+    vcSetupStream();
+    if(vcCtx.state==='suspended')await vcCtx.resume();
+    const base=vcFile.name.replace(/\.[^.]+$/,'');
+    for(let i=0;i<n;i++){
+      if(vcCancel)break;
+      const start=i*seg,end=Math.min(vcDur,start+seg);
+      status.textContent='⏳ Cutting clip '+(i+1)+' / '+n+' ('+vcFmt(start)+' → '+vcFmt(end)+') — keep this tab open';
+      vcRecord.onProgress=f=>{fill.style.width=(((i+f)/n)*100)+'%'};
+      const blob=await vcRecord(start,end,mime);
+      if(vcCancel)break;
+      if(!blob.size)throw new Error('Clip '+(i+1)+' is empty');
+      const name=base+'_part'+String(i+1).padStart(2,'0')+(document.getElementById('vcAudio').checked?'':'_mute')+'.'+ext;
+      const clip={blob,url:URL.createObjectURL(blob),name,start,end};
+      vcClips.push(clip);
+      vcAddCard(clip,i);
+      fill.style.width=(((i+1)/n)*100)+'%';
+    }
+    if(vcCancel){status.textContent='■ Stopped — '+vcClips.length+' clip(s) ready.'}
+    else{status.textContent='✓ Done — '+vcClips.length+' clips ready.';showToast('✓ '+vcClips.length+' clips ready!')}
+    if(vcClips.length>1)document.getElementById('vcZipBtn').style.display='';
+  }catch(e){
+    status.textContent='✕ '+e.message;
+    showToast('✕ '+e.message,'var(--danger)');
+  }finally{
+    vcBusy=false;
+    document.getElementById('vcCutBtn').disabled=false;
+    document.getElementById('vcCancelBtn').style.display='none';
+    setTimeout(()=>{document.getElementById('vcBar').style.display='none';fill.style.width='0'},800);
+  }
+}
+function vcCancelRun(){vcCancel=true}
+function vcAddCard(c,i){
+  const d=document.createElement('div');d.className='vc-card';
+  d.innerHTML='<video controls playsinline preload="metadata" src="'+c.url+'"></video>'+
+    '<div><div class="vc-card-title">Part '+(i+1)+'</div><div class="vc-card-sub">'+vcFmt(c.start)+' → '+vcFmt(c.end)+' · '+(c.blob.size/1048576).toFixed(1)+' MB</div></div>'+
+    '<button class="al-btn cyan" style="width:100%">↓ Download</button>';
+  d.querySelector('button').onclick=()=>vcDownloadOne(i);
+  document.getElementById('vcGrid').appendChild(d);
+}
+function vcDownloadOne(i){
+  const c=vcClips[i];if(!c)return;
+  const a=document.createElement('a');a.href=c.url;a.download=c.name;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+}
+async function vcDownloadZip(){
+  if(!vcClips.length)return;
+  const btn=document.getElementById('vcZipBtn');btn.disabled=true;
+  try{
+    const zip=new JSZip();
+    vcClips.forEach(c=>zip.file(c.name,c.blob));
+    const blob=await zip.generateAsync({type:'blob',compression:'STORE'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+    a.download=vcFile.name.replace(/\.[^.]+$/,'')+'_clips.zip';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+    showToast('✓ ZIP downloaded!');
+  }catch(e){showToast('✕ '+e.message,'var(--danger)')}
+  btn.disabled=false;
+}
+function vcFreeClips(){vcClips.forEach(c=>URL.revokeObjectURL(c.url));vcClips=[]}
+function vcClear(keepInput){
+  if(vcBusy){vcCancel=true}
+  vcFreeClips();
+  if(vcVideo){vcVideo.pause();vcVideo.removeAttribute('src');vcVideo.load()}
+  if(vcCtx){try{vcCtx.close()}catch(e){}}
+  vcCtx=null;vcDest=null;vcStream=null;vcVideo=null;
+  if(vcUrl)URL.revokeObjectURL(vcUrl);
+  vcUrl=null;vcFile=null;vcDur=0;
+  const pv=document.getElementById('vcPreview');pv.pause();pv.removeAttribute('src');pv.load();
+  document.getElementById('vcFileInput').value='';
+  document.getElementById('vcLoaded').style.display='none';
+  document.getElementById('vcGrid').innerHTML='';
+  document.getElementById('vcZipBtn').style.display='none';
+  const st=document.getElementById('vcStatus');st.style.display='none';st.textContent='';
 }
 
 // ── INIT ─────────────────────────────────────────────────────────────────
